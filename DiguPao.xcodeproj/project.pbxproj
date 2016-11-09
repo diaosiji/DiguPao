@@ -113,8 +113,8 @@
 			isa = PBXGroup;
 			children = (
 				36574E791DD2B4DD00319BC8 /* Main */,
-				36574E7F1DD2B5DA00319BC8 /* Home */,
 				36574E831DD2B61B00319BC8 /* Discover */,
+				36574E7F1DD2B5DA00319BC8 /* Home */,
 				36574E7E1DD2B5C600319BC8 /* Temp */,
 			);
 			name = Classes;
