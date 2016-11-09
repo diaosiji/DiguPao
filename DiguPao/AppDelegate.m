@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "DPTabBarController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    // 创建窗口
+    self.window = [[UIWindow alloc] init];
+    self.window.frame = [UIScreen mainScreen].bounds;
+    
+    // 创建根控制器
+    // 目前是作为核心的DPTabBarController
+    DPTabBarController *tabVC = [[DPTabBarController alloc] init];
+    self.window.rootViewController = tabVC;
+    
+    // 显示窗口
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
