@@ -7,6 +7,7 @@
 //
 
 #import "DPRegisterViewController.h"
+#import "DPLoginViewController.h"
 
 @interface DPRegisterViewController ()
 
@@ -17,6 +18,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    // 设置导航栏
+    self.navigationItem.title = @"注册";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(backButtonTouched)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +28,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)backButtonTouched {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-*/
+- (IBAction)registerButtonTouched:(id)sender {
+    
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    window.rootViewController = [[DPLoginViewController alloc] init];
+}
 
 @end

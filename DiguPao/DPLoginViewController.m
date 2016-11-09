@@ -9,6 +9,7 @@
 #import "DPLoginViewController.h"
 #import "DPTabBarController.h"
 #import "KeyChain.h"
+#import "DPRegisterViewController.h"
 
 @interface DPLoginViewController ()
 
@@ -172,6 +173,12 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
 }
 
 - (IBAction)registerButtonTouched:(id)sender {
+    
+    DPRegisterViewController * reg = [[DPRegisterViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:reg];
+    
+    [self presentViewController:nav animated:YES completion:nil];
+
 }
 
 - (IBAction)deletePasswordButtonTouched:(id)sender {
