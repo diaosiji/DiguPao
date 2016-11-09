@@ -26,6 +26,10 @@
 		36574E961DD2C5C300319BC8 /* DPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E941DD2C5C300319BC8 /* DPLoginViewController.xib */; };
 		36574E9A1DD2CAD100319BC8 /* DPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E981DD2CAD100319BC8 /* DPRegisterViewController.m */; };
 		36574E9B1DD2CAD100319BC8 /* DPRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E991DD2CAD100319BC8 /* DPRegisterViewController.xib */; };
+		36574E9F1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E9D1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m */; };
+		36574EA01DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E9E1DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib */; };
+		36574EA41DD3E87100319BC8 /* DPPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574EA21DD3E87100319BC8 /* DPPasswordChangeViewController.m */; };
+		36574EA51DD3E87100319BC8 /* DPPasswordChangeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +66,12 @@
 		36574E971DD2CAD100319BC8 /* DPRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPRegisterViewController.h; sourceTree = "<group>"; };
 		36574E981DD2CAD100319BC8 /* DPRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPRegisterViewController.m; sourceTree = "<group>"; };
 		36574E991DD2CAD100319BC8 /* DPRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPRegisterViewController.xib; sourceTree = "<group>"; };
+		36574E9C1DD3E7E800319BC8 /* DPMessageIdentificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPMessageIdentificationViewController.h; sourceTree = "<group>"; };
+		36574E9D1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPMessageIdentificationViewController.m; sourceTree = "<group>"; };
+		36574E9E1DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPMessageIdentificationViewController.xib; sourceTree = "<group>"; };
+		36574EA11DD3E87100319BC8 /* DPPasswordChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPPasswordChangeViewController.h; sourceTree = "<group>"; };
+		36574EA21DD3E87100319BC8 /* DPPasswordChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPPasswordChangeViewController.m; sourceTree = "<group>"; };
+		36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPPasswordChangeViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +290,12 @@
 				36574E971DD2CAD100319BC8 /* DPRegisterViewController.h */,
 				36574E981DD2CAD100319BC8 /* DPRegisterViewController.m */,
 				36574E991DD2CAD100319BC8 /* DPRegisterViewController.xib */,
+				36574E9C1DD3E7E800319BC8 /* DPMessageIdentificationViewController.h */,
+				36574E9D1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m */,
+				36574E9E1DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib */,
+				36574EA11DD3E87100319BC8 /* DPPasswordChangeViewController.h */,
+				36574EA21DD3E87100319BC8 /* DPPasswordChangeViewController.m */,
+				36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -349,9 +365,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				36574E521DD2AB6400319BC8 /* LaunchScreen.storyboard in Resources */,
+				36574EA51DD3E87100319BC8 /* DPPasswordChangeViewController.xib in Resources */,
 				36574E9B1DD2CAD100319BC8 /* DPRegisterViewController.xib in Resources */,
 				36574E961DD2C5C300319BC8 /* DPLoginViewController.xib in Resources */,
 				36574E6F1DD2B1EC00319BC8 /* TestViewController.xib in Resources */,
+				36574EA01DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib in Resources */,
 				36574E4F1DD2AB6400319BC8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -373,7 +391,9 @@
 				36574E6A1DD2B12B00319BC8 /* DPTableViewController.m in Sources */,
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
 				36574E441DD2AB6400319BC8 /* main.m in Sources */,
+				36574EA41DD3E87100319BC8 /* DPPasswordChangeViewController.m in Sources */,
 				36574E951DD2C5C300319BC8 /* DPLoginViewController.m in Sources */,
+				36574E9F1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m in Sources */,
 				36574E891DD2BCB800319BC8 /* KeyChain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -525,6 +545,7 @@
 				36574E581DD2AB6400319BC8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
