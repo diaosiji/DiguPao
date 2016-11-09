@@ -83,23 +83,7 @@
 		36574E411DD2AB6400319BC8 /* DiguPao */ = {
 			isa = PBXGroup;
 			children = (
-				36574E451DD2AB6400319BC8 /* AppDelegate.h */,
-				36574E461DD2AB6400319BC8 /* AppDelegate.m */,
-				36574E5F1DD2AF2300319BC8 /* UIView+Extension.h */,
-				36574E601DD2AF2300319BC8 /* UIView+Extension.m */,
-				36574E621DD2AF8400319BC8 /* DPNavigationController.h */,
-				36574E631DD2AF8400319BC8 /* DPNavigationController.m */,
-				36574E651DD2B0A500319BC8 /* DPTabBar.h */,
-				36574E661DD2B0A500319BC8 /* DPTabBar.m */,
-				36574E591DD2AC4000319BC8 /* DPTabBarController.h */,
-				36574E5A1DD2AC4000319BC8 /* DPTabBarController.m */,
-				36574E681DD2B12B00319BC8 /* DPTableViewController.h */,
-				36574E691DD2B12B00319BC8 /* DPTableViewController.m */,
-				36574E701DD2B25700319BC8 /* DPMapViewController.h */,
-				36574E711DD2B25700319BC8 /* DPMapViewController.m */,
-				36574E6B1DD2B1EC00319BC8 /* TestViewController.h */,
-				36574E6C1DD2B1EC00319BC8 /* TestViewController.m */,
-				36574E6D1DD2B1EC00319BC8 /* TestViewController.xib */,
+				36574E781DD2B4BE00319BC8 /* Classes */,
 				36574E4E1DD2AB6400319BC8 /* Assets.xcassets */,
 				36574E501DD2AB6400319BC8 /* LaunchScreen.storyboard */,
 				36574E531DD2AB6400319BC8 /* Info.plist */,
@@ -123,6 +107,142 @@
 				36574E741DD2B2B000319BC8 /* MapKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		36574E781DD2B4BE00319BC8 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				36574E791DD2B4DD00319BC8 /* Main */,
+				36574E7F1DD2B5DA00319BC8 /* Home */,
+				36574E831DD2B61B00319BC8 /* Discover */,
+				36574E7E1DD2B5C600319BC8 /* Temp */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		36574E791DD2B4DD00319BC8 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				36574E451DD2AB6400319BC8 /* AppDelegate.h */,
+				36574E461DD2AB6400319BC8 /* AppDelegate.m */,
+				36574E7C1DD2B54F00319BC8 /* Model */,
+				36574E7D1DD2B55A00319BC8 /* View */,
+				36574E7B1DD2B53200319BC8 /* Controller */,
+				36574E7A1DD2B50800319BC8 /* Category */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+		36574E7A1DD2B50800319BC8 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				36574E5F1DD2AF2300319BC8 /* UIView+Extension.h */,
+				36574E601DD2AF2300319BC8 /* UIView+Extension.m */,
+			);
+			name = Category;
+			sourceTree = "<group>";
+		};
+		36574E7B1DD2B53200319BC8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				36574E621DD2AF8400319BC8 /* DPNavigationController.h */,
+				36574E631DD2AF8400319BC8 /* DPNavigationController.m */,
+				36574E591DD2AC4000319BC8 /* DPTabBarController.h */,
+				36574E5A1DD2AC4000319BC8 /* DPTabBarController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		36574E7C1DD2B54F00319BC8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		36574E7D1DD2B55A00319BC8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				36574E651DD2B0A500319BC8 /* DPTabBar.h */,
+				36574E661DD2B0A500319BC8 /* DPTabBar.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		36574E7E1DD2B5C600319BC8 /* Temp */ = {
+			isa = PBXGroup;
+			children = (
+				36574E6B1DD2B1EC00319BC8 /* TestViewController.h */,
+				36574E6C1DD2B1EC00319BC8 /* TestViewController.m */,
+				36574E6D1DD2B1EC00319BC8 /* TestViewController.xib */,
+			);
+			name = Temp;
+			sourceTree = "<group>";
+		};
+		36574E7F1DD2B5DA00319BC8 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				36574E821DD2B60300319BC8 /* Model */,
+				36574E811DD2B5FA00319BC8 /* View */,
+				36574E801DD2B5EA00319BC8 /* Controller */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		36574E801DD2B5EA00319BC8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				36574E681DD2B12B00319BC8 /* DPTableViewController.h */,
+				36574E691DD2B12B00319BC8 /* DPTableViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		36574E811DD2B5FA00319BC8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		36574E821DD2B60300319BC8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		36574E831DD2B61B00319BC8 /* Discover */ = {
+			isa = PBXGroup;
+			children = (
+				36574E861DD2B64800319BC8 /* Model */,
+				36574E851DD2B63A00319BC8 /* View */,
+				36574E841DD2B62C00319BC8 /* Controller */,
+			);
+			name = Discover;
+			sourceTree = "<group>";
+		};
+		36574E841DD2B62C00319BC8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				36574E701DD2B25700319BC8 /* DPMapViewController.h */,
+				36574E711DD2B25700319BC8 /* DPMapViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		36574E851DD2B63A00319BC8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		36574E861DD2B64800319BC8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
