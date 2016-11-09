@@ -21,6 +21,11 @@
 		36574E721DD2B25700319BC8 /* DPMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E711DD2B25700319BC8 /* DPMapViewController.m */; };
 		36574E751DD2B2B000319BC8 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36574E741DD2B2B000319BC8 /* MapKit.framework */; };
 		36574E771DD2B2B700319BC8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36574E761DD2B2B700319BC8 /* Security.framework */; };
+		36574E891DD2BCB800319BC8 /* KeyChain.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E881DD2BCB800319BC8 /* KeyChain.m */; };
+		36574E951DD2C5C300319BC8 /* DPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E931DD2C5C300319BC8 /* DPLoginViewController.m */; };
+		36574E961DD2C5C300319BC8 /* DPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E941DD2C5C300319BC8 /* DPLoginViewController.xib */; };
+		36574E9A1DD2CAD100319BC8 /* DPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E981DD2CAD100319BC8 /* DPRegisterViewController.m */; };
+		36574E9B1DD2CAD100319BC8 /* DPRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E991DD2CAD100319BC8 /* DPRegisterViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +53,15 @@
 		36574E711DD2B25700319BC8 /* DPMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPMapViewController.m; sourceTree = "<group>"; };
 		36574E741DD2B2B000319BC8 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		36574E761DD2B2B700319BC8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		36574E871DD2BCB800319BC8 /* KeyChain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyChain.h; sourceTree = "<group>"; };
+		36574E881DD2BCB800319BC8 /* KeyChain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyChain.m; sourceTree = "<group>"; };
+		36574E8A1DD2C1CE00319BC8 /* DiguPao.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DiguPao.entitlements; sourceTree = "<group>"; };
+		36574E921DD2C5C300319BC8 /* DPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPLoginViewController.h; sourceTree = "<group>"; };
+		36574E931DD2C5C300319BC8 /* DPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPLoginViewController.m; sourceTree = "<group>"; };
+		36574E941DD2C5C300319BC8 /* DPLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPLoginViewController.xib; sourceTree = "<group>"; };
+		36574E971DD2CAD100319BC8 /* DPRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPRegisterViewController.h; sourceTree = "<group>"; };
+		36574E981DD2CAD100319BC8 /* DPRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPRegisterViewController.m; sourceTree = "<group>"; };
+		36574E991DD2CAD100319BC8 /* DPRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPRegisterViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +97,7 @@
 		36574E411DD2AB6400319BC8 /* DiguPao */ = {
 			isa = PBXGroup;
 			children = (
+				36574E8A1DD2C1CE00319BC8 /* DiguPao.entitlements */,
 				36574E781DD2B4BE00319BC8 /* Classes */,
 				36574E4E1DD2AB6400319BC8 /* Assets.xcassets */,
 				36574E501DD2AB6400319BC8 /* LaunchScreen.storyboard */,
@@ -112,6 +127,7 @@
 		36574E781DD2B4BE00319BC8 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				36574E8B1DD2C25A00319BC8 /* OAuth */,
 				36574E791DD2B4DD00319BC8 /* Main */,
 				36574E831DD2B61B00319BC8 /* Discover */,
 				36574E7F1DD2B5DA00319BC8 /* Home */,
@@ -156,6 +172,8 @@
 		36574E7C1DD2B54F00319BC8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				36574E871DD2BCB800319BC8 /* KeyChain.h */,
+				36574E881DD2BCB800319BC8 /* KeyChain.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -245,6 +263,27 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		36574E8B1DD2C25A00319BC8 /* OAuth */ = {
+			isa = PBXGroup;
+			children = (
+				36574E8C1DD2C29300319BC8 /* Controller */,
+			);
+			name = OAuth;
+			sourceTree = "<group>";
+		};
+		36574E8C1DD2C29300319BC8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				36574E921DD2C5C300319BC8 /* DPLoginViewController.h */,
+				36574E931DD2C5C300319BC8 /* DPLoginViewController.m */,
+				36574E941DD2C5C300319BC8 /* DPLoginViewController.xib */,
+				36574E971DD2CAD100319BC8 /* DPRegisterViewController.h */,
+				36574E981DD2CAD100319BC8 /* DPRegisterViewController.m */,
+				36574E991DD2CAD100319BC8 /* DPRegisterViewController.xib */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -278,6 +317,11 @@
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = A56MTA89R5;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -305,6 +349,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				36574E521DD2AB6400319BC8 /* LaunchScreen.storyboard in Resources */,
+				36574E9B1DD2CAD100319BC8 /* DPRegisterViewController.xib in Resources */,
+				36574E961DD2C5C300319BC8 /* DPLoginViewController.xib in Resources */,
 				36574E6F1DD2B1EC00319BC8 /* TestViewController.xib in Resources */,
 				36574E4F1DD2AB6400319BC8 /* Assets.xcassets in Resources */,
 			);
@@ -318,6 +364,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36574E641DD2AF8400319BC8 /* DPNavigationController.m in Sources */,
+				36574E9A1DD2CAD100319BC8 /* DPRegisterViewController.m in Sources */,
 				36574E5B1DD2AC4000319BC8 /* DPTabBarController.m in Sources */,
 				36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */,
 				36574E671DD2B0A500319BC8 /* DPTabBar.m in Sources */,
@@ -326,6 +373,8 @@
 				36574E6A1DD2B12B00319BC8 /* DPTableViewController.m in Sources */,
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
 				36574E441DD2AB6400319BC8 /* main.m in Sources */,
+				36574E951DD2C5C300319BC8 /* DPLoginViewController.m in Sources */,
+				36574E891DD2BCB800319BC8 /* KeyChain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +484,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
 				DEVELOPMENT_TEAM = A56MTA89R5;
 				INFOPLIST_FILE = DiguPao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -447,6 +497,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
 				DEVELOPMENT_TEAM = A56MTA89R5;
 				INFOPLIST_FILE = DiguPao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
