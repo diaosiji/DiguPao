@@ -7,6 +7,7 @@
 //
 
 #import "DPMessageIdentificationViewController.h"
+#import "DPPasswordChangeViewController.h"
 
 @interface DPMessageIdentificationViewController ()
 
@@ -17,12 +18,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.navigationItem.title = @"短信验证";
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(backButtonTouched)];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void)backButtonTouched {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)nextStepButtonTouched:(id)sender {
+    
+    DPPasswordChangeViewController *change =[[DPPasswordChangeViewController alloc] init];
+    
+    [self.navigationController pushViewController:change animated:YES];
+    
+}
+
 
 /*
 #pragma mark - Navigation

@@ -10,6 +10,7 @@
 #import "DPTabBarController.h"
 #import "KeyChain.h"
 #import "DPRegisterViewController.h"
+#import "DPMessageIdentificationViewController.h"
 
 @interface DPLoginViewController ()
 
@@ -198,6 +199,12 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
 }
 
 - (IBAction)passwordForgetButtonTouched:(id)sender {
+    
+    DPMessageIdentificationViewController *identification = [[DPMessageIdentificationViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:identification];
+    
+    [self presentViewController:nav animated:YES completion:nil];
+    
 }
 
 
