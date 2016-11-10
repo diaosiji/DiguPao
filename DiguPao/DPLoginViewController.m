@@ -31,7 +31,7 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     // Do any additional setup after loading the view from its nib.
     [self showUsernameAndPasswordFromKeyChain];
     
-    // 先在此实验网络通信
+    //
     
     
     
