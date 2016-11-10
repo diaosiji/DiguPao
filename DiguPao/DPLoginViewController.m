@@ -31,11 +31,6 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     // Do any additional setup after loading the view from its nib.
     [self showUsernameAndPasswordFromKeyChain];
     
-    //
-    
-    
-    
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -111,7 +106,7 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     }
 }
 
-// 判断密码长度是否在4到12
+// 判断密码长度是否在6到12
 - (BOOL)isValidatePassword:(NSString *)password {
     // if-else结构
     if ([password length] >= 6 && [password length] <= 12) {
@@ -157,6 +152,7 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
             
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             
+            // 网络请求失败就显示登录失败
             NSLog(@"results: %@", error);
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登录失败" message:@"服务器返回登录失败信息" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新登录" style:UIAlertActionStyleDefault handler:nil];
@@ -164,11 +160,6 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
             [self presentViewController:alert animated:YES completion:nil];
             
         }];
-        
-        
-        
-        // 网络请求失败就显示登录失败
-        // ...
         
     } else {
         // 提示输入的用户名或者密码错误
