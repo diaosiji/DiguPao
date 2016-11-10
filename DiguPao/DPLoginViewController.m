@@ -12,6 +12,8 @@
 #import "DPRegisterViewController.h"
 #import "DPMessageIdentificationViewController.h"
 
+#import <AFNetworking/AFNetworking.h>
+
 @interface DPLoginViewController ()
 
 @end
@@ -28,6 +30,11 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self showUsernameAndPasswordFromKeyChain];
+    
+    // 先在此实验网络通信
+    
+    
+    
 
 }
 
@@ -125,21 +132,40 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     if (([self isValidatePhone:userNameStr] || [self isValidateEmail:userNameStr]) && [self isValidatePassword:userPasswordStr]) {
         NSLog(@"用户名:%@ 密码:%@", userNameStr, userPasswordStr);
         NSLog(@"有效的用户名和密码");
+        
         // 调用登录网络请求
-        // ...
+        //NSString *urlString = @"http://itunes.apple.com/search?term=metallica";
+        NSString *urlString = @"http://123.56.97.99:3000";
+        NSURL *url = [NSURL URLWithString:urlString];
         
-        // 如果网络返回成功说明用户名密码正确就应该保存用户名和密码到KeyChain
-        // 创建可变字典用于存储用户名和密码
-        NSMutableDictionary *userNamePasswordKVPairs = [NSMutableDictionary dictionary];
-        [userNamePasswordKVPairs setObject:userNameStr forKey:KEY_USERNAME];
-        [userNamePasswordKVPairs setObject:userPasswordStr forKey:KEY_PASSWORD];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        [manager GET:url.absoluteString parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+            
+            NSLog(@"results: %@", responseObject);
+            // 如果网络返回成功说明用户名密码正确就应该保存用户名和密码到KeyChain
+            // 创建可变字典用于存储用户名和密码
+            NSMutableDictionary *userNamePasswordKVPairs = [NSMutableDictionary dictionary];
+            [userNamePasswordKVPairs setObject:userNameStr forKey:KEY_USERNAME];
+            [userNamePasswordKVPairs setObject:userPasswordStr forKey:KEY_PASSWORD];
+            
+            // 将包含用户名和密码的字典作为参数写入keychain
+            [KeyChain save:KEY_USERNAME_PASSWORD data:userNamePasswordKVPairs];
+            
+            // 成功就跳转到下一个界面
+            UIWindow *window = [UIApplication sharedApplication].keyWindow;
+            window.rootViewController = [[DPTabBarController alloc] init];
+            
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            
+            NSLog(@"results: %@", error);
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登录失败" message:@"服务器返回登录失败信息" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新登录" style:UIAlertActionStyleDefault handler:nil];
+            [alert addAction:ensureAction];
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        }];
         
-        // 将包含用户名和密码的字典作为参数写入keychain
-        [KeyChain save:KEY_USERNAME_PASSWORD data:userNamePasswordKVPairs];
         
-        // 成功就跳转到下一个界面
-        UIWindow *window = [UIApplication sharedApplication].keyWindow;
-        window.rootViewController = [[DPTabBarController alloc] init];
         
         // 网络请求失败就显示登录失败
         // ...

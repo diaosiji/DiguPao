@@ -30,9 +30,13 @@
 		36574EA01DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E9E1DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib */; };
 		36574EA41DD3E87100319BC8 /* DPPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574EA21DD3E87100319BC8 /* DPPasswordChangeViewController.m */; };
 		36574EA51DD3E87100319BC8 /* DPPasswordChangeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */; };
+		AFEC41F7FC0FFB5A1673CA2F /* libPods-DiguPao.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B48E2C48325C60D1AD15CC2 /* libPods-DiguPao.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1EF604C42CF5A6E6F7A4035D /* Pods-DiguPao.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiguPao.release.xcconfig"; path = "Pods/Target Support Files/Pods-DiguPao/Pods-DiguPao.release.xcconfig"; sourceTree = "<group>"; };
+		2991CFA9C58D47352B5F122E /* Pods-DiguPao.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiguPao.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DiguPao/Pods-DiguPao.debug.xcconfig"; sourceTree = "<group>"; };
+		2B48E2C48325C60D1AD15CC2 /* libPods-DiguPao.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DiguPao.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		36574E3F1DD2AB6400319BC8 /* DiguPao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiguPao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36574E431DD2AB6400319BC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		36574E451DD2AB6400319BC8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 			files = (
 				36574E771DD2B2B700319BC8 /* Security.framework in Frameworks */,
 				36574E751DD2B2B000319BC8 /* MapKit.framework in Frameworks */,
+				AFEC41F7FC0FFB5A1673CA2F /* libPods-DiguPao.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,6 +98,7 @@
 				36574E411DD2AB6400319BC8 /* DiguPao */,
 				36574E401DD2AB6400319BC8 /* Products */,
 				36574E731DD2B2AF00319BC8 /* Frameworks */,
+				9FA987630156CF6ADC4659C6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -130,6 +136,7 @@
 			children = (
 				36574E761DD2B2B700319BC8 /* Security.framework */,
 				36574E741DD2B2B000319BC8 /* MapKit.framework */,
+				2B48E2C48325C60D1AD15CC2 /* libPods-DiguPao.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -300,6 +307,15 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		9FA987630156CF6ADC4659C6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2991CFA9C58D47352B5F122E /* Pods-DiguPao.debug.xcconfig */,
+				1EF604C42CF5A6E6F7A4035D /* Pods-DiguPao.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -307,9 +323,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 36574E561DD2AB6400319BC8 /* Build configuration list for PBXNativeTarget "DiguPao" */;
 			buildPhases = (
+				BFAC7306EE3942567CD17313 /* [CP] Check Pods Manifest.lock */,
 				36574E3B1DD2AB6400319BC8 /* Sources */,
 				36574E3C1DD2AB6400319BC8 /* Frameworks */,
 				36574E3D1DD2AB6400319BC8 /* Resources */,
+				ED16635ACD51958724D66626 /* [CP] Embed Pods Frameworks */,
+				334568CF8D55D87EFB01C209 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -375,6 +394,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		334568CF8D55D87EFB01C209 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DiguPao/Pods-DiguPao-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BFAC7306EE3942567CD17313 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		ED16635ACD51958724D66626 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DiguPao/Pods-DiguPao-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		36574E3B1DD2AB6400319BC8 /* Sources */ = {
@@ -502,6 +569,7 @@
 		};
 		36574E571DD2AB6400319BC8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2991CFA9C58D47352B5F122E /* Pods-DiguPao.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
@@ -515,6 +583,7 @@
 		};
 		36574E581DD2AB6400319BC8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1EF604C42CF5A6E6F7A4035D /* Pods-DiguPao.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
