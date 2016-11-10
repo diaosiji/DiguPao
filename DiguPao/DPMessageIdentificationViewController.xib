@@ -11,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DPMessageIdentificationViewController">
             <connections>
+                <outlet property="messageIdentificationField" destination="4Hb-Pk-QZ5" id="v1P-sI-L6g"/>
+                <outlet property="phoneNumberField" destination="stJ-Oo-aes" id="6xu-sK-Ntz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -40,6 +42,9 @@
                     <state key="normal" title="获取短信验证码">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="getMessageIdentificationButtonTouched:" destination="-1" eventType="touchUpInside" id="Rnf-bw-ZDO"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ToG-0C-8Yw">
                     <rect key="frame" x="44" y="328" width="232" height="30"/>
