@@ -9,5 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface DPPasswordChangeViewController : UIViewController
+// 密码输入框
+@property (weak, nonatomic) IBOutlet UITextField *passwordField;
+// 重复密码输入框
+@property (weak, nonatomic) IBOutlet UITextField *repeatPasswordField;
 
 @end

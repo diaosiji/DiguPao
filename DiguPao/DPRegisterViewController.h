@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 // 重复密码输入框
 @property (weak, nonatomic) IBOutlet UITextField *repeatPasswordField;
-
+// 短信验证码按钮的属性 用于实现倒计时
+@property (weak, nonatomic) IBOutlet UIButton *authCodeButton;
 
 @end

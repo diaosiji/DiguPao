@@ -25,9 +25,9 @@
     
     // 创建根控制器
     // 目前是作为核心的DPTabBarController
-    //DPTabBarController *tabVC = [[DPTabBarController alloc] init];
-    DPLoginViewController *login = [[DPLoginViewController alloc] init];
-    self.window.rootViewController = login;
+    DPTabBarController *tabVC = [[DPTabBarController alloc] init];
+    //DPLoginViewController *login = [[DPLoginViewController alloc] init];
+    self.window.rootViewController = tabVC;
     
     // 显示窗口
     [self.window makeKeyAndVisible];

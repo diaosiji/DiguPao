@@ -8,6 +8,7 @@
 
 #import "DPTableViewController.h"
 #import "TestViewController.h"
+#import "UIView+Extension.h"
 
 @interface DPTableViewController ()
 
@@ -25,6 +26,40 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     // 学习使用类来注册Cell 有了这句下面的cellForRowAtIndexPath才能正常运行
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"testCell"];
+    
+    
+    // 设置导航栏左边的按钮
+    // 0.初始化一个自定义类型按钮
+    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    // 1.设置backButton的图片
+    [leftButton setBackgroundImage:[UIImage imageNamed:@"navigationbar_friendsearch"] forState:UIControlStateNormal]; // 正常状态下的图片
+    [leftButton setBackgroundImage:[UIImage imageNamed:@"navigationbar_friendsearch_highlighted"] forState:UIControlStateHighlighted]; // 高亮状态下的图片
+    // 2.设置backButton的尺寸（不设置尺寸不会显示）
+    // 这里利用了UIView的分类十分方便
+    // 让backButton的尺寸等于自身当前背景图片的尺寸
+    leftButton.size = leftButton.currentBackgroundImage.size;
+    // 3.向backButton添加动作方法
+    //[leftButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+    // 4.将backButton赋值给传进来的视图控制器导航栏左边按钮
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    
+    // 设置导航栏右边的按钮
+    // 0.初始化一个自定义类型按钮
+    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    // 1.设置backButton的图片
+    [rightButton setBackgroundImage:[UIImage imageNamed:@"navigationbar_pop"] forState:UIControlStateNormal]; // 正常状态下的图片
+    [rightButton setBackgroundImage:[UIImage imageNamed:@"navigationbar_pop_highlighted"] forState:UIControlStateHighlighted]; // 高亮状态下的图片
+    // 2.设置backButton的尺寸（不设置尺寸不会显示）
+    // 这里利用了UIView的分类十分方便
+    // 让backButton的尺寸等于自身当前背景图片的尺寸
+    rightButton.size = rightButton.currentBackgroundImage.size;
+    // 3.向backButton添加动作方法
+    //[rightButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+    // 4.将backButton赋值给传进来的视图控制器导航栏左边按钮
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    
 }
 
 - (void)didReceiveMemoryWarning {

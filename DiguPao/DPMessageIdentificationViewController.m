@@ -93,14 +93,61 @@
     }
 }
 
+// 开启短信验证码按钮倒计时效果
+- (void)openCountdown{
+    
+    __block NSInteger time = 59; //倒计时时间
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+    
+    dispatch_source_set_event_handler(_timer, ^{
+        
+        if(time <= 0){ //倒计时结束，关闭
+            
+            dispatch_source_cancel(_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                //设置按钮的样式
+                [self.authCodeButton setTitle:@"获取短信验证码" forState:UIControlStateNormal];
+                [self.authCodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                self.authCodeButton.userInteractionEnabled = YES;
+            });
+            
+        }else{
+            
+            int seconds = time % 60;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                //设置按钮显示读秒效果
+                [self.authCodeButton setTitle:[NSString stringWithFormat:@"重新发送(%.2d)", seconds] forState:UIControlStateNormal];
+                [self.authCodeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                self.authCodeButton.userInteractionEnabled = NO;
+            });
+            time--;
+        }
+    });
+    dispatch_resume(_timer);
+}
+
+// 短信验证码按钮点击方法
 - (IBAction)getMessageIdentificationButtonTouched:(id)sender {
     
     NSString *phone = self.phoneNumberField.text;
     
     if ([self isValidatePhone:phone]) {
         NSLog(@"手机号OK");
+        // 让按钮倒计时60秒
+        [self openCountdown];
+        
     } else {
         NSLog(@"手机号不对");
+        UIAlertController *alert = [UIAlertController  alertControllerWithTitle:@"无效的手机号" message:@"请输入有效的手机号码" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
     };
     
 }

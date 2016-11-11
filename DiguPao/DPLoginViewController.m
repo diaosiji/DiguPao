@@ -129,8 +129,7 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
         NSLog(@"有效的用户名和密码");
         
         // 调用登录网络请求
-        //NSString *urlString = @"http://itunes.apple.com/search?term=metallica";
-        NSString *urlString = @"http://123.56.97.99:3000";
+        NSString *urlString = @"http://123.56.97.99:3000/api/v1/hello";
         NSURL *url = [NSURL URLWithString:urlString];
         
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];

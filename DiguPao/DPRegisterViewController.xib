@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DPRegisterViewController">
             <connections>
+                <outlet property="authCodeButton" destination="tVA-zx-uCu" id="GNJ-sY-vSr"/>
                 <outlet property="messageIdentificationField" destination="Snb-Qs-Szm" id="qwh-hj-TfY"/>
                 <outlet property="nicknameField" destination="q4O-GD-ELC" id="3VS-0j-prg"/>
                 <outlet property="passwordField" destination="VLh-C9-6XB" id="ZT7-ha-V6e"/>

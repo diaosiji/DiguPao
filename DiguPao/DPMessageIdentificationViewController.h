@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumberField;
 // 短信验证码输入框
 @property (weak, nonatomic) IBOutlet UITextField *messageIdentificationField;
-
+// 短信验证码按钮 用于实现倒计时功能
+@property (weak, nonatomic) IBOutlet UIButton *authCodeButton;
 @end

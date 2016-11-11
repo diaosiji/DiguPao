@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DPMessageIdentificationViewController">
             <connections>
+                <outlet property="authCodeButton" destination="FYN-PP-TJp" id="pnA-Sk-ouF"/>
                 <outlet property="messageIdentificationField" destination="4Hb-Pk-QZ5" id="v1P-sI-L6g"/>
                 <outlet property="phoneNumberField" destination="stJ-Oo-aes" id="6xu-sK-Ntz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
