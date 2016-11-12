@@ -30,6 +30,8 @@
 		36574EA01DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E9E1DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib */; };
 		36574EA41DD3E87100319BC8 /* DPPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574EA21DD3E87100319BC8 /* DPPasswordChangeViewController.m */; };
 		36574EA51DD3E87100319BC8 /* DPPasswordChangeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */; };
+		36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694BFF1DD6F460001B0030 /* DPTitleMenuController.m */; };
+		36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C021DD70878001B0030 /* DPDropdownMenu.m */; };
 		AFEC41F7FC0FFB5A1673CA2F /* libPods-DiguPao.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B48E2C48325C60D1AD15CC2 /* libPods-DiguPao.a */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +78,10 @@
 		36574EA11DD3E87100319BC8 /* DPPasswordChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPPasswordChangeViewController.h; sourceTree = "<group>"; };
 		36574EA21DD3E87100319BC8 /* DPPasswordChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPPasswordChangeViewController.m; sourceTree = "<group>"; };
 		36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPPasswordChangeViewController.xib; sourceTree = "<group>"; };
+		36694BFE1DD6F460001B0030 /* DPTitleMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTitleMenuController.h; sourceTree = "<group>"; };
+		36694BFF1DD6F460001B0030 /* DPTitleMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTitleMenuController.m; sourceTree = "<group>"; };
+		36694C011DD70878001B0030 /* DPDropdownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPDropdownMenu.h; sourceTree = "<group>"; };
+		36694C021DD70878001B0030 /* DPDropdownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPDropdownMenu.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +204,8 @@
 		36574E7D1DD2B55A00319BC8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				36694C011DD70878001B0030 /* DPDropdownMenu.h */,
+				36694C021DD70878001B0030 /* DPDropdownMenu.m */,
 				36574E651DD2B0A500319BC8 /* DPTabBar.h */,
 				36574E661DD2B0A500319BC8 /* DPTabBar.m */,
 			);
@@ -236,6 +244,8 @@
 		36574E811DD2B5FA00319BC8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				36694BFE1DD6F460001B0030 /* DPTitleMenuController.h */,
+				36694BFF1DD6F460001B0030 /* DPTitleMenuController.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -449,6 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36574E641DD2AF8400319BC8 /* DPNavigationController.m in Sources */,
+				36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */,
 				36574E9A1DD2CAD100319BC8 /* DPRegisterViewController.m in Sources */,
 				36574E5B1DD2AC4000319BC8 /* DPTabBarController.m in Sources */,
 				36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */,
@@ -456,6 +467,7 @@
 				36574E721DD2B25700319BC8 /* DPMapViewController.m in Sources */,
 				36574E611DD2AF2300319BC8 /* UIView+Extension.m in Sources */,
 				36574E6A1DD2B12B00319BC8 /* DPTableViewController.m in Sources */,
+				36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */,
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
 				36574E441DD2AB6400319BC8 /* main.m in Sources */,
 				36574EA41DD3E87100319BC8 /* DPPasswordChangeViewController.m in Sources */,
