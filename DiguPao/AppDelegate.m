@@ -10,6 +10,7 @@
 #import "DPTabBarController.h"
 #import "DPLoginViewController.h"
 #import "DPNewFeatureViewController.h"
+#import "UIWindow+Extension.h"
 
 @interface AppDelegate ()
 
@@ -24,13 +25,19 @@
     self.window = [[UIWindow alloc] init];
     self.window.frame = [UIScreen mainScreen].bounds;
     
-    // 创建根控制器
+    // 测试控制器
     // 目前是作为核心的DPTabBarController
     //DPTabBarController *tabVC = [[DPTabBarController alloc] init];
     //DPLoginViewController *login = [[DPLoginViewController alloc] init];
     DPNewFeatureViewController *new = [[DPNewFeatureViewController alloc] init];
     
     self.window.rootViewController = new;
+    // 首先判断应用中是否有accessToken 使用AFOAuth2Manager的retrieveCredentialWithIdentifier方法 从钥匙串中取出凭证对象
+    // 然后判断凭证对象是否存在或者凭证对象的过期属性是否为真
+    
+    // 如果有且没有失效 那么应该直接调用UIWindow+Extension的switchRootViewController方法进行版本判断后显示新特性或者跟控制器
+    // 如果accessToken不存在或者失效 那么应该显示登录界面
+    
     
     // 显示窗口
     [self.window makeKeyAndVisible];

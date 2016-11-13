@@ -33,6 +33,7 @@
 		36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694BFF1DD6F460001B0030 /* DPTitleMenuController.m */; };
 		36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C021DD70878001B0030 /* DPDropdownMenu.m */; };
 		36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C501DD8450F001B0030 /* DPNewFeatureViewController.m */; };
+		36694C541DD84748001B0030 /* UIWindow+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C531DD84748001B0030 /* UIWindow+Extension.m */; };
 		AFEC41F7FC0FFB5A1673CA2F /* libPods-DiguPao.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B48E2C48325C60D1AD15CC2 /* libPods-DiguPao.a */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,8 @@
 		36694C021DD70878001B0030 /* DPDropdownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPDropdownMenu.m; sourceTree = "<group>"; };
 		36694C4F1DD8450F001B0030 /* DPNewFeatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPNewFeatureViewController.h; sourceTree = "<group>"; };
 		36694C501DD8450F001B0030 /* DPNewFeatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPNewFeatureViewController.m; sourceTree = "<group>"; };
+		36694C521DD84748001B0030 /* UIWindow+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+Extension.h"; sourceTree = "<group>"; };
+		36694C531DD84748001B0030 /* UIWindow+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+Extension.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +184,8 @@
 			children = (
 				36574E5F1DD2AF2300319BC8 /* UIView+Extension.h */,
 				36574E601DD2AF2300319BC8 /* UIView+Extension.m */,
+				36694C521DD84748001B0030 /* UIWindow+Extension.h */,
+				36694C531DD84748001B0030 /* UIWindow+Extension.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -492,6 +497,7 @@
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
 				36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */,
 				36574E441DD2AB6400319BC8 /* main.m in Sources */,
+				36694C541DD84748001B0030 /* UIWindow+Extension.m in Sources */,
 				36574EA41DD3E87100319BC8 /* DPPasswordChangeViewController.m in Sources */,
 				36574E951DD2C5C300319BC8 /* DPLoginViewController.m in Sources */,
 				36574E9F1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m in Sources */,

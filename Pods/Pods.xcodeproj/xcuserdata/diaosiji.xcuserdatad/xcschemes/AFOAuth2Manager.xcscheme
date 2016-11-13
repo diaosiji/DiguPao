@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'CC859918BF1A1A109509DE7B74C46D48'
-               BlueprintName = 'Pods-DiguPao'
+               BlueprintIdentifier = 'F5D926ABC5E39D4927065B21EC7E59D0'
+               BlueprintName = 'AFOAuth2Manager'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libPods-DiguPao.a'>
+               BuildableName = 'libAFOAuth2Manager.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
