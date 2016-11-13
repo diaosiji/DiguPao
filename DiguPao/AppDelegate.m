@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DPTabBarController.h"
 #import "DPLoginViewController.h"
+#import "DPNewFeatureViewController.h"
 
 @interface AppDelegate ()
 
@@ -25,9 +26,11 @@
     
     // 创建根控制器
     // 目前是作为核心的DPTabBarController
-    DPTabBarController *tabVC = [[DPTabBarController alloc] init];
+    //DPTabBarController *tabVC = [[DPTabBarController alloc] init];
     //DPLoginViewController *login = [[DPLoginViewController alloc] init];
-    self.window.rootViewController = tabVC;
+    DPNewFeatureViewController *new = [[DPNewFeatureViewController alloc] init];
+    
+    self.window.rootViewController = new;
     
     // 显示窗口
     [self.window makeKeyAndVisible];

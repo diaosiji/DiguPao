@@ -32,6 +32,7 @@
 		36574EA51DD3E87100319BC8 /* DPPasswordChangeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */; };
 		36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694BFF1DD6F460001B0030 /* DPTitleMenuController.m */; };
 		36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C021DD70878001B0030 /* DPDropdownMenu.m */; };
+		36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C501DD8450F001B0030 /* DPNewFeatureViewController.m */; };
 		AFEC41F7FC0FFB5A1673CA2F /* libPods-DiguPao.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B48E2C48325C60D1AD15CC2 /* libPods-DiguPao.a */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +83,8 @@
 		36694BFF1DD6F460001B0030 /* DPTitleMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTitleMenuController.m; sourceTree = "<group>"; };
 		36694C011DD70878001B0030 /* DPDropdownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPDropdownMenu.h; sourceTree = "<group>"; };
 		36694C021DD70878001B0030 /* DPDropdownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPDropdownMenu.m; sourceTree = "<group>"; };
+		36694C4F1DD8450F001B0030 /* DPNewFeatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPNewFeatureViewController.h; sourceTree = "<group>"; };
+		36694C501DD8450F001B0030 /* DPNewFeatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPNewFeatureViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				36574E8B1DD2C25A00319BC8 /* OAuth */,
+				36694C4D1DD844DF001B0030 /* NewFeature */,
 				36574E791DD2B4DD00319BC8 /* Main */,
 				36574E831DD2B61B00319BC8 /* Discover */,
 				36574E7F1DD2B5DA00319BC8 /* Home */,
@@ -317,6 +321,23 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		36694C4D1DD844DF001B0030 /* NewFeature */ = {
+			isa = PBXGroup;
+			children = (
+				36694C4E1DD844F3001B0030 /* Controller */,
+			);
+			name = NewFeature;
+			sourceTree = "<group>";
+		};
+		36694C4E1DD844F3001B0030 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				36694C4F1DD8450F001B0030 /* DPNewFeatureViewController.h */,
+				36694C501DD8450F001B0030 /* DPNewFeatureViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		9FA987630156CF6ADC4659C6 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -469,6 +490,7 @@
 				36574E6A1DD2B12B00319BC8 /* DPTableViewController.m in Sources */,
 				36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */,
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
+				36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */,
 				36574E441DD2AB6400319BC8 /* main.m in Sources */,
 				36574EA41DD3E87100319BC8 /* DPPasswordChangeViewController.m in Sources */,
 				36574E951DD2C5C300319BC8 /* DPLoginViewController.m in Sources */,
