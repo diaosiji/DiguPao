@@ -28,6 +28,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+#warning 需要有点击空白键盘消失的方法
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self.view endEditing:YES];
+}
+
 // 导航栏左侧按钮返回按钮方法
 - (void)backButtonTouched {
     
@@ -174,12 +180,9 @@
         NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
         AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
         // 设置参数
-        // 构建复杂参数
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        params[@"phone"] = phone;
+        params[@"phone"] = phone; // 参数只需要手机号码phone
         
-        // 发起请求
-        // 参数只需要手机号码phone
         [manager POST:@"/api/v1/verifications" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             NSLog(@"短信验证码API调用成功: %@", responseObject);
@@ -212,24 +215,44 @@
     
     NSString *password = self.passwordField.text;
     NSString *repeatPassword = self.repeatPasswordField.text;
+    NSString *phone = self.phoneNumberField.text;
+    NSString *code = self.messageIdentificationField.text;
     
     if ([password isEqualToString:repeatPassword] && [self isValidatePassword:password]) {
          #warning API is developing
         // 发起网络请求
         // 如果网络返回成功就返回登录界面重新登录
         // 网络请求yet
-        UIAlertController *success = [UIAlertController alertControllerWithTitle:@"密码修改成功" message:@"密码修改成功请重新登录" preferredStyle:UIAlertControllerStyleAlert];
-        //UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
-        UIAlertAction *successAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            // 跳转到登录界面
-            UIWindow *window = [UIApplication sharedApplication].keyWindow;
-            window.rootViewController = [[DPLoginViewController alloc] init];
+        NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+        // 设置参数
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"phone"] = phone;
+        params[@"code"] = code;
+        params[@"password"] = password;
+        
+        [manager POST:@"/api/v1/account/reset_password" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSLog(@"成功调用修改密码API:%@", responseObject);
+            
+            UIAlertController *success = [UIAlertController alertControllerWithTitle:@"密码修改成功" message:@"密码修改成功请重新登录" preferredStyle:UIAlertControllerStyleAlert];
+            //UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+            UIAlertAction *successAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                // 跳转到登录界面
+                UIWindow *window = [UIApplication sharedApplication].keyWindow;
+                window.rootViewController = [[DPLoginViewController alloc] init];
+            }];
+            [success addAction:successAction];
+            [self presentViewController:success animated:YES completion:nil];
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSLog(@"调用修改密码API失败:%@", error);
+            
         }];
-        [success addAction:successAction];
-        [self presentViewController:success animated:YES completion:nil];
         
     } else {
-        // 
+        // 密码不一致或无效
         UIAlertController *alert = [UIAlertController  alertControllerWithTitle:@"密码出错" message:@"请输入有效的密码且保证重复密码一致" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
         [alert addAction:action];
