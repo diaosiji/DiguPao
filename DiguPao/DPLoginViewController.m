@@ -160,8 +160,6 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
         // 发起网络请求
         // 利用AFOAuth2Manager库来进行OAuth2认证
         // 根据clientID、clientSecret、api、用户名和密码来获取包含accessToken的credential对象
-        // 测试用户名和密码都是11111111111
-        
         NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
         NSString *kClientID = @"a5e72efb5d4d1bca2691a4d9d09d07b5c59745bd4f412f1602f871b197d81e69";
         NSString *kClientSecret = @"945dd833f04111f2db822cd5ffd22fb165c181dcd5d1677552490831b0ff8228";

@@ -8,6 +8,7 @@
 
 #import "DPPasswordForgetViewController.h"
 #import "DPLoginViewController.h"
+#import "AFOAuth2Manager.h"
 
 @interface DPPasswordForgetViewController ()
 
@@ -33,12 +34,12 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - 输入值有效性判断方法
+
 // 使用正则表达式验证短信验证码为6位数字
 - (BOOL)isValidateMessageIdentification:(NSString *)message
 {
     // 短信验证码为6位数字
-    // 先将字符串转为数字？
-    
     NSString *messageRegex = @"^\\d{6}$";
     NSPredicate *messageTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", messageRegex];
     NSLog(@"短信验证码为6位数字");
@@ -166,6 +167,37 @@
         NSLog(@"手机号OK");
         // 让按钮倒计时60秒
         [self openCountdown];
+         #warning API is developing 参数构建方式可能变化
+        // 这里要调用获取短信验证码的API进行网络通信
+        // 根据API和手机号码发送获取短信验证码的网络请求
+        // 设置基础url
+        NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+        // 设置参数
+        // 构建复杂参数
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        // 创建子字典
+        NSMutableDictionary *verification = [NSMutableDictionary dictionary];
+        verification[@"phone"] = phone;
+        // 设置主字典的key的值为子字典
+        params[@"verification"] = verification;
+        // 发起请求
+        // 参数只需要手机号码phone
+        [manager POST:@"/api/v1/verifications" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSLog(@"短信验证码API调用成功: %@", responseObject);
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSLog(@"短信验证码API调用失败: %@", error);
+            // 弹框提示失败
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络返回错误" message:@"短信验证码API调用失败" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新输入" style:UIAlertActionStyleDefault handler:nil];
+            [alert addAction:ensureAction];
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        }];
+
         
     } else {
         NSLog(@"手机号不对");
@@ -185,6 +217,7 @@
     NSString *repeatPassword = self.repeatPasswordField.text;
     
     if ([password isEqualToString:repeatPassword] && [self isValidatePassword:password]) {
+         #warning API is developing
         // 发起网络请求
         // 如果网络返回成功就返回登录界面重新登录
         // 网络请求yet

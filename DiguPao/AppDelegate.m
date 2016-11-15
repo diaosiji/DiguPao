@@ -40,6 +40,9 @@
     
     // 然后判断凭证对象是否存在或者凭证对象的过期属性是否为真
     if (credential.isExpired || credential == nil) { // 如果Token过期或凭证对象为空
+        // 如果过期 则删除凭证对象 如果是没有 再删除下也无妨
+        // 让登录控制器显示的时候 钥匙串中没有凭证对象 通过用户登录去获取新的
+        [AFOAuthCredential deleteCredentialWithIdentifier:@"OAuthCredential"];
         // 则显示登录控制器让用户重新登录
         self.window.rootViewController = [[DPLoginViewController alloc] init];
     } else { // 如果Token有效

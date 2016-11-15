@@ -183,6 +183,7 @@
         // 根据API和手机号码发送获取短信验证码的网络请求
         // warning 暂时不能获取短信，约定有效的短信验证码为00+月+日:比如001114
         // 设置基础url
+        #warning API is developing 参数构建方式可能变化
         NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
         AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
         // 设置参数
@@ -190,7 +191,7 @@
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         // 创建子字典
         NSMutableDictionary *verification = [NSMutableDictionary dictionary];
-        verification[@"phone"] = @"15575112289";
+        verification[@"phone"] = phone;
         // 设置主字典的key的值为子字典
         params[@"verification"] = verification;
         // 发起请求
@@ -238,7 +239,7 @@
         NSLog(@"有效的注册信息");
         // 发起网络请求
         // 根据注册API和手机号码、有效密码、短信验证码和昵称参数 发起注册请求
-         #warning API尚未实现
+         #warning API is developing
         
         // 网络注册请求返回成功结果则弹窗提示 点击确认后跳转到登录界面重新登录
         UIAlertController *success = [UIAlertController alertControllerWithTitle:@"注册成功" message:@"注册成功请重新登录" preferredStyle:UIAlertControllerStyleAlert];

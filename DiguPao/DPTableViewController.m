@@ -49,7 +49,6 @@
     // 设置导航栏右边的按钮
     // 0.初始化一个自定义类型按钮
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    
     // 1.设置backButton的图片
     [rightButton setBackgroundImage:[UIImage imageNamed:@"navigationbar_pop"] forState:UIControlStateNormal]; // 正常状态下的图片
     [rightButton setBackgroundImage:[UIImage imageNamed:@"navigationbar_pop_highlighted"] forState:UIControlStateHighlighted]; // 高亮状态下的图片
@@ -71,23 +70,27 @@
     [titleButton setTitle:@"附近" forState:UIControlStateNormal];
     [titleButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     titleButton.titleLabel.font = [UIFont boldSystemFontOfSize:17];
-    
     // 设置顶端按钮的箭头不同状态下图片
     [titleButton setImage:[UIImage imageNamed:@"navigationbar_arrow_down"] forState:UIControlStateNormal];
     [titleButton setImage:[UIImage imageNamed:@"navigationbar_arrow_up"] forState:UIControlStateSelected];
     // 在后续方法中通过设置selected属性变化就能改变图片
-    
-    
     // 调整按钮中图片和文字的位置
     // 左边空出90
     titleButton.imageEdgeInsets = UIEdgeInsetsMake(0, 90, 0, 0);
     // 右边空出20
     titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20);
-    
     // 监听标题的点击
     [titleButton addTarget:self action:@selector(titleButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
-    
     self.navigationItem.titleView = titleButton;
+    
+    // 加载最新的嘀咕
+    [self loadNewStatus];
+    
+}
+
+// 加载最新的嘀咕方法
+- (void)loadNewStatus {
+    
     
 }
 
@@ -120,7 +123,6 @@
     
     // 显示菜单
     [menu showFrom:titleButton];
-    
     
     
 }
