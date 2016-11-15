@@ -7,34 +7,31 @@
 //
 
 #import "DPMapViewController.h"
-#import <MapKit/MapKit.h>
+#import "LocationManager.h"
+#import "MapView.h"
+#import "XRAnnotation.h"
 
-@interface DPMapViewController () <MKMapViewDelegate>
-
-@property (nonatomic, strong) MKMapView *myMapView;
+@interface DPMapViewController () 
+{
+    MapView * map;
+    LocationManager * manager;
+}
 
 @end
 
 @implementation DPMapViewController
 
-- (MKMapView *)myMapView{
-    if (!_myMapView) {
-        _myMapView = [[MKMapView alloc] initWithFrame:self.view.bounds];
-        _myMapView.mapType = MKMapTypeHybrid;
-        _myMapView.delegate = self;
-        _myMapView.showsUserLocation = YES;//显示自己
-        
-        _myMapView.zoomEnabled = YES;
-        [self.view addSubview:_myMapView];
-    }
-    return _myMapView;
-}
-
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self myMapView];
+    map  = [[MapView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view addSubview:map];
+    
+    manager = [LocationManager sharedLocationManager];
+    [manager openUpdatingLocation];
+    
+    [map callBackUserLocation];
 }
 
 - (void)didReceiveMemoryWarning {
