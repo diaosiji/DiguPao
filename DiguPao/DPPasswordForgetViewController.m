@@ -176,11 +176,8 @@
         // 设置参数
         // 构建复杂参数
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        // 创建子字典
-        NSMutableDictionary *verification = [NSMutableDictionary dictionary];
-        verification[@"phone"] = phone;
-        // 设置主字典的key的值为子字典
-        params[@"verification"] = verification;
+        params[@"phone"] = phone;
+        
         // 发起请求
         // 参数只需要手机号码phone
         [manager POST:@"/api/v1/verifications" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
