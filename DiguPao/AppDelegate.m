@@ -26,7 +26,7 @@
     self.window = [[UIWindow alloc] init];
     self.window.frame = [UIScreen mainScreen].bounds;
     
-    // 测试控制器
+    // 测试
     // 目前是作为核心的DPTabBarController
     //DPTabBarController *tabVC = [[DPTabBarController alloc] init];
     //DPLoginViewController *login = [[DPLoginViewController alloc] init];
@@ -36,7 +36,7 @@
     
     // 首先判断应用中是否有accessToken 使用AFOAuth2Manager的retrieveCredentialWithIdentifier方法 从钥匙串中取出凭证对象
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
-    NSLog(@"%@", credential);
+    NSLog(@"AppDelegate读取credential:%@", credential);
     
     // 然后判断凭证对象是否存在或者凭证对象的过期属性是否为真
     if (credential.isExpired || credential == nil) { // 如果Token过期或凭证对象为空
@@ -49,6 +49,7 @@
     
     // 显示窗口
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

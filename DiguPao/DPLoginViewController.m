@@ -10,9 +10,10 @@
 #import "DPTabBarController.h"
 #import "KeyChain.h"
 #import "DPRegisterViewController.h"
-#import "DPMessageIdentificationViewController.h"
+#import "DPPasswordForgetViewController.h"
 
 #import <AFNetworking/AFNetworking.h>
+#import "AFOAuth2Manager.h"
 
 @interface DPLoginViewController ()
 
@@ -120,6 +121,7 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     NSString *userNameStr = self.userNameField.text;
     NSString *userPasswordStr = self.passwordField.text;
     
+    
     // 如果用户名和密码有效
     // 则发起网络请求
     // 如果网络请求返回成功 则说明用户名和密码正确 可以保存用户名和密码到KeyChain
@@ -128,30 +130,42 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
         NSLog(@"用户名:%@ 密码:%@", userNameStr, userPasswordStr);
         NSLog(@"有效的用户名和密码");
         
-        // 调用登录网络请求
-        NSString *urlString = @"http://123.56.97.99:3000/api/v1/hello";
-        NSURL *url = [NSURL URLWithString:urlString];
+        // 发起网络请求
+        // 利用AFOAuth2Manager库来进行OAuth2认证
+        // 根据clientID、clientSecret、api、用户名和密码来获取包含accessToken的credential对象
+        // 测试用户名和密码都是11111111111
         
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        [manager GET:url.absoluteString parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+        NSString *kClientID = @"a5e72efb5d4d1bca2691a4d9d09d07b5c59745bd4f412f1602f871b197d81e69";
+        NSString *kClientSecret = @"945dd833f04111f2db822cd5ffd22fb165c181dcd5d1677552490831b0ff8228";
+        
+        AFOAuth2Manager *OAuth2Manager = [[AFOAuth2Manager alloc] initWithBaseURL:baseURL clientID:kClientID secret:kClientSecret];
+        
+        // 测试用户名15575112289 密码11111111111
+        [OAuth2Manager authenticateUsingOAuthWithURLString:@"/oauth/token" username:userNameStr password:userPasswordStr scope:nil success:^(AFOAuthCredential * _Nonnull credential) {
+            // 网络请求成功
+            NSLog(@"Login界面网络请求成功返回credential:%@", credential);
             
-            NSLog(@"results: %@", responseObject);
+            // 把包含Token的凭证对象存储 注意这里的Identifier要和AppDelegate中load的一致
+            [AFOAuthCredential storeCredential:credential withIdentifier:@"OAuthCredential"];
+            
             // 如果网络返回成功说明用户名密码正确就应该保存用户名和密码到KeyChain
             // 创建可变字典用于存储用户名和密码
             NSMutableDictionary *userNamePasswordKVPairs = [NSMutableDictionary dictionary];
             [userNamePasswordKVPairs setObject:userNameStr forKey:KEY_USERNAME];
             [userNamePasswordKVPairs setObject:userPasswordStr forKey:KEY_PASSWORD];
-            
             // 将包含用户名和密码的字典作为参数写入keychain
             [KeyChain save:KEY_USERNAME_PASSWORD data:userNamePasswordKVPairs];
             
-            // 成功就跳转到下一个界面
+            // 最后跳转到根TabBar控制器
             UIWindow *window = [UIApplication sharedApplication].keyWindow;
             window.rootViewController = [[DPTabBarController alloc] init];
+            // 可以在根TabBar控制器的viewDidLoad中读取credential试试
             
-        } failure:^(NSURLSessionDataTask *task, NSError *error) {
             
-            // 网络请求失败就显示登录失败
+        } failure:^(NSError * _Nonnull error) {
+            
+            // 网络请求失败就弹窗显示登录失败
             NSLog(@"results: %@", error);
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"登录失败" message:@"服务器返回登录失败信息" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新登录" style:UIAlertActionStyleDefault handler:nil];
@@ -160,7 +174,8 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
             
         }];
         
-    } else {
+        
+    } else { // 如果输入的用户名和密码本地判断不符合规范
         // 提示输入的用户名或者密码错误
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"无效的用户名或密码" message:@"您输入的用户名或密码不符合基本规则" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:nil];
@@ -189,6 +204,7 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     
 }
 
+// 注册按钮方法
 - (IBAction)registerButtonTouched:(id)sender {
     
     DPRegisterViewController * reg = [[DPRegisterViewController alloc] init];
@@ -198,6 +214,7 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
 
 }
 
+// 删除Keychain中保存的用户名和密码
 - (IBAction)deletePasswordButtonTouched:(id)sender {
     // 从keychain中读取用户名和密码
     NSMutableDictionary *readUsernamePassword = (NSMutableDictionary *)[KeyChain load:KEY_USERNAME_PASSWORD];
@@ -214,9 +231,10 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     self.passwordField.text = @"";
 }
 
+// 忘记密码按钮方法
 - (IBAction)passwordForgetButtonTouched:(id)sender {
     
-    DPMessageIdentificationViewController *identification = [[DPMessageIdentificationViewController alloc] init];
+    DPPasswordForgetViewController *identification = [[DPPasswordForgetViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:identification];
     
     [self presentViewController:nav animated:YES completion:nil];

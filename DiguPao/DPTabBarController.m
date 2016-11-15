@@ -11,6 +11,7 @@
 #import "DPTabBar.h"
 #import "DPTableViewController.h"
 #import "DPMapViewController.h"
+#import "AFOAuth2Manager.h"
 
 @interface DPTabBarController ()
 
@@ -21,6 +22,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    // 测试 登录成会把credential存储 这里测试能够从钥匙串得到credential
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    NSLog(@"TabBar界面读取credential:%@", [credential description]);
+    
     // 设置子控制器
     DPMapViewController *discover = [[DPMapViewController alloc] init];
     [self addChildViewController:discover title:@"发现" image:@"tabbar_discover" selectedImage:@"tabbar_discover_selected"];

@@ -26,14 +26,12 @@
 		36574E961DD2C5C300319BC8 /* DPLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E941DD2C5C300319BC8 /* DPLoginViewController.xib */; };
 		36574E9A1DD2CAD100319BC8 /* DPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E981DD2CAD100319BC8 /* DPRegisterViewController.m */; };
 		36574E9B1DD2CAD100319BC8 /* DPRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E991DD2CAD100319BC8 /* DPRegisterViewController.xib */; };
-		36574E9F1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E9D1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m */; };
-		36574EA01DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574E9E1DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib */; };
-		36574EA41DD3E87100319BC8 /* DPPasswordChangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574EA21DD3E87100319BC8 /* DPPasswordChangeViewController.m */; };
-		36574EA51DD3E87100319BC8 /* DPPasswordChangeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */; };
 		36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694BFF1DD6F460001B0030 /* DPTitleMenuController.m */; };
 		36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C021DD70878001B0030 /* DPDropdownMenu.m */; };
 		36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C501DD8450F001B0030 /* DPNewFeatureViewController.m */; };
 		36694C541DD84748001B0030 /* UIWindow+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C531DD84748001B0030 /* UIWindow+Extension.m */; };
+		36694C581DD9755B001B0030 /* DPPasswordForgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C561DD9755B001B0030 /* DPPasswordForgetViewController.m */; };
+		36694C591DD9755B001B0030 /* DPPasswordForgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36694C571DD9755B001B0030 /* DPPasswordForgetViewController.xib */; };
 		AFEC41F7FC0FFB5A1673CA2F /* libPods-DiguPao.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B48E2C48325C60D1AD15CC2 /* libPods-DiguPao.a */; };
 /* End PBXBuildFile section */
 
@@ -74,12 +72,6 @@
 		36574E971DD2CAD100319BC8 /* DPRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPRegisterViewController.h; sourceTree = "<group>"; };
 		36574E981DD2CAD100319BC8 /* DPRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPRegisterViewController.m; sourceTree = "<group>"; };
 		36574E991DD2CAD100319BC8 /* DPRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPRegisterViewController.xib; sourceTree = "<group>"; };
-		36574E9C1DD3E7E800319BC8 /* DPMessageIdentificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPMessageIdentificationViewController.h; sourceTree = "<group>"; };
-		36574E9D1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPMessageIdentificationViewController.m; sourceTree = "<group>"; };
-		36574E9E1DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPMessageIdentificationViewController.xib; sourceTree = "<group>"; };
-		36574EA11DD3E87100319BC8 /* DPPasswordChangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPPasswordChangeViewController.h; sourceTree = "<group>"; };
-		36574EA21DD3E87100319BC8 /* DPPasswordChangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPPasswordChangeViewController.m; sourceTree = "<group>"; };
-		36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPPasswordChangeViewController.xib; sourceTree = "<group>"; };
 		36694BFE1DD6F460001B0030 /* DPTitleMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTitleMenuController.h; sourceTree = "<group>"; };
 		36694BFF1DD6F460001B0030 /* DPTitleMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTitleMenuController.m; sourceTree = "<group>"; };
 		36694C011DD70878001B0030 /* DPDropdownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPDropdownMenu.h; sourceTree = "<group>"; };
@@ -88,6 +80,9 @@
 		36694C501DD8450F001B0030 /* DPNewFeatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPNewFeatureViewController.m; sourceTree = "<group>"; };
 		36694C521DD84748001B0030 /* UIWindow+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWindow+Extension.h"; sourceTree = "<group>"; };
 		36694C531DD84748001B0030 /* UIWindow+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWindow+Extension.m"; sourceTree = "<group>"; };
+		36694C551DD9755B001B0030 /* DPPasswordForgetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPPasswordForgetViewController.h; sourceTree = "<group>"; };
+		36694C561DD9755B001B0030 /* DPPasswordForgetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPPasswordForgetViewController.m; sourceTree = "<group>"; };
+		36694C571DD9755B001B0030 /* DPPasswordForgetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPPasswordForgetViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,12 +311,9 @@
 				36574E971DD2CAD100319BC8 /* DPRegisterViewController.h */,
 				36574E981DD2CAD100319BC8 /* DPRegisterViewController.m */,
 				36574E991DD2CAD100319BC8 /* DPRegisterViewController.xib */,
-				36574E9C1DD3E7E800319BC8 /* DPMessageIdentificationViewController.h */,
-				36574E9D1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m */,
-				36574E9E1DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib */,
-				36574EA11DD3E87100319BC8 /* DPPasswordChangeViewController.h */,
-				36574EA21DD3E87100319BC8 /* DPPasswordChangeViewController.m */,
-				36574EA31DD3E87100319BC8 /* DPPasswordChangeViewController.xib */,
+				36694C551DD9755B001B0030 /* DPPasswordForgetViewController.h */,
+				36694C561DD9755B001B0030 /* DPPasswordForgetViewController.m */,
+				36694C571DD9755B001B0030 /* DPPasswordForgetViewController.xib */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -419,12 +411,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36694C591DD9755B001B0030 /* DPPasswordForgetViewController.xib in Resources */,
 				36574E521DD2AB6400319BC8 /* LaunchScreen.storyboard in Resources */,
-				36574EA51DD3E87100319BC8 /* DPPasswordChangeViewController.xib in Resources */,
 				36574E9B1DD2CAD100319BC8 /* DPRegisterViewController.xib in Resources */,
 				36574E961DD2C5C300319BC8 /* DPLoginViewController.xib in Resources */,
 				36574E6F1DD2B1EC00319BC8 /* TestViewController.xib in Resources */,
-				36574EA01DD3E7E800319BC8 /* DPMessageIdentificationViewController.xib in Resources */,
 				36574E4F1DD2AB6400319BC8 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -496,11 +487,10 @@
 				36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */,
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
 				36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */,
+				36694C581DD9755B001B0030 /* DPPasswordForgetViewController.m in Sources */,
 				36574E441DD2AB6400319BC8 /* main.m in Sources */,
 				36694C541DD84748001B0030 /* UIWindow+Extension.m in Sources */,
-				36574EA41DD3E87100319BC8 /* DPPasswordChangeViewController.m in Sources */,
 				36574E951DD2C5C300319BC8 /* DPLoginViewController.m in Sources */,
-				36574E9F1DD3E7E800319BC8 /* DPMessageIdentificationViewController.m in Sources */,
 				36574E891DD2BCB800319BC8 /* KeyChain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

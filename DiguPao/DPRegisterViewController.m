@@ -8,6 +8,7 @@
 
 #import "DPRegisterViewController.h"
 #import "DPLoginViewController.h"
+#import "AFOAuth2Manager.h"
 
 @interface DPRegisterViewController ()
 
@@ -88,6 +89,20 @@
     }
 }
 
+// 使用正则表达式验证短信验证码为6位数字
+- (BOOL)isValidateMessageIdentification:(NSString *)message
+{
+    // 短信验证码为6位数字
+    // 先将字符串转为数字？
+    
+    NSString *messageRegex = @"^\\d{6}$";
+    NSPredicate *messageTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", messageRegex];
+    NSLog(@"短信验证码为6位数字");
+    NSLog(@"%d", [messageTest evaluateWithObject:message]);
+    return [messageTest evaluateWithObject:message];
+    
+}
+
 // 判断密码长度是否在6到12
 - (BOOL)isValidatePassword:(NSString *)password {
     // if-else结构
@@ -100,6 +115,7 @@
 
 // 导航栏取消按钮方法
 - (void)backButtonTouched {
+    
     [self dismissViewControllerAnimated:YES completion:nil];
     
 }
@@ -148,11 +164,43 @@
     
     NSString *phone = self.phoneNumberField.text;
     
-    if ([self isValidatePhone:phone]) {
+    if ([self isValidatePhone:phone]) { // 如果手机号码有效
         NSLog(@"手机号OK");
         [self openCountdown];
-    } else {
+        
+        // 根据API和手机号码发送获取短信验证码的网络请求
+        // warning 暂时不能获取短信，约定有效的短信验证码为00+月+日:比如001114
+        // 设置基础url
+        NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+        // 设置参数
+        // 构建复杂参数
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        // 创建子字典
+        NSMutableDictionary *verification = [NSMutableDictionary dictionary];
+        verification[@"phone"] = @"15575112289";
+        // 设置主字典的key的值为子字典
+        params[@"verification"] = verification;
+        // 发起请求
+        // 参数只需要手机号码phone
+        [manager POST:@"/api/v1/verifications" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSLog(@"短信验证码API调用成功: %@", responseObject);
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSLog(@"短信验证码API调用失败: %@", error);
+            // 弹框提示失败
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"网络返回错误" message:@"短信验证码API调用失败" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新输入" style:UIAlertActionStyleDefault handler:nil];
+            [alert addAction:ensureAction];
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        }];
+
+    } else { // 如果手机号码无效
         NSLog(@"手机号不对");
+        // 弹框提示无效
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"手机号码无效" message:@"请输入有效的手机号码" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新输入" style:UIAlertActionStyleDefault handler:nil];
         [alert addAction:ensureAction];
@@ -165,41 +213,43 @@
 // 注册按钮方法
 - (IBAction)registerButtonTouched:(id)sender {
     
+    // 获取界面输入框的输入信息
     NSString *phoneNumber = self.phoneNumberField.text;
     NSString *messageIdentification = self.messageIdentificationField.text;
     NSString *nickname = self.nicknameField.text;
     NSString *password = self.passwordField.text;
     NSString *repeatPassword = self.repeatPasswordField.text;
     
-    
-    if ([self isValidatePhone:phoneNumber] && [self isValidatePassword:password] && ![nickname isEqualToString:@""] && [password isEqualToString:repeatPassword] && ![messageIdentification isEqualToString:@""]) {
+    // 本地验证输入信息是否合乎规范
+    if ([self isValidatePhone:phoneNumber] && [self isValidatePassword:password] && ![nickname isEqualToString:@""] && [password isEqualToString:repeatPassword] && [self isValidateMessageIdentification:messageIdentification]) {
+        // 如果合乎规范
         NSLog(@"有效的注册信息");
         // 发起网络请求
+        // 根据注册API和手机号码、有效密码、短信验证码和昵称参数 发起注册请求
+         #warning API尚未实现
         
-        // 网络请求返回成功结果则跳转到登录界面
+        // 网络注册请求返回成功结果则弹窗提示 点击确认后跳转到登录界面重新登录
         UIAlertController *success = [UIAlertController alertControllerWithTitle:@"注册成功" message:@"注册成功请重新登录" preferredStyle:UIAlertControllerStyleAlert];
-        //UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
         UIAlertAction *successAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             // 跳转到登录界面
             UIWindow *window = [UIApplication sharedApplication].keyWindow;
             window.rootViewController = [[DPLoginViewController alloc] init];
         }];
-        
         [success addAction:successAction];
         [self presentViewController:success animated:YES completion:nil];
         
+        // 网络注册请求失败则弹窗提示失败
+        // ...
         
-        
-    } else {
+    } else { // 输入的信息有不符合规范
         NSLog(@"无效的注册信息");
+        // 弹窗提示注册信息有不符合规范
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"注册信息有误" message:@"请输入合法的注册信息" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新输入" style:UIAlertActionStyleDefault handler:nil];
         [alert addAction:ensureAction];
         [self presentViewController:alert animated:YES completion:nil];
 
-        
     };
-    
     
 }
 
