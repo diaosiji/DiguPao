@@ -10,6 +10,7 @@
 #import "DPTabBarController.h"
 #import "DPLoginViewController.h"
 #import "DPNewFeatureViewController.h"
+#import "DPMapViewController.h"
 #import "UIWindow+Extension.h"
 #import "AFOAuth2Manager.h"
 
@@ -31,7 +32,8 @@
     //DPTabBarController *tabVC = [[DPTabBarController alloc] init];
     //DPLoginViewController *login = [[DPLoginViewController alloc] init];
     //DPNewFeatureViewController *new = [[DPNewFeatureViewController alloc] init];
-    //self.window.rootViewController = new;
+    DPMapViewController *map = [[DPMapViewController alloc] init];
+    self.window.rootViewController = map;
     
     
     // 首先判断应用中是否有accessToken 使用AFOAuth2Manager的retrieveCredentialWithIdentifier方法 从钥匙串中取出凭证对象
