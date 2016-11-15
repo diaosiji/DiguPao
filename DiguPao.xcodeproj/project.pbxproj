@@ -32,6 +32,9 @@
 		36694C541DD84748001B0030 /* UIWindow+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C531DD84748001B0030 /* UIWindow+Extension.m */; };
 		36694C581DD9755B001B0030 /* DPPasswordForgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C561DD9755B001B0030 /* DPPasswordForgetViewController.m */; };
 		36694C591DD9755B001B0030 /* DPPasswordForgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36694C571DD9755B001B0030 /* DPPasswordForgetViewController.xib */; };
+		445E7D851DDAEA2F00D17A2D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D801DDAEA2F00D17A2D /* LocationManager.m */; };
+		445E7D861DDAEA2F00D17A2D /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D821DDAEA2F00D17A2D /* MapView.m */; };
+		445E7D871DDAEA2F00D17A2D /* XRAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D841DDAEA2F00D17A2D /* XRAnnotation.m */; };
 		AFEC41F7FC0FFB5A1673CA2F /* libPods-DiguPao.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B48E2C48325C60D1AD15CC2 /* libPods-DiguPao.a */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +86,12 @@
 		36694C551DD9755B001B0030 /* DPPasswordForgetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPPasswordForgetViewController.h; sourceTree = "<group>"; };
 		36694C561DD9755B001B0030 /* DPPasswordForgetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPPasswordForgetViewController.m; sourceTree = "<group>"; };
 		36694C571DD9755B001B0030 /* DPPasswordForgetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPPasswordForgetViewController.xib; sourceTree = "<group>"; };
+		445E7D7F1DDAEA2F00D17A2D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
+		445E7D801DDAEA2F00D17A2D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
+		445E7D811DDAEA2F00D17A2D /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
+		445E7D821DDAEA2F00D17A2D /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapView.m; sourceTree = "<group>"; };
+		445E7D831DDAEA2F00D17A2D /* XRAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XRAnnotation.h; sourceTree = "<group>"; };
+		445E7D841DDAEA2F00D17A2D /* XRAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XRAnnotation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +299,12 @@
 		36574E861DD2B64800319BC8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				445E7D7F1DDAEA2F00D17A2D /* LocationManager.h */,
+				445E7D801DDAEA2F00D17A2D /* LocationManager.m */,
+				445E7D811DDAEA2F00D17A2D /* MapView.h */,
+				445E7D821DDAEA2F00D17A2D /* MapView.m */,
+				445E7D831DDAEA2F00D17A2D /* XRAnnotation.h */,
+				445E7D841DDAEA2F00D17A2D /* XRAnnotation.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -378,7 +393,7 @@
 				TargetAttributes = {
 					36574E3E1DD2AB6400319BC8 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = A56MTA89R5;
+						DevelopmentTeam = RZGSSCAQVM;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -484,9 +499,12 @@
 				36574E721DD2B25700319BC8 /* DPMapViewController.m in Sources */,
 				36574E611DD2AF2300319BC8 /* UIView+Extension.m in Sources */,
 				36574E6A1DD2B12B00319BC8 /* DPTableViewController.m in Sources */,
+				445E7D861DDAEA2F00D17A2D /* MapView.m in Sources */,
+				445E7D871DDAEA2F00D17A2D /* XRAnnotation.m in Sources */,
 				36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */,
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
 				36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */,
+				445E7D851DDAEA2F00D17A2D /* LocationManager.m in Sources */,
 				36694C581DD9755B001B0030 /* DPPasswordForgetViewController.m in Sources */,
 				36574E441DD2AB6400319BC8 /* main.m in Sources */,
 				36694C541DD84748001B0030 /* UIWindow+Extension.m in Sources */,
@@ -603,7 +621,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
-				DEVELOPMENT_TEAM = A56MTA89R5;
+				DEVELOPMENT_TEAM = RZGSSCAQVM;
 				INFOPLIST_FILE = DiguPao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.idiguer.cn.DiguPao;
@@ -617,7 +635,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
-				DEVELOPMENT_TEAM = A56MTA89R5;
+				DEVELOPMENT_TEAM = RZGSSCAQVM;
 				INFOPLIST_FILE = DiguPao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.idiguer.cn.DiguPao;
