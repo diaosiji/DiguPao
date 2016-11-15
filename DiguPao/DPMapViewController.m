@@ -32,6 +32,22 @@
     [manager openUpdatingLocation];
     
     [map callBackUserLocation];
+    
+    // 添加大头针
+    XRAnnotation * annotation1 = [[XRAnnotation alloc] init];
+    annotation1.title = @"不错呦";
+    annotation1.subtitle = @"好啊";
+    annotation1.coordinate = CLLocationCoordinate2DMake(28.2313, 112.9914);
+    annotation1.icon = @"map1";
+    [map addCustomAnnotation:annotation1];
+    
+    XRAnnotation * annotation2 = [[XRAnnotation alloc] init];
+    annotation2.title = @"不错呦2";
+    annotation2.subtitle = @"好啊2";
+    annotation2.coordinate = CLLocationCoordinate2DMake(28.23141, 112.99331);
+    annotation2.icon = @"map1";
+    
+    [map addCustomAnnotation:annotation2];
 }
 
 - (void)didReceiveMemoryWarning {

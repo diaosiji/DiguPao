@@ -29,11 +29,11 @@
     
     // 测试
     // 目前是作为核心的DPTabBarController
-    //DPTabBarController *tabVC = [[DPTabBarController alloc] init];
+    DPTabBarController *tabVC = [[DPTabBarController alloc] init];
     //DPLoginViewController *login = [[DPLoginViewController alloc] init];
     //DPNewFeatureViewController *new = [[DPNewFeatureViewController alloc] init];
-    DPMapViewController *map = [[DPMapViewController alloc] init];
-    self.window.rootViewController = map;
+//    DPMapViewController *map = [[DPMapViewController alloc] init];
+    self.window.rootViewController = tabVC;
     
     
     // 首先判断应用中是否有accessToken 使用AFOAuth2Manager的retrieveCredentialWithIdentifier方法 从钥匙串中取出凭证对象
@@ -41,13 +41,13 @@
     NSLog(@"AppDelegate读取credential:%@", credential);
     
     // 然后判断凭证对象是否存在或者凭证对象的过期属性是否为真
-    if (credential.isExpired || credential == nil) { // 如果Token过期或凭证对象为空
-        // 则显示登录控制器让用户重新登录
-        self.window.rootViewController = [[DPLoginViewController alloc] init];
-    } else { // 如果Token有效
-        // UIWindow+Extension的switchRootViewController方法进行版本判断后显示新特性或者跟控制器
-        [self.window switchRootViewController];
-    }
+//    if (credential.isExpired || credential == nil) { // 如果Token过期或凭证对象为空
+//        // 则显示登录控制器让用户重新登录
+//        self.window.rootViewController = [[DPLoginViewController alloc] init];
+//    } else { // 如果Token有效
+//        // UIWindow+Extension的switchRootViewController方法进行版本判断后显示新特性或者跟控制器
+//        [self.window switchRootViewController];
+//    }
     
     // 显示窗口
     [self.window makeKeyAndVisible];
