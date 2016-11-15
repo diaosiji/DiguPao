@@ -189,11 +189,7 @@
         // 设置参数
         // 构建复杂参数
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        // 创建子字典
-        NSMutableDictionary *verification = [NSMutableDictionary dictionary];
-        verification[@"phone"] = phone;
-        // 设置主字典的key的值为子字典
-        params[@"verification"] = verification;
+        params[@"phone"] = phone;
         // 发起请求
         // 参数只需要手机号码phone
         [manager POST:@"/api/v1/verifications" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -237,22 +233,45 @@
     if ([self isValidatePhone:phoneNumber] && [self isValidatePassword:password] && [self isValidateNickname:nickname] && [password isEqualToString:repeatPassword] && [self isValidateMessageIdentification:messageIdentification]) {
         // 如果合乎规范
         NSLog(@"有效的注册信息");
-        // 发起网络请求
+
         // 根据注册API和手机号码、有效密码、短信验证码和昵称参数 发起注册请求
          #warning API is developing
+        NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+        // 设置参数
+        // 构建复杂参数
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"phone"] = phoneNumber;
+        params[@"code"] = messageIdentification; // 注意按照约定输入
+        params[@"name "] = nickname;
+        params[@"password"] = password;
         
-        // 网络注册请求返回成功结果则弹窗提示 点击确认后跳转到登录界面重新登录
-        UIAlertController *success = [UIAlertController alertControllerWithTitle:@"注册成功" message:@"注册成功请重新登录" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *successAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            // 跳转到登录界面
-            UIWindow *window = [UIApplication sharedApplication].keyWindow;
-            window.rootViewController = [[DPLoginViewController alloc] init];
+        [manager POST:@"/api/v1/account" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            NSLog(@"注册API调用成功: %@", responseObject);
+            
+            // 网络注册请求返回成功结果则弹窗提示 点击确认后跳转到登录界面重新登录
+            UIAlertController *success = [UIAlertController alertControllerWithTitle:@"注册成功" message:@"注册成功请重新登录" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *successAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                // 跳转到登录界面
+                UIWindow *window = [UIApplication sharedApplication].keyWindow;
+                window.rootViewController = [[DPLoginViewController alloc] init];
+            }];
+            [success addAction:successAction];
+            [self presentViewController:success animated:YES completion:nil];
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSLog(@"短信验证码API调用失败: %@", error);
+            // 弹框提示注册失败
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"注册失败" message:@"用户注册API返回失败信息" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新注册" style:UIAlertActionStyleDefault handler:nil];
+            [alert addAction:ensureAction];
+            [self presentViewController:alert animated:YES completion:nil];
+
+            
         }];
-        [success addAction:successAction];
-        [self presentViewController:success animated:YES completion:nil];
         
-        // 网络注册请求失败则弹窗提示失败
-        // ...
         
     } else { // 输入的信息有不符合规范
         NSLog(@"无效的注册信息");
