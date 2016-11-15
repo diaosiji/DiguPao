@@ -4,7 +4,7 @@
 //
 //  Created by 屌斯基 on 2016/11/14.
 //  Copyright © 2016年 intelligentunit. All rights reserved.
-//
+//  用户点击忘记密码后进入的修改密码界面
 
 #import <UIKit/UIKit.h>
 

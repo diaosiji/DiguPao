@@ -39,6 +39,30 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - 界面初始化时调用方法
+
+// 页面启动时加载KeyChain中已有的用户名和密码
+- (void)showUsernameAndPasswordFromKeyChain {
+    
+    // 调试：从keychain中读取用户名和密码
+    NSMutableDictionary *readUsernamePassword = (NSMutableDictionary *)[KeyChain load:KEY_USERNAME_PASSWORD];
+    NSString *userNameStr = [readUsernamePassword objectForKey:KEY_USERNAME];
+    NSString *passwordStr = [readUsernamePassword objectForKey:KEY_PASSWORD];
+    // 调试：打印
+    //    NSLog(@"username = %@", userNameStr);
+    //    NSLog(@"password = %@", passwordStr);
+    
+    // 判断字符串是否不为空
+    if (![userNameStr isEqualToString:@""] && ![passwordStr isEqualToString:@""]) {
+        // 将用户名和密码写入到输入框中
+        self.userNameField.text = userNameStr;
+        self.passwordField.text =passwordStr;
+    }
+    
+}
+
+#pragma mark - 输入值有效性判断方法
+
 // 使用正则表达式验证邮箱地址
 - (BOOL)isValidateEmail:(NSString *)email
 {
@@ -117,6 +141,9 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     }
 }
 
+#pragma mark - 按钮点击方法
+
+// 登录按钮方法
 - (IBAction)loginButtonTouched:(id)sender {
     NSString *userNameStr = self.userNameField.text;
     NSString *userPasswordStr = self.passwordField.text;
@@ -184,26 +211,6 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     }
 }
 
-// 页面启动时加载KeyChain中已有的用户名和密码
-- (void)showUsernameAndPasswordFromKeyChain {
-    
-    // 调试：从keychain中读取用户名和密码
-    NSMutableDictionary *readUsernamePassword = (NSMutableDictionary *)[KeyChain load:KEY_USERNAME_PASSWORD];
-    NSString *userNameStr = [readUsernamePassword objectForKey:KEY_USERNAME];
-    NSString *passwordStr = [readUsernamePassword objectForKey:KEY_PASSWORD];
-    // 调试：打印
-    //    NSLog(@"username = %@", userNameStr);
-    //    NSLog(@"password = %@", passwordStr);
-    
-    // 判断字符串是否不为空
-    if (![userNameStr isEqualToString:@""] && ![passwordStr isEqualToString:@""]) {
-        // 将用户名和密码写入到输入框中
-        self.userNameField.text = userNameStr;
-        self.passwordField.text =passwordStr;
-    }
-    
-}
-
 // 注册按钮方法
 - (IBAction)registerButtonTouched:(id)sender {
     
@@ -214,7 +221,7 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
 
 }
 
-// 删除Keychain中保存的用户名和密码
+// 删除Keychain中保存的用户名和密码按钮方法
 - (IBAction)deletePasswordButtonTouched:(id)sender {
     // 从keychain中读取用户名和密码
     NSMutableDictionary *readUsernamePassword = (NSMutableDictionary *)[KeyChain load:KEY_USERNAME_PASSWORD];

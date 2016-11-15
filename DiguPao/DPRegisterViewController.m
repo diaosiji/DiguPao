@@ -29,6 +29,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - 界面相关
+// 导航栏取消按钮方法
+- (void)backButtonTouched {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+}
+
+#pragma mark - 输入值有效性判断方法
+
+// 使用正则表达式判断用户昵称有效性
+- (BOOL)isValidateNickname:(NSString *)nickname {
+    // 表示匹配4-12个中英文字符
+    NSString *nicknameRegex = @"^[a-zA-Z\\u4e00-\\u9fa5]{4,12}$";
+    NSPredicate *nicknameTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nicknameRegex];
+    return [nicknameTest evaluateWithObject:nickname];
+}
+
 // 使用正则表达式判断手机号码格式
 - (BOOL)isValidatePhone:(NSString *)phone
 {
@@ -93,8 +111,6 @@
 - (BOOL)isValidateMessageIdentification:(NSString *)message
 {
     // 短信验证码为6位数字
-    // 先将字符串转为数字？
-    
     NSString *messageRegex = @"^\\d{6}$";
     NSPredicate *messageTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", messageRegex];
     NSLog(@"短信验证码为6位数字");
@@ -113,14 +129,9 @@
     }
 }
 
-// 导航栏取消按钮方法
-- (void)backButtonTouched {
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-    
-}
+#pragma mark - 按钮点击方法
 
-// 开启短信验证码按钮倒计时效果
+// 开启短信验证码按钮倒计时效果方法
 - (void)openCountdown{
     
     __block NSInteger time = 59; //倒计时时间
@@ -166,6 +177,7 @@
     
     if ([self isValidatePhone:phone]) { // 如果手机号码有效
         NSLog(@"手机号OK");
+        // 开启短信验证码按钮倒计时效果
         [self openCountdown];
         
         // 根据API和手机号码发送获取短信验证码的网络请求
@@ -221,7 +233,7 @@
     NSString *repeatPassword = self.repeatPasswordField.text;
     
     // 本地验证输入信息是否合乎规范
-    if ([self isValidatePhone:phoneNumber] && [self isValidatePassword:password] && ![nickname isEqualToString:@""] && [password isEqualToString:repeatPassword] && [self isValidateMessageIdentification:messageIdentification]) {
+    if ([self isValidatePhone:phoneNumber] && [self isValidatePassword:password] && [self isValidateNickname:nickname] && [password isEqualToString:repeatPassword] && [self isValidateMessageIdentification:messageIdentification]) {
         // 如果合乎规范
         NSLog(@"有效的注册信息");
         // 发起网络请求
