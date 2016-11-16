@@ -21,6 +21,8 @@
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"修改密码";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleDone target:self action:@selector(backButtonTouched)];
+    // 让用户名输入框只显示手机键盘
+    self.phoneNumberField.keyboardType = UIKeyboardTypeNumberPad;
 }
 
 - (void)didReceiveMemoryWarning {
