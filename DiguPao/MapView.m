@@ -32,7 +32,8 @@
         _mapView.showsCompass = YES;
         _mapView.showsBuildings = YES;
         _mapView.showsUserLocation = YES;
-        _mapView.userTrackingMode = MKUserTrackingModeFollowWithHeading;
+        _mapView.scrollEnabled = NO;
+        _mapView.userTrackingMode = MKUserTrackingModeFollow;
         [self addSubview:_mapView];
     }
     
@@ -140,6 +141,7 @@
             userLocation.title = @"";
         }
     }];
+    
 }
 
 // 返回大头针模型
@@ -163,7 +165,7 @@
     // 设置图片
     XRAnnotation * xrAnnotation = (XRAnnotation *)annotation;
     annotationView.image = [UIImage imageNamed:xrAnnotation.icon];
-    
+    annotationView.canShowCallout = NO;
     return annotationView; // 返回自定义大头针
 }
 
@@ -191,5 +193,7 @@
 {
     NSLog(@"点击了大头针");
 }
+
+
 
 @end
