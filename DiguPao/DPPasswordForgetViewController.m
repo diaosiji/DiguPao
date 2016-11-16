@@ -173,8 +173,6 @@
         NSLog(@"手机号OK");
         // 让按钮倒计时60秒
         [self openCountdown];
-         #warning API is developing 参数构建方式可能变化
-        // 这里要调用获取短信验证码的API进行网络通信
         // 根据API和手机号码发送获取短信验证码的网络请求
         // 设置基础url
         NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
