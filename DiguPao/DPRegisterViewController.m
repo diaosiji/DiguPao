@@ -10,6 +10,8 @@
 #import "DPLoginViewController.h"
 #import "AFOAuth2Manager.h"
 
+#warning 界面元素会被键盘遮挡
+
 @interface DPRegisterViewController ()
 
 @end
@@ -27,6 +29,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+// 点击空白键盘消失的方法
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self.view endEditing:YES];
 }
 
 #pragma mark - 界面相关

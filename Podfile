@@ -10,5 +10,6 @@ target 'DiguPao' do
 
   pod 'AFNetworking', '~> 3.0'
   pod 'AFOAuth2Manager', '~> 3.0.0'
+  pod 'MJExtension', '~> 3.0.13'
 
 end

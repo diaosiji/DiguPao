@@ -11,6 +11,7 @@
 #import "UIView+Extension.h"
 #import "DPDropdownMenu.h"
 #import "DPTitleMenuController.h"
+#import "AFOAuth2Manager.h"
 
 @interface DPTableViewController () <DPDropdownMenuDelegate>
 
@@ -23,12 +24,56 @@
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
-    
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
     // 学习使用类来注册Cell 有了这句下面的cellForRowAtIndexPath才能正常运行
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"testCell"];
     
+    // 设置导航栏左中右按钮
+    [self setNavigationBar];
+    
+    // 加载最新的嘀咕
+    [self loadNewStatus];
+    
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - 网络通信方法
+
+// 加载最新的嘀咕方法
+- (void)loadNewStatus {
+    // 获取含accessToken的凭证对象
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    #warning 肯定还需要将地理位置也作为参数发送给服务器 那么还需要学习如何使用框架获取当前位置 宋那里应该可以复用
+    
+    [manager POST:@"/api/v1/unknow" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"获取附近嘀咕API调用成功: %@", responseObject);
+        // 接下来应该是将json数据转化为类对象
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"获取附近嘀咕API调用失败: %@", error);
+        
+    }];
+    
+}
+
+#pragma mark - 控件加载与方法
+
+// 设置导航栏左中右按钮的方法
+- (void)setNavigationBar {
     
     // 设置导航栏左边的按钮
     // 0.初始化一个自定义类型按钮
@@ -82,16 +127,6 @@
     // 监听标题的点击
     [titleButton addTarget:self action:@selector(titleButtonTouched:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.titleView = titleButton;
-    
-    // 加载最新的嘀咕
-    [self loadNewStatus];
-    
-}
-
-// 加载最新的嘀咕方法
-- (void)loadNewStatus {
-    
-    
 }
 
 // 导航栏左边按钮点击方法
@@ -101,7 +136,7 @@
 
 // 导航栏右边按钮点击方法
 - (void)rightButtonTouched {
-    NSLog(@"left");
+    NSLog(@"right");
 }
 
 // 中间标题按钮点击方法
@@ -127,19 +162,13 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - DPDropdownMenuDelegate
 - (void)dropdownMenuDidDismiss:(DPDropdownMenu *)menu {
     // 说明菜单已经被销毁了
-    // 应该讲箭头倒过来
+    // 应该将箭头倒过来
     UIButton *titleButton = (UIButton *)self.navigationItem.titleView;
     titleButton.selected = NO;
-    
-//    [titleButton setImage:[UIImage imageNamed:@"navigationbar_arrow_down"] forState:UIControlStateNormal];
     
 }
 

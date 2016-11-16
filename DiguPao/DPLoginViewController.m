@@ -32,11 +32,20 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     // Do any additional setup after loading the view from its nib.
     [self showUsernameAndPasswordFromKeyChain];
     
+    // 让用户名输入框只显示手机键盘
+    self.userNameField.keyboardType = UIKeyboardTypeNumberPad;
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+// 点击空白键盘消失的方法
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self.view endEditing:YES];
 }
 
 #pragma mark - 界面初始化时调用方法
@@ -60,6 +69,7 @@ NSString * const KEY_PASSWORD = @"com.company.app.password";
     }
     
 }
+
 
 #pragma mark - 输入值有效性判断方法
 

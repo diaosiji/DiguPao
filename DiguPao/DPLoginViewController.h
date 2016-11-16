@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface DPLoginViewController : UIViewController
-// 账户名输入框
+
+/** UITextField 账户名输入框 */
 @property (weak, nonatomic) IBOutlet UITextField *userNameField;
-// 密码输入框
+/** UITextField  密码输入框 */
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 
 @end

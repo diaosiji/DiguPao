@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'CC859918BF1A1A109509DE7B74C46D48'
+               BlueprintIdentifier = '4012D0EEFB73ABF7D252C46CF6762D33'
                BlueprintName = 'Pods-DiguPao'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libPods-DiguPao.a'>

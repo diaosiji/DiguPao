@@ -22,20 +22,21 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="账户（邮箱/手机号）" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="bZZ-ed-jeV">
-                    <rect key="frame" x="44" y="199" width="232" height="30"/>
+                    <rect key="frame" x="44" y="187" width="232" height="30"/>
                     <nil key="textColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="密码（6-12位）" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="u63-7m-3c4">
-                    <rect key="frame" x="44" y="251" width="232" height="30"/>
+                    <rect key="frame" x="44" y="239" width="232" height="30"/>
                     <nil key="textColor"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HlX-cH-NIW">
-                    <rect key="frame" x="44" y="326" width="232" height="30"/>
+                    <rect key="frame" x="44" y="314" width="232" height="32"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="登录">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -44,10 +45,11 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pSM-te-78Q">
-                    <rect key="frame" x="137" y="442" width="46" height="30"/>
+                    <rect key="frame" x="137" y="440" width="46" height="32"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="46" id="DkO-3C-Aba"/>
                     </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="注册"/>
                     <connections>
                         <action selector="registerButtonTouched:" destination="-1" eventType="touchUpInside" id="9dC-Ur-QbC"/>
@@ -63,22 +65,22 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pTH-CT-hRG">
-                    <rect key="frame" x="211" y="294" width="65" height="30"/>
+                    <rect key="frame" x="204" y="280" width="72" height="32"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="65" id="n7R-Xy-PEb"/>
+                        <constraint firstAttribute="width" constant="72" id="n7R-Xy-PEb"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="忘记密码"/>
                     <connections>
                         <action selector="passwordForgetButtonTouched:" destination="-1" eventType="touchUpInside" id="iMe-7y-tMN"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fZ7-eU-Ysg">
-                    <rect key="frame" x="44" y="294" width="112" height="30"/>
+                    <rect key="frame" x="44" y="280" width="124" height="32"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="112" id="PrH-VW-3yg"/>
+                        <constraint firstAttribute="width" constant="124" id="PrH-VW-3yg"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="删除保存的密码"/>
                     <connections>
                         <action selector="deletePasswordButtonTouched:" destination="-1" eventType="touchUpInside" id="4Ej-9v-a9U"/>
@@ -90,7 +92,6 @@
                 <constraint firstItem="HlX-cH-NIW" firstAttribute="top" secondItem="u63-7m-3c4" secondAttribute="bottom" constant="45" id="A2v-ma-6TP"/>
                 <constraint firstItem="SoQ-D8-Vf0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="97" id="ESf-HB-uc2"/>
                 <constraint firstItem="HlX-cH-NIW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="44" id="F93-Nu-3Cc"/>
-                <constraint firstItem="bZZ-ed-jeV" firstAttribute="top" secondItem="SoQ-D8-Vf0" secondAttribute="bottom" constant="71" id="Jtj-OJ-MDj"/>
                 <constraint firstAttribute="trailing" secondItem="HlX-cH-NIW" secondAttribute="trailing" constant="44" id="L6a-fg-5eT"/>
                 <constraint firstItem="pSM-te-78Q" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="O78-Zn-Lfz"/>
                 <constraint firstItem="HlX-cH-NIW" firstAttribute="top" secondItem="fZ7-eU-Ysg" secondAttribute="bottom" constant="2" id="PQc-Or-UIi"/>
@@ -106,8 +107,9 @@
                 <constraint firstItem="pTH-CT-hRG" firstAttribute="trailing" secondItem="HlX-cH-NIW" secondAttribute="trailing" id="ufY-yD-9Gb"/>
                 <constraint firstItem="u63-7m-3c4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="44" id="vw1-nQ-dyp"/>
                 <constraint firstAttribute="trailing" secondItem="u63-7m-3c4" secondAttribute="trailing" constant="44" id="ydd-vL-Q6a"/>
+                <constraint firstItem="bZZ-ed-jeV" firstAttribute="top" secondItem="SoQ-D8-Vf0" secondAttribute="bottom" constant="59" id="ztD-1e-4w6"/>
             </constraints>
-            <point key="canvasLocation" x="-4" y="78"/>
+            <point key="canvasLocation" x="-4.5" y="77.5"/>
         </view>
     </objects>
 </document>
