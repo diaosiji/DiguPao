@@ -24,6 +24,9 @@
     // 设置导航栏
     self.navigationItem.title = @"注册";
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(backButtonTouched)];
+    
+    // 让用户名输入框只显示手机键盘
+    self.phoneNumberField.keyboardType = UIKeyboardTypeNumberPad;
 }
 
 - (void)didReceiveMemoryWarning {

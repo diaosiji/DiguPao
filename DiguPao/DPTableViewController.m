@@ -12,12 +12,29 @@
 #import "DPDropdownMenu.h"
 #import "DPTitleMenuController.h"
 #import "AFOAuth2Manager.h"
+#import "DPStatus.h"
+#import "DPUser.h"
+#import "MJExtension.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface DPTableViewController () <DPDropdownMenuDelegate>
+
+/** NSMutableArray 嘀咕数组 元素是DPStatus模型 一个DPStatus对象代表一个嘀咕 */
+@property (nonatomic, strong) NSMutableArray *statuses;
 
 @end
 
 @implementation DPTableViewController
+
+// 懒加载 使得数组永远不为空
+- (NSMutableArray *)statuses {
+    
+    if (!_statuses) {
+        self.statuses = [[NSMutableArray alloc] init];
+    }
+    return _statuses;
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,7 +45,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     // 学习使用类来注册Cell 有了这句下面的cellForRowAtIndexPath才能正常运行
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"testCell"];
+//    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"testCell"];
     
     // 设置导航栏左中右按钮
     [self setNavigationBar];
@@ -36,11 +53,29 @@
     // 加载最新的嘀咕
     [self loadNewStatus];
     
+    // 继承刷新控件
+    [self setupRefresh];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setupRefresh {
+    
+    UIRefreshControl *control = [[UIRefreshControl alloc] init];
+    // 监听的事件就是control进入了刷新状态
+    [control addTarget:self action:@selector(refreshStateChanged) forControlEvents:UIControlEventValueChanged];
+    
+    [self.tableView addSubview:control];
+}
+
+// 既然控件进入刷新状态那就重新加载数据
+- (void)refreshStateChanged {
+    
+    NSLog(@"refreshStateChanged");
+    [self loadNewStatus];
 }
 
 #pragma mark - 网络通信方法
@@ -50,23 +85,42 @@
     // 获取含accessToken的凭证对象
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
     // 设置基础url
-    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    // 暂时先用iTunes的API代替
+    NSURL *baseURL = [NSURL URLWithString:@"http://itunes.apple.com"];
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
     // 设置参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
     #warning 肯定还需要将地理位置也作为参数发送给服务器 那么还需要学习如何使用框架获取当前位置 宋那里应该可以复用
     
-    [manager POST:@"/api/v1/unknow" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager POST:@"/search?term=duke" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"获取附近嘀咕API调用成功: %@", responseObject);
+        NSLog(@"iTunes搜索API调用成功: %@", responseObject);
         // 接下来应该是将json数据转化为类对象
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        dic = responseObject;
+        // 告诉MJExtension DPStatus类中的results数组中装的对象的类是什么，就是DPUser类
+        [DPStatus mj_setupObjectClassInArray:^NSDictionary *{
+            return @{
+                     @"results" : @"DPUser",
+                     };
+        }];
+        // 使用MJ方法直接将字典转为对象
+        DPStatus *status = [DPStatus mj_objectWithKeyValues:dic];
+        
+        self.statuses = status.results;
+        
+        NSLog(@"DPStatus的个数:%@", status.resultCount);
+        
+        [self.tableView reloadData];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
-        NSLog(@"获取附近嘀咕API调用失败: %@", error);
+        NSLog(@"iTunes搜索API调用失败: %@", error);
         
     }];
+    
+    
     
 }
 
@@ -182,22 +236,49 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    return 1;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//
+//    return 1;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 20;
+    return self.statuses.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"testCell" forIndexPath:indexPath];
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"testCell" forIndexPath:indexPath];
+//    
+//    // Configure the cell...
+//    // 取出模型
+//    DPUser * user = self.statuses[indexPath.row];
+//    
+//    // 设置cell
+//    
+//    cell.textLabel.text = @"test";
+//    cell.detailTextLabel.text = @"试一试";
+//    
+//    return cell;
     
-    // Configure the cell...
-    cell.textLabel.text = @"text";
+    // 另一种循环利用方法
+    // 被static修饰的局部变量：只会初始化一次，在整个程序运行过程中，只有一份内存
+    static NSString *ID = @"cell";
+    
+    // 先根据cell的标识去缓存池中查找可循环利用的cell
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    
+    // 如果cell为nil（缓存池找不到对应的cell）
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+    }
+    
+    // 取出模型
+    DPUser * user = self.statuses[indexPath.row];
+
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:user.artworkUrl100] placeholderImage:[UIImage imageNamed:@"avatar_default_small"] options:SDWebImageRefreshCached];
+    cell.textLabel.text = user.artistName;
+    cell.detailTextLabel.text = user.artworkUrl100;
     
     return cell;
 }

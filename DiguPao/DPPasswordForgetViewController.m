@@ -30,7 +30,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#warning 需要有点击空白键盘消失的方法
+// 需要有点击空白键盘消失的方法
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     
     [self.view endEditing:YES];
