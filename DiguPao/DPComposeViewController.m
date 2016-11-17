@@ -91,9 +91,20 @@
 
 // 发送嘀咕方法
 - (void)compose {
+    // 获取地理位置
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    double latitude = [user doubleForKey:@"latitude"];
+    double longtitude = [user doubleForKey:@"longtitude"];
     
-    NSLog(@"%@", self.textView.text);
-    [self dismissViewControllerAnimated:YES completion:nil];
+    NSString *composeString = [NSString stringWithFormat:@"Compose with text:%@ latitude:%f,longtitude:%f",self.textView.text, latitude, longtitude];
+    
+    UIAlertController *alert = [UIAlertController  alertControllerWithTitle:@"发嘀咕" message:composeString preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
+    
+//    NSLog(@"Compose with text:%@ latitude:%f,longtitude:%f",self.textView.text, latitude,longtitude);
+    
 }
 
 // 导航栏左边取消按钮
