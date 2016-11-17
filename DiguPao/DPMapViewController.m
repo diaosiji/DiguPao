@@ -2,7 +2,7 @@
 //  DPMapViewController.m
 //  DiguPao
 //
-//  Created by 屌斯基 on 2016/11/9.
+//  Created by Flood Sung on 2016/11/9.
 //  Copyright © 2016年 intelligentunit. All rights reserved.
 //
 
@@ -68,6 +68,16 @@
 - (void) mapViewDidFailLoadingMap:(MKMapView *)mapView withError:(NSError *)error
 {
     NSLog(@"DidFailLoadingMap%@",error);
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    double latitude = [user doubleForKey:@"latitude"];
+    double longtitude = [user doubleForKey:@"longtitude"];
+    
+    NSLog(@"latitude:%f,longtitude:%f",latitude,longtitude);
+    
 }
 
 
