@@ -192,6 +192,14 @@
     
     __weak __typeof(self) weakSelf = self;
     NSLog(@"latatude: %lf, longitatude: %lf 方向： %@", location.coordinate.latitude, location.coordinate.longitude, directionString);
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    [user setDouble:location.coordinate.latitude forKey:@"latitude"];
+    [user setDouble:location.coordinate.longitude forKey:@"longtitude"];
+    
+    [user synchronize];
+    
+    
     NSLog(@"speed: %lf", location.speed);
     [self reverseGeocoderWithLocation:location complation:^(CLPlacemark *placeMark, NSError *error) {
         if (!error) {
