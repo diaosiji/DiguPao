@@ -16,6 +16,9 @@
 
 @implementation DPTabBar
 
+// 这里不写DGTabBar.h中的代理属性会警告
+@dynamic delegate;
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -38,6 +41,8 @@
         [plusButton setImage:[UIImage imageNamed:@"tabbar_compose_icon_add_highlighted"] forState:UIControlStateHighlighted];
         // 设置按钮尺寸 用到UIView的分类
         plusButton.size = plusButton.currentBackgroundImage.size;
+        // 监听点击按钮的动作
+        [plusButton addTarget:self action:@selector(plusClick) forControlEvents:UIControlEventTouchUpInside];
         // 添加按钮
         [self addSubview:plusButton];
         // 赋值给属性
@@ -46,6 +51,14 @@
     }
     
     return self;
+}
+
+// 点击发嘀咕加号按钮的方法
+- (void)plusClick {
+    
+    if ([self.delegate respondsToSelector:@selector(tabBarDidClickPlusButton:)]) {
+        [self.delegate tabBarDidClickPlusButton:self];
+    }
 }
 
 - (void)layoutSubviews {

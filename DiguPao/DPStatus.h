@@ -10,4 +10,9 @@
 
 @interface DPStatus : NSObject
 
+/** NSString 返回结果数 */
+@property (nonatomic, strong) NSString *resultCount;
+/** NSMutableArray 数组中装的是返回结果 */
+@property (nonatomic, strong) NSMutableArray *results;
+
 @end

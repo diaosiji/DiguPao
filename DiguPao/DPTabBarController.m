@@ -12,8 +12,9 @@
 #import "DPTableViewController.h"
 #import "DPMapViewController.h"
 #import "AFOAuth2Manager.h"
+#import "DPComposeViewController.h"
 
-@interface DPTabBarController ()
+@interface DPTabBarController () <DPTabBarDelegate>
 
 @end
 
@@ -36,7 +37,10 @@
     
     // 更换控制器的TabBar
     // self.tabBar = [[DPTabBar alloc] init]; // 报错 是只读属性
-    [self setValue:[[DPTabBar alloc] init] forKeyPath:@"tabBar"];
+    DPTabBar *tabBar = [[DPTabBar alloc] init];
+    tabBar.delegate = self;//注意不能放到KVC后面
+    
+    [self setValue:tabBar forKeyPath:@"tabBar"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,6 +77,16 @@
     // 添加子控制器
     [self addChildViewController:nav];
     
+}
+
+#pragma mark - DGTabBarDelegate代理方法
+- (void)tabBarDidClickPlusButton:(DPTabBar *)tabBar {
+    
+    DPComposeViewController *compose = [[DPComposeViewController alloc] init];
+    
+    DPNavigationController *navigation = [[DPNavigationController alloc] initWithRootViewController:compose];
+    
+    [self presentViewController:navigation animated:YES completion:nil];
 }
 
 

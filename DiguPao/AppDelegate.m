@@ -12,6 +12,7 @@
 #import "DPNewFeatureViewController.h"
 #import "UIWindow+Extension.h"
 #import "AFOAuth2Manager.h"
+#import "SDWebImageManager.h"
 
 @interface AppDelegate ()
 
@@ -31,7 +32,7 @@
     //DPTabBarController *tabVC = [[DPTabBarController alloc] init];
     //DPLoginViewController *login = [[DPLoginViewController alloc] init];
     //DPNewFeatureViewController *new = [[DPNewFeatureViewController alloc] init];
-    //self.window.rootViewController = new;
+    //self.window.rootViewController = tabVC;
     
     
     // 首先判断应用中是否有accessToken 使用AFOAuth2Manager的retrieveCredentialWithIdentifier方法 从钥匙串中取出凭证对象
@@ -54,6 +55,17 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+// 使用SDWebImage库的方法 在图片导致内存过多时清除图片并取消图片下载
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+    
+    SDWebImageManager *manager = [SDWebImageManager sharedManager];
+    // 取消下载
+    [manager cancelAll];
+    // 清空内存
+    [manager.imageCache clearMemory];
+    
 }
 
 

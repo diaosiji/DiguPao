@@ -17,17 +17,22 @@ PODS:
   - AFOAuth2Manager (3.0.0):
     - AFNetworking/NSURLSession (~> 3.0)
   - MJExtension (3.0.13)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - AFOAuth2Manager (~> 3.0.0)
   - MJExtension (~> 3.0.13)
+  - SDWebImage (~> 3.8)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AFOAuth2Manager: 0566da1be64883e339813d411229fdc9a84dab7c
   MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
-PODFILE CHECKSUM: 0e070727f1e62c30bb0e33c4b6390afa96374c2a
+PODFILE CHECKSUM: d5edf7e4ff7195c2eafa52f9378341086e23efde
 
 COCOAPODS: 1.0.1
