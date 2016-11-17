@@ -10,6 +10,7 @@
 		361565C61DDC3CF2003802C9 /* DPUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 361565C51DDC3CF1003802C9 /* DPUser.m */; };
 		361565C91DDC3D1C003802C9 /* DPStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 361565C81DDC3D1C003802C9 /* DPStatus.m */; };
 		36180EF91DDD308F00514749 /* DPTextViw.m in Sources */ = {isa = PBXBuildFile; fileRef = 36180EF81DDD308F00514749 /* DPTextViw.m */; };
+		36180EFC1DDD8C7000514749 /* DPComposeToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */; };
 		36574E441DD2AB6400319BC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E431DD2AB6400319BC8 /* main.m */; };
 		36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E461DD2AB6400319BC8 /* AppDelegate.m */; };
 		36574E4F1DD2AB6400319BC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36574E4E1DD2AB6400319BC8 /* Assets.xcassets */; };
@@ -52,6 +53,8 @@
 		361565C81DDC3D1C003802C9 /* DPStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPStatus.m; sourceTree = "<group>"; };
 		36180EF71DDD308F00514749 /* DPTextViw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTextViw.h; sourceTree = "<group>"; };
 		36180EF81DDD308F00514749 /* DPTextViw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTextViw.m; sourceTree = "<group>"; };
+		36180EFA1DDD8C7000514749 /* DPComposeToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPComposeToolbar.h; sourceTree = "<group>"; };
+		36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPComposeToolbar.m; sourceTree = "<group>"; };
 		36574E3F1DD2AB6400319BC8 /* DiguPao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiguPao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36574E431DD2AB6400319BC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		36574E451DD2AB6400319BC8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -125,6 +128,8 @@
 			children = (
 				36180EF71DDD308F00514749 /* DPTextViw.h */,
 				36180EF81DDD308F00514749 /* DPTextViw.m */,
+				36180EFA1DDD8C7000514749 /* DPComposeToolbar.h */,
+				36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -437,7 +442,7 @@
 				TargetAttributes = {
 					36574E3E1DD2AB6400319BC8 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = RZGSSCAQVM;
+						DevelopmentTeam = A56MTA89R5;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -538,6 +543,7 @@
 				36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */,
 				36574E9A1DD2CAD100319BC8 /* DPRegisterViewController.m in Sources */,
 				36574E5B1DD2AC4000319BC8 /* DPTabBarController.m in Sources */,
+				36180EFC1DDD8C7000514749 /* DPComposeToolbar.m in Sources */,
 				36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */,
 				36574E671DD2B0A500319BC8 /* DPTabBar.m in Sources */,
 				36574E721DD2B25700319BC8 /* DPMapViewController.m in Sources */,
@@ -669,7 +675,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
-				DEVELOPMENT_TEAM = RZGSSCAQVM;
+				DEVELOPMENT_TEAM = A56MTA89R5;
 				INFOPLIST_FILE = DiguPao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.idiguer.cn.DiguPao;
@@ -683,7 +689,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
-				DEVELOPMENT_TEAM = RZGSSCAQVM;
+				DEVELOPMENT_TEAM = A56MTA89R5;
 				INFOPLIST_FILE = DiguPao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.idiguer.cn.DiguPao;

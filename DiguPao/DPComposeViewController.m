@@ -8,6 +8,9 @@
 
 #import "DPComposeViewController.h"
 #import "DPTextViw.h"
+#import "DPComposeToolbar.h"
+#import "UIView+Extension.h"
+#import "AFOAuth2Manager.h"
 
 @interface DPComposeViewController ()
 
@@ -32,11 +35,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    // 设置导航栏
     [self setupNavigationBar];
-    
+    // 添加输入控件
     [self setupTextView];
-    
+    // 添加工具条
+    [self setupToolbar];
     
 }
 
@@ -51,6 +55,17 @@
 }
 
 #pragma -mark 初始化方法
+// 添加工具条
+- (void)setupToolbar {
+    
+    DPComposeToolbar *toolbar = [[DPComposeToolbar alloc] init];
+    toolbar.width = self.view.width;
+    toolbar.height = 44;
+    // inputView是设置键盘
+//    self.textView.inputView = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    // 设置显示在键盘顶部的内容
+    self.textView.inputAccessoryView = toolbar;
+}
 
 // 设置导航栏部分
 - (void)setupNavigationBar {
@@ -88,22 +103,56 @@
     self.navigationItem.rightBarButtonItem.enabled = self.textView.hasText;
 }
 
-
 // 发送嘀咕方法
 - (void)compose {
     // 获取地理位置
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    double latitude = [user doubleForKey:@"latitude"];
-    double longtitude = [user doubleForKey:@"longtitude"];
+    double latitudeDouble = [user doubleForKey:@"latitude"];
+    double longtitudeDouble = [user doubleForKey:@"longtitude"];
+//    NSNumber *latitude = [NSNumber numberWithDouble:latitudeDouble];
+//    NSNumber *longtitude = [NSNumber numberWithDouble:longtitudeDouble];
+    NSString *latitude = [NSString stringWithFormat:@"%f", latitudeDouble];
+    NSString *longtitude = [NSString stringWithFormat:@"%f", longtitudeDouble];
     
-    NSString *composeString = [NSString stringWithFormat:@"Compose with text:%@ latitude:%f,longtitude:%f",self.textView.text, latitude, longtitude];
+    // 获取token凭证
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 构建字符串
+    NSLog(@"Compose with text:%@ latitude:%f,longtitude:%f",self.textView.text, latitudeDouble,longtitudeDouble);
+    // 发起网络请求
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"access_token"] = credential.accessToken;
+    params[@"text"] = self.textView.text;
+    params[@"latitude"] = latitude;
+    params[@"longitude"]= longtitude;
+    // 发起请求
+    [manager POST:@"/api/v1/paopaos" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"发送嘀咕API调用成功: %@", responseObject);
+        // 弹窗提示成功
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"发送成功" message:@"发送嘀咕API调用成功" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新输入" style:UIAlertActionStyleDefault handler:nil];
+        [alert addAction:ensureAction];
+        [self presentViewController:alert animated:YES completion:nil];
+
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"发送嘀咕API调用失败: %@", error);
+        // 弹框提示失败
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"发送失败" message:@"发送嘀咕API调用失败" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新输入" style:UIAlertActionStyleDefault handler:nil];
+        [alert addAction:ensureAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }];
+
     
-    UIAlertController *alert = [UIAlertController  alertControllerWithTitle:@"发嘀咕" message:composeString preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:nil];
-    [alert addAction:action];
-    [self presentViewController:alert animated:YES completion:nil];
     
-//    NSLog(@"Compose with text:%@ latitude:%f,longtitude:%f",self.textView.text, latitude,longtitude);
+    
     
 }
 
