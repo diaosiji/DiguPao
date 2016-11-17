@@ -10,7 +10,6 @@
 #import "DPLoginViewController.h"
 #import "AFOAuth2Manager.h"
 
-#warning 界面元素会被键盘遮挡
 
 @interface DPRegisterViewController ()
 
@@ -194,7 +193,6 @@
         // 根据API和手机号码发送获取短信验证码的网络请求
         // warning 暂时不能获取短信，约定有效的短信验证码为00+月+日:比如001114
         // 设置基础url
-        #warning API is developing 参数构建方式可能变化
         NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
         AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
         // 设置参数
@@ -246,7 +244,6 @@
         NSLog(@"有效的注册信息");
 
         // 根据注册API和手机号码、有效密码、短信验证码和昵称参数 发起注册请求
-         #warning API is developing
         NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
         AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
         // 设置参数

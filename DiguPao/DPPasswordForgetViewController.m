@@ -219,7 +219,6 @@
     NSString *code = self.messageIdentificationField.text;
     
     if ([password isEqualToString:repeatPassword] && [self isValidatePassword:password]) {
-         #warning API is developing
         // 发起网络请求
         // 如果网络返回成功就返回登录界面重新登录
         // 网络请求yet

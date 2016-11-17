@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		361565C61DDC3CF2003802C9 /* DPUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 361565C51DDC3CF1003802C9 /* DPUser.m */; };
 		361565C91DDC3D1C003802C9 /* DPStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 361565C81DDC3D1C003802C9 /* DPStatus.m */; };
+		36180EF91DDD308F00514749 /* DPTextViw.m in Sources */ = {isa = PBXBuildFile; fileRef = 36180EF81DDD308F00514749 /* DPTextViw.m */; };
 		36574E441DD2AB6400319BC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E431DD2AB6400319BC8 /* main.m */; };
 		36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E461DD2AB6400319BC8 /* AppDelegate.m */; };
 		36574E4F1DD2AB6400319BC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36574E4E1DD2AB6400319BC8 /* Assets.xcassets */; };
@@ -49,6 +50,8 @@
 		361565C51DDC3CF1003802C9 /* DPUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPUser.m; sourceTree = "<group>"; };
 		361565C71DDC3D1C003802C9 /* DPStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPStatus.h; sourceTree = "<group>"; };
 		361565C81DDC3D1C003802C9 /* DPStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPStatus.m; sourceTree = "<group>"; };
+		36180EF71DDD308F00514749 /* DPTextViw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPTextViw.h; sourceTree = "<group>"; };
+		36180EF81DDD308F00514749 /* DPTextViw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTextViw.m; sourceTree = "<group>"; };
 		36574E3F1DD2AB6400319BC8 /* DiguPao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiguPao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36574E431DD2AB6400319BC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		36574E451DD2AB6400319BC8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -117,6 +120,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36180EF61DDD307300514749 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				36180EF71DDD308F00514749 /* DPTextViw.h */,
+				36180EF81DDD308F00514749 /* DPTextViw.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		36574E361DD2AB6400319BC8 = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +362,7 @@
 		365D0B3E1DDC9B7900210FE4 /* Compose */ = {
 			isa = PBXGroup;
 			children = (
+				36180EF61DDD307300514749 /* View */,
 				365D0B3F1DDC9B9800210FE4 /* Controller */,
 			);
 			name = Compose;
@@ -534,6 +547,7 @@
 				445E7D871DDAEA2F00D17A2D /* XRAnnotation.m in Sources */,
 				36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */,
 				365D0B421DDC9BC100210FE4 /* DPComposeViewController.m in Sources */,
+				36180EF91DDD308F00514749 /* DPTextViw.m in Sources */,
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
 				361565C61DDC3CF2003802C9 /* DPUser.m in Sources */,
 				36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */,
