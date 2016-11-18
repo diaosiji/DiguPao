@@ -11,10 +11,24 @@
 #import "DPComposeToolbar.h"
 #import "UIView+Extension.h"
 #import "AFOAuth2Manager.h"
+#import "MBProgressHUD.h"
+#import "DPComposeAlbumView.h"
 
-@interface DPComposeViewController ()
 
+//UINavigationControllerDelegate, UIImagePickerControllerDelegate两个代理都是为打开相机和打开相册服务的，必须同时声明代理
+
+@interface DPComposeViewController () <UITextViewDelegate, DPComposeToolBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+
+/** 输入控件 */
 @property (nonatomic, strong) DPTextViw *textView;
+/** 键盘顶部工具条 */
+@property (nonatomic, weak) DPComposeToolbar *toolBar;
+///** 存放拍照或者从相册中选择的图片 */
+@property (nonatomic, weak) DPComposeAlbumView *albumView;
+///** 表情键盘 */
+//@property (nonatomic, weak) DGEmotionKeyboard *emotionKeyboard;
+/** 是否正在切换键盘 */
+@property (nonatomic, assign) BOOL switchingKeyboard;
 
 @end
 
@@ -41,7 +55,15 @@
     [self setupTextView];
     // 添加工具条
     [self setupToolbar];
+    // 添加相册
+    [self setupAlbumView];
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self.textView becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,10 +83,15 @@
     DPComposeToolbar *toolbar = [[DPComposeToolbar alloc] init];
     toolbar.width = self.view.width;
     toolbar.height = 44;
+    toolbar.y = self.view.height - toolbar.height;
+    // 让工具条的代理是控制器自己 这样就可以实现点击按钮的代理方法
+    toolbar.delegate = self;
+    [self.view addSubview:toolbar];
     // inputView是设置键盘
 //    self.textView.inputView = [UIButton buttonWithType:UIButtonTypeContactAdd];
     // 设置显示在键盘顶部的内容
-    self.textView.inputAccessoryView = toolbar;
+//    self.textView.inputAccessoryView = toolbar;
+    self.toolBar = toolbar;
 }
 
 // 设置导航栏部分
@@ -82,17 +109,38 @@
 - (void)setupTextView {
     // 在此控制器中 textView的contentInset.top默认为64
     DPTextViw *textView = [[DPTextViw alloc] init];
-    
+    // 垂直方向上可以拖动 使得占位符可以下托
+    textView.alwaysBounceVertical = YES;
     textView.frame = self.view.bounds;
     textView.font = [UIFont systemFontOfSize:16];
     textView.placeholder = @"嘀咕一下...";
     textView.placeholderColor = [UIColor grayColor];
+    // 为了实现下拉时键盘退下
+    textView.delegate = self;
     
     [self.view addSubview:textView];
     self.textView = textView;
+    // 出现就调出键盘
+    [textView becomeFirstResponder];
     
     // 监听文字改变
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange) name:UITextViewTextDidChangeNotification object:textView];
+    // 监听键盘通知 实现工具条随着键盘运动且不消失
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
+    
+}
+
+// 添加相册
+- (void)setupAlbumView {
+    
+    DPComposeAlbumView *albumView = [[DPComposeAlbumView alloc] init];
+    albumView.width = self.view.width;
+    albumView.height = self.view.height; //随便写的 容纳图片即可
+    albumView.y = 120;
+//    albumView.backgroundColor = [UIColor blueColor];
+    //photosView.backgroundColor = DGRandomColor;
+    [self.textView addSubview:albumView];
+    self.albumView = albumView;
     
 }
 
@@ -132,28 +180,20 @@
     [manager POST:@"/api/v1/paopaos" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSLog(@"发送嘀咕API调用成功: %@", responseObject);
-        // 弹窗提示成功
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"发送成功" message:@"发送嘀咕API调用成功" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新输入" style:UIAlertActionStyleDefault handler:nil];
-        [alert addAction:ensureAction];
-        [self presentViewController:alert animated:YES completion:nil];
+        // 显示HUD提示成功
+        [self showComposeSuccessHUD];
+        
 
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         NSLog(@"发送嘀咕API调用失败: %@", error);
-        // 弹框提示失败
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"发送失败" message:@"发送嘀咕API调用失败" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *ensureAction = [UIAlertAction actionWithTitle:@"重新输入" style:UIAlertActionStyleDefault handler:nil];
-        [alert addAction:ensureAction];
-        [self presentViewController:alert animated:YES completion:nil];
+        // 显示HUD提示失败
+        [self showComposeFailureHUD];
         
     }];
+    [self dismissViewControllerAnimated:YES completion:nil];
 
-    
-    
-    
-    
 }
 
 // 导航栏左边取消按钮
@@ -162,6 +202,180 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+// 利用MBProgressHUD制作的显示通知的方法
+- (void)showHUD:(NSString *)text icon:(NSString *)icon view:(UIView *)view {
+    
+    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    // 快速显示一个提示信息
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.label.text = text;
+    // 设置图片
+    UIImage *image = [[UIImage imageNamed:icon] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    hud.customView = [[UIImageView alloc] initWithImage:image];
+    // 再设置模式
+    hud.mode = MBProgressHUDModeCustomView;
+    
+    // 隐藏时候从父控件中移除
+    hud.removeFromSuperViewOnHide = YES;
+    
+    // 1秒之后再消失
+    [hud hideAnimated:YES afterDelay:1.0];
+}
 
+// 显示发送成功
+- (void)showComposeSuccessHUD {
+    
+    [self showHUD:@"发送成功" icon:@"Checkmark" view:nil];
+}
+// 显示发送失败
+- (void)showComposeFailureHUD {
+    
+    [self showHUD:@"发送失败" icon:nil view:nil];
+}
+
+#pragma mark - UITextViewDelegate方法
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    
+    [self.view endEditing:YES];
+}
+
+// 监听键盘改变(显示和隐藏) 用于实现工具条随着键盘出现 键盘消失后工具条留着
+- (void)keyboardWillChangeFrame:(NSNotification *)notification {
+    // 如果正在切换键盘就不要执行后面代码 保持工具条y值
+    if (self.switchingKeyboard) return;
+    
+    //DGLog(@"%@", notification);
+    NSDictionary *userInfo = notification.userInfo;
+    // 键盘隐藏/弹出耗费时间 0.25s
+    double duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    // 键盘隐藏/弹出后的frame
+    CGRect keyboardFrame = [userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    // 执行动画
+    [UIView animateWithDuration:duration animations:^{
+        // 工具条Y值始终等于键盘Y减去工具条高度
+        if (keyboardFrame.origin.y > self.view.height) {//防止键盘Y值超过控制器高度
+            self.toolBar.y = self.view.height - self.toolBar.height;
+        } else {
+            self.toolBar.y = keyboardFrame.origin.y - self.toolBar.height;
+        }
+    }];
+    
+}
+
+#pragma mark - DPComposeToolBarDelegate方法
+
+- (void)composeToolBar:(DPComposeToolbar *)toolBar didClickButton:(DPComposeToolBarButtonType)buttonType {
+    switch (buttonType) {
+        case DPComposeToolBarButtonTypeCamera:
+            NSLog(@"拍照");
+            [self openCamera];
+            break;
+            
+        case DPComposeToolBarButtonTypePicture:
+            NSLog(@"相册");
+            [self openAlbum];
+            break;
+            
+        case DPComposeToolBarButtonTypeMention:
+            NSLog(@"@");
+            break;
+            
+        case DPComposeToolBarButtonTypeTrend:
+            NSLog(@"#");
+            //[self showComposeFailureHUD];
+            break;
+            
+        case DPComposeToolBarButtonTypeEmotion:
+//            [self switchKeyboard];
+            break;
+            
+    }
+
+    
+}
+
+#pragma mark - 工具条按钮点击方法
+
+//- (void)switchKeyboard {
+//    
+//    //self.textView.inputView == nil 使用的是系统自带键盘
+//    if (self.textView.inputView == nil) {// 如果使用的是系统自带键盘
+//        DGEmotionKeyboard *emotionKeyboard = [[DGEmotionKeyboard alloc] init];
+//        emotionKeyboard.width = self.view.width;
+//        emotionKeyboard.height = 216 + 44;  //键盘标准高度
+//        self.textView.inputView = emotionKeyboard;
+//        // 显按钮图片
+//        self.toolBar.showEmotionButton = NO;
+//    } else {// 使用的是系统自带键盘
+//        self.textView.inputView = nil;
+//        self.toolBar.showEmotionButton = YES;
+//    }
+//    // 开始切换键盘
+//    self.switchingKeyboard = YES;
+//    
+//    // 推出键盘
+//    [self.textView endEditing:YES];
+//    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        // 弹出键盘
+//        [self.textView becomeFirstResponder];
+//        // 结束切换键盘
+//        self.switchingKeyboard = NO;
+//    });
+//}
+
+
+- (void)openCamera {
+    
+    //如果想自己写图片选择器，要利用AssetsLibrary框架 利用框架可以获得手机上所有图片
+    // 如果相机不可用 返回
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) return;
+    
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    imagePickerController.delegate = self;
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+    
+}
+
+- (void)openAlbum {
+    // 如果想自己写图片选择控制器 得利用AssetsLibrary.framework 可获得手机上所有图片
+    //UIImagePickerControllerSourceTypePhotoLibrary > UIImagePickerControllerSourceTypeSavedPhotosAlbum
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) return;
+    
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePickerController.delegate = self;
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+    
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+// 从UIImagePickerController拍照完毕和选择相册完毕调用该方法
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    // info中包含了选择的图片
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    // 添加图片到photosView中
+    [self.albumView addPhoto:image];
+    
+}
 
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+

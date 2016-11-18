@@ -39,6 +39,10 @@
 	<string>我们将要使用您的定位功能，请点击允许。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>我们将要使用您的定位功能，请点击允许。</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) photo use</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) camera use</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>

@@ -91,7 +91,6 @@
     // 设置参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
-    #warning 肯定还需要将地理位置也作为参数发送给服务器 那么还需要学习如何使用框架获取当前位置 宋那里应该可以复用
     
     [manager POST:@"/search?term=duke" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
