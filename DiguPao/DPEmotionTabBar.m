@@ -38,10 +38,7 @@
     [button setTitle:title forState:UIControlStateNormal];
     button.tag = buttonType;
     [self addSubview:button];
-    // 实现默认按钮初始被选中
-    if (buttonType == DPEmotionTabBarButtonTypeDefault) {
-        [self buttonClicked:button];
-    }
+    
     
     // 添加监听方法 实现按下后颜色改变保持
     [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchDown]; // 注意是UIControlEventTouchDown
@@ -90,6 +87,16 @@
         button.height = buttonHeight;
         button.x = i * buttonWidth;
     }
+    
+}
+
+- (void)setDelegate:(id<DPEmotionTabBarDelegate>)delegate {
+    
+    _delegate = delegate;
+    // 实现默认按钮初始被选中
+    // 利用tag来找到默认按钮
+    [self buttonClicked:[self viewWithTag:DPEmotionTabBarButtonTypeDefault]];
+    
     
 }
 

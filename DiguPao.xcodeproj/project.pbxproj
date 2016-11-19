@@ -17,6 +17,7 @@
 		363F3BF11DDF3338001F466C /* DPEmotionListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BF01DDF3338001F466C /* DPEmotionListView.m */; };
 		365169181DDFDFF6008D0A4C /* DPEmotionTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 365169171DDFDFF6008D0A4C /* DPEmotionTabBarButton.m */; };
 		3651691A1DE008C0008D0A4C /* EmotionIcons in Resources */ = {isa = PBXBuildFile; fileRef = 365169191DE008C0008D0A4C /* EmotionIcons */; };
+		3651691E1DE05B84008D0A4C /* DPEmotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651691D1DE05B84008D0A4C /* DPEmotion.m */; };
 		36574E441DD2AB6400319BC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E431DD2AB6400319BC8 /* main.m */; };
 		36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E461DD2AB6400319BC8 /* AppDelegate.m */; };
 		36574E4F1DD2AB6400319BC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36574E4E1DD2AB6400319BC8 /* Assets.xcassets */; };
@@ -71,6 +72,8 @@
 		365169161DDFDFF6008D0A4C /* DPEmotionTabBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionTabBarButton.h; sourceTree = "<group>"; };
 		365169171DDFDFF6008D0A4C /* DPEmotionTabBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionTabBarButton.m; sourceTree = "<group>"; };
 		365169191DE008C0008D0A4C /* EmotionIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EmotionIcons; sourceTree = "<group>"; };
+		3651691C1DE05B84008D0A4C /* DPEmotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotion.h; sourceTree = "<group>"; };
+		3651691D1DE05B84008D0A4C /* DPEmotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotion.m; sourceTree = "<group>"; };
 		36574E3F1DD2AB6400319BC8 /* DiguPao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiguPao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36574E431DD2AB6400319BC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		36574E451DD2AB6400319BC8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -159,6 +162,15 @@
 				363F3BF01DDF3338001F466C /* DPEmotionListView.m */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		3651691B1DE05B52008D0A4C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3651691C1DE05B84008D0A4C /* DPEmotion.h */,
+				3651691D1DE05B84008D0A4C /* DPEmotion.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		36574E361DD2AB6400319BC8 = {
@@ -395,6 +407,7 @@
 		365D0B3E1DDC9B7900210FE4 /* Compose */ = {
 			isa = PBXGroup;
 			children = (
+				3651691B1DE05B52008D0A4C /* Model */,
 				36180EF61DDD307300514749 /* View */,
 				365D0B3F1DDC9B9800210FE4 /* Controller */,
 			);
@@ -569,6 +582,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				36574E641DD2AF8400319BC8 /* DPNavigationController.m in Sources */,
+				3651691E1DE05B84008D0A4C /* DPEmotion.m in Sources */,
 				36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */,
 				36574E9A1DD2CAD100319BC8 /* DPRegisterViewController.m in Sources */,
 				365169181DDFDFF6008D0A4C /* DPEmotionTabBarButton.m in Sources */,
