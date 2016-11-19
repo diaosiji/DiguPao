@@ -12,6 +12,11 @@
 		36180EF91DDD308F00514749 /* DPTextViw.m in Sources */ = {isa = PBXBuildFile; fileRef = 36180EF81DDD308F00514749 /* DPTextViw.m */; };
 		36180EFC1DDD8C7000514749 /* DPComposeToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */; };
 		363F3BE81DDEB20B001F466C /* DPComposeAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BE71DDEB20B001F466C /* DPComposeAlbumView.m */; };
+		363F3BEB1DDF3038001F466C /* DPEmotionKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BEA1DDF3038001F466C /* DPEmotionKeyboard.m */; };
+		363F3BEE1DDF3248001F466C /* DPEmotionTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BED1DDF3248001F466C /* DPEmotionTabBar.m */; };
+		363F3BF11DDF3338001F466C /* DPEmotionListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BF01DDF3338001F466C /* DPEmotionListView.m */; };
+		365169181DDFDFF6008D0A4C /* DPEmotionTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 365169171DDFDFF6008D0A4C /* DPEmotionTabBarButton.m */; };
+		3651691A1DE008C0008D0A4C /* EmotionIcons in Resources */ = {isa = PBXBuildFile; fileRef = 365169191DE008C0008D0A4C /* EmotionIcons */; };
 		36574E441DD2AB6400319BC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E431DD2AB6400319BC8 /* main.m */; };
 		36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E461DD2AB6400319BC8 /* AppDelegate.m */; };
 		36574E4F1DD2AB6400319BC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36574E4E1DD2AB6400319BC8 /* Assets.xcassets */; };
@@ -57,6 +62,15 @@
 		36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPComposeToolbar.m; sourceTree = "<group>"; };
 		363F3BE61DDEB20B001F466C /* DPComposeAlbumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPComposeAlbumView.h; sourceTree = "<group>"; };
 		363F3BE71DDEB20B001F466C /* DPComposeAlbumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPComposeAlbumView.m; sourceTree = "<group>"; };
+		363F3BE91DDF3038001F466C /* DPEmotionKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionKeyboard.h; sourceTree = "<group>"; };
+		363F3BEA1DDF3038001F466C /* DPEmotionKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionKeyboard.m; sourceTree = "<group>"; };
+		363F3BEC1DDF3248001F466C /* DPEmotionTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionTabBar.h; sourceTree = "<group>"; };
+		363F3BED1DDF3248001F466C /* DPEmotionTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionTabBar.m; sourceTree = "<group>"; };
+		363F3BEF1DDF3338001F466C /* DPEmotionListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionListView.h; sourceTree = "<group>"; };
+		363F3BF01DDF3338001F466C /* DPEmotionListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionListView.m; sourceTree = "<group>"; };
+		365169161DDFDFF6008D0A4C /* DPEmotionTabBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionTabBarButton.h; sourceTree = "<group>"; };
+		365169171DDFDFF6008D0A4C /* DPEmotionTabBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionTabBarButton.m; sourceTree = "<group>"; };
+		365169191DE008C0008D0A4C /* EmotionIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EmotionIcons; sourceTree = "<group>"; };
 		36574E3F1DD2AB6400319BC8 /* DiguPao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiguPao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36574E431DD2AB6400319BC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		36574E451DD2AB6400319BC8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -135,6 +149,14 @@
 				36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */,
 				363F3BE61DDEB20B001F466C /* DPComposeAlbumView.h */,
 				363F3BE71DDEB20B001F466C /* DPComposeAlbumView.m */,
+				363F3BE91DDF3038001F466C /* DPEmotionKeyboard.h */,
+				363F3BEA1DDF3038001F466C /* DPEmotionKeyboard.m */,
+				363F3BEC1DDF3248001F466C /* DPEmotionTabBar.h */,
+				363F3BED1DDF3248001F466C /* DPEmotionTabBar.m */,
+				365169161DDFDFF6008D0A4C /* DPEmotionTabBarButton.h */,
+				365169171DDFDFF6008D0A4C /* DPEmotionTabBarButton.m */,
+				363F3BEF1DDF3338001F466C /* DPEmotionListView.h */,
+				363F3BF01DDF3338001F466C /* DPEmotionListView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -162,9 +184,6 @@
 			children = (
 				36574E8A1DD2C1CE00319BC8 /* DiguPao.entitlements */,
 				36574E781DD2B4BE00319BC8 /* Classes */,
-				36574E4E1DD2AB6400319BC8 /* Assets.xcassets */,
-				36574E501DD2AB6400319BC8 /* LaunchScreen.storyboard */,
-				36574E531DD2AB6400319BC8 /* Info.plist */,
 				36574E421DD2AB6400319BC8 /* Supporting Files */,
 			);
 			path = DiguPao;
@@ -173,6 +192,10 @@
 		36574E421DD2AB6400319BC8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				36574E4E1DD2AB6400319BC8 /* Assets.xcassets */,
+				365169191DE008C0008D0A4C /* EmotionIcons */,
+				36574E501DD2AB6400319BC8 /* LaunchScreen.storyboard */,
+				36574E531DD2AB6400319BC8 /* Info.plist */,
 				36574E431DD2AB6400319BC8 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -484,6 +507,7 @@
 				36574E521DD2AB6400319BC8 /* LaunchScreen.storyboard in Resources */,
 				36574E9B1DD2CAD100319BC8 /* DPRegisterViewController.xib in Resources */,
 				36574E961DD2C5C300319BC8 /* DPLoginViewController.xib in Resources */,
+				3651691A1DE008C0008D0A4C /* EmotionIcons in Resources */,
 				36574E6F1DD2B1EC00319BC8 /* TestViewController.xib in Resources */,
 				36574E4F1DD2AB6400319BC8 /* Assets.xcassets in Resources */,
 			);
@@ -547,24 +571,28 @@
 				36574E641DD2AF8400319BC8 /* DPNavigationController.m in Sources */,
 				36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */,
 				36574E9A1DD2CAD100319BC8 /* DPRegisterViewController.m in Sources */,
+				365169181DDFDFF6008D0A4C /* DPEmotionTabBarButton.m in Sources */,
 				36574E5B1DD2AC4000319BC8 /* DPTabBarController.m in Sources */,
 				36180EFC1DDD8C7000514749 /* DPComposeToolbar.m in Sources */,
 				36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */,
 				36574E671DD2B0A500319BC8 /* DPTabBar.m in Sources */,
 				36574E721DD2B25700319BC8 /* DPMapViewController.m in Sources */,
 				36574E611DD2AF2300319BC8 /* UIView+Extension.m in Sources */,
+				363F3BF11DDF3338001F466C /* DPEmotionListView.m in Sources */,
 				36574E6A1DD2B12B00319BC8 /* DPTableViewController.m in Sources */,
 				445E7D861DDAEA2F00D17A2D /* MapView.m in Sources */,
 				363F3BE81DDEB20B001F466C /* DPComposeAlbumView.m in Sources */,
 				445E7D871DDAEA2F00D17A2D /* XRAnnotation.m in Sources */,
 				36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */,
 				365D0B421DDC9BC100210FE4 /* DPComposeViewController.m in Sources */,
+				363F3BEE1DDF3248001F466C /* DPEmotionTabBar.m in Sources */,
 				36180EF91DDD308F00514749 /* DPTextViw.m in Sources */,
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
 				361565C61DDC3CF2003802C9 /* DPUser.m in Sources */,
 				36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */,
 				445E7D851DDAEA2F00D17A2D /* LocationManager.m in Sources */,
 				36694C581DD9755B001B0030 /* DPPasswordForgetViewController.m in Sources */,
+				363F3BEB1DDF3038001F466C /* DPEmotionKeyboard.m in Sources */,
 				36574E441DD2AB6400319BC8 /* main.m in Sources */,
 				36694C541DD84748001B0030 /* UIWindow+Extension.m in Sources */,
 				361565C91DDC3D1C003802C9 /* DPStatus.m in Sources */,
@@ -605,6 +633,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -652,6 +681,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

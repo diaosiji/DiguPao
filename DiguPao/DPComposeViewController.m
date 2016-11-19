@@ -13,6 +13,7 @@
 #import "AFOAuth2Manager.h"
 #import "MBProgressHUD.h"
 #import "DPComposeAlbumView.h"
+#import "DPEmotionKeyboard.h"
 
 
 //UINavigationControllerDelegate, UIImagePickerControllerDelegate两个代理都是为打开相机和打开相册服务的，必须同时声明代理
@@ -23,10 +24,10 @@
 @property (nonatomic, strong) DPTextViw *textView;
 /** 键盘顶部工具条 */
 @property (nonatomic, weak) DPComposeToolbar *toolBar;
-///** 存放拍照或者从相册中选择的图片 */
+/** 存放拍照或者从相册中选择的图片 */
 @property (nonatomic, weak) DPComposeAlbumView *albumView;
-///** 表情键盘 */
-//@property (nonatomic, weak) DGEmotionKeyboard *emotionKeyboard;
+/** 表情键盘 */
+@property (nonatomic, strong) DPEmotionKeyboard *emotionKeyboard; // 一定要用强指针
 /** 是否正在切换键盘 */
 @property (nonatomic, assign) BOOL switchingKeyboard;
 
@@ -41,6 +42,17 @@
         self.textView = [[DPTextViw alloc] init];
     }
     return _textView;
+}
+
+#pragma - mark 懒加载
+- (DPEmotionKeyboard *)emotionKeyboard {
+    if (!_emotionKeyboard) {
+        self.emotionKeyboard = [[DPEmotionKeyboard alloc] init];
+        
+        self.emotionKeyboard.width = self.view.width;
+        self.emotionKeyboard.height = 216 + 44;  //键盘标准高度216
+    }
+    return _emotionKeyboard;
 }
 
 #pragma -mark 系统方法
@@ -287,7 +299,7 @@
             break;
             
         case DPComposeToolBarButtonTypeEmotion:
-//            [self switchKeyboard];
+            [self switchKeyboard];
             break;
             
     }
@@ -297,33 +309,31 @@
 
 #pragma mark - 工具条按钮点击方法
 
-//- (void)switchKeyboard {
-//    
-//    //self.textView.inputView == nil 使用的是系统自带键盘
-//    if (self.textView.inputView == nil) {// 如果使用的是系统自带键盘
-//        DGEmotionKeyboard *emotionKeyboard = [[DGEmotionKeyboard alloc] init];
-//        emotionKeyboard.width = self.view.width;
-//        emotionKeyboard.height = 216 + 44;  //键盘标准高度
-//        self.textView.inputView = emotionKeyboard;
-//        // 显按钮图片
-//        self.toolBar.showEmotionButton = NO;
-//    } else {// 使用的是系统自带键盘
-//        self.textView.inputView = nil;
-//        self.toolBar.showEmotionButton = YES;
-//    }
-//    // 开始切换键盘
-//    self.switchingKeyboard = YES;
-//    
-//    // 推出键盘
-//    [self.textView endEditing:YES];
-//    
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        // 弹出键盘
-//        [self.textView becomeFirstResponder];
-//        // 结束切换键盘
-//        self.switchingKeyboard = NO;
-//    });
-//}
+- (void)switchKeyboard {
+    
+    //self.textView.inputView == nil 表示使用的是系统自带键盘
+    if (self.textView.inputView == nil) {// 如果使用的是系统自带键盘
+        // x和y不用管 系统决定
+        self.textView.inputView = self.emotionKeyboard;
+        // 显按钮图片
+        self.toolBar.showEmotionButton = NO;
+    } else {// 使用的是系统自带键盘
+        self.textView.inputView = nil;
+        self.toolBar.showEmotionButton = YES;
+    }
+    // 开始切换键盘
+    self.switchingKeyboard = YES;
+    
+    // 推出键盘
+    [self.textView endEditing:YES];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // 弹出键盘
+        [self.textView becomeFirstResponder];
+        // 结束切换键盘
+        self.switchingKeyboard = NO;
+    });
+}
 
 
 - (void)openCamera {
