@@ -18,6 +18,8 @@
 		365169181DDFDFF6008D0A4C /* DPEmotionTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 365169171DDFDFF6008D0A4C /* DPEmotionTabBarButton.m */; };
 		3651691A1DE008C0008D0A4C /* EmotionIcons in Resources */ = {isa = PBXBuildFile; fileRef = 365169191DE008C0008D0A4C /* EmotionIcons */; };
 		3651691E1DE05B84008D0A4C /* DPEmotion.m in Sources */ = {isa = PBXBuildFile; fileRef = 3651691D1DE05B84008D0A4C /* DPEmotion.m */; };
+		365169211DE15FD5008D0A4C /* DPEmotionPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 365169201DE15FD5008D0A4C /* DPEmotionPageView.m */; };
+		365169271DE182ED008D0A4C /* NSString+Emoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 365169261DE182ED008D0A4C /* NSString+Emoji.m */; };
 		36574E441DD2AB6400319BC8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E431DD2AB6400319BC8 /* main.m */; };
 		36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 36574E461DD2AB6400319BC8 /* AppDelegate.m */; };
 		36574E4F1DD2AB6400319BC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36574E4E1DD2AB6400319BC8 /* Assets.xcassets */; };
@@ -74,6 +76,10 @@
 		365169191DE008C0008D0A4C /* EmotionIcons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = EmotionIcons; sourceTree = "<group>"; };
 		3651691C1DE05B84008D0A4C /* DPEmotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotion.h; sourceTree = "<group>"; };
 		3651691D1DE05B84008D0A4C /* DPEmotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotion.m; sourceTree = "<group>"; };
+		3651691F1DE15FD5008D0A4C /* DPEmotionPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionPageView.h; sourceTree = "<group>"; };
+		365169201DE15FD5008D0A4C /* DPEmotionPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionPageView.m; sourceTree = "<group>"; };
+		365169251DE182ED008D0A4C /* NSString+Emoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Emoji.h"; sourceTree = "<group>"; };
+		365169261DE182ED008D0A4C /* NSString+Emoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Emoji.m"; sourceTree = "<group>"; };
 		36574E3F1DD2AB6400319BC8 /* DiguPao.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DiguPao.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		36574E431DD2AB6400319BC8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		36574E451DD2AB6400319BC8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -158,6 +164,8 @@
 				363F3BED1DDF3248001F466C /* DPEmotionTabBar.m */,
 				365169161DDFDFF6008D0A4C /* DPEmotionTabBarButton.h */,
 				365169171DDFDFF6008D0A4C /* DPEmotionTabBarButton.m */,
+				3651691F1DE15FD5008D0A4C /* DPEmotionPageView.h */,
+				365169201DE15FD5008D0A4C /* DPEmotionPageView.m */,
 				363F3BEF1DDF3338001F466C /* DPEmotionListView.h */,
 				363F3BF01DDF3338001F466C /* DPEmotionListView.m */,
 			);
@@ -257,6 +265,8 @@
 				36574E601DD2AF2300319BC8 /* UIView+Extension.m */,
 				36694C521DD84748001B0030 /* UIWindow+Extension.h */,
 				36694C531DD84748001B0030 /* UIWindow+Extension.m */,
+				365169251DE182ED008D0A4C /* NSString+Emoji.h */,
+				365169261DE182ED008D0A4C /* NSString+Emoji.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -584,6 +594,7 @@
 				36574E641DD2AF8400319BC8 /* DPNavigationController.m in Sources */,
 				3651691E1DE05B84008D0A4C /* DPEmotion.m in Sources */,
 				36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */,
+				365169271DE182ED008D0A4C /* NSString+Emoji.m in Sources */,
 				36574E9A1DD2CAD100319BC8 /* DPRegisterViewController.m in Sources */,
 				365169181DDFDFF6008D0A4C /* DPEmotionTabBarButton.m in Sources */,
 				36574E5B1DD2AC4000319BC8 /* DPTabBarController.m in Sources */,
@@ -602,6 +613,7 @@
 				363F3BEE1DDF3248001F466C /* DPEmotionTabBar.m in Sources */,
 				36180EF91DDD308F00514749 /* DPTextViw.m in Sources */,
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
+				365169211DE15FD5008D0A4C /* DPEmotionPageView.m in Sources */,
 				361565C61DDC3CF2003802C9 /* DPUser.m in Sources */,
 				36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */,
 				445E7D851DDAEA2F00D17A2D /* LocationManager.m in Sources */,

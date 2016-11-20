@@ -4,7 +4,7 @@
 //
 //  Created by 屌斯基 on 2016/11/18.
 //  Copyright © 2016年 intelligentunit. All rights reserved.
-//  标签键盘上面表情内容部分
+//  标签键盘上面表情内容部分: scrollView + pageControl
 
 #import <UIKit/UIKit.h>
 
