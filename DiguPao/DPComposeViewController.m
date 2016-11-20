@@ -7,13 +7,15 @@
 //
 
 #import "DPComposeViewController.h"
-#import "DPTextViw.h"
 #import "DPComposeToolbar.h"
 #import "UIView+Extension.h"
 #import "AFOAuth2Manager.h"
 #import "MBProgressHUD.h"
 #import "DPComposeAlbumView.h"
 #import "DPEmotionKeyboard.h"
+#import "DPEmotion.h"
+#import "NSString+Emoji.h"
+#import "DPEmotionTextView.h"
 
 
 //UINavigationControllerDelegate, UIImagePickerControllerDelegate两个代理都是为打开相机和打开相册服务的，必须同时声明代理
@@ -21,7 +23,7 @@
 @interface DPComposeViewController () <UITextViewDelegate, DPComposeToolBarDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 /** 输入控件 */
-@property (nonatomic, strong) DPTextViw *textView;
+@property (nonatomic, strong) DPEmotionTextView *textView;
 /** 键盘顶部工具条 */
 @property (nonatomic, weak) DPComposeToolbar *toolBar;
 /** 存放拍照或者从相册中选择的图片 */
@@ -39,7 +41,7 @@
 - (UITextView *)textView {
     
     if (!_textView) {
-        self.textView = [[DPTextViw alloc] init];
+        self.textView = [[DPEmotionTextView alloc] init];
     }
     return _textView;
 }
@@ -120,7 +122,7 @@
 // 添加输入控件
 - (void)setupTextView {
     // 在此控制器中 textView的contentInset.top默认为64
-    DPTextViw *textView = [[DPTextViw alloc] init];
+    DPEmotionTextView *textView = [[DPEmotionTextView alloc] init];
     // 垂直方向上可以拖动 使得占位符可以下托
     textView.alwaysBounceVertical = YES;
     textView.frame = self.view.bounds;
@@ -139,7 +141,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange) name:UITextViewTextDidChangeNotification object:textView];
     // 监听键盘通知 实现工具条随着键盘运动且不消失
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
-    
+    // 监听PageView中表情选中的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emotionDidSelected:) name:@"DPEmotionDidSelectedNotification" object:nil];
 }
 
 // 添加相册
@@ -161,6 +164,19 @@
 - (void)textDidChange {
     // 如果有文字 发送按钮就可用
     self.navigationItem.rightBarButtonItem.enabled = self.textView.hasText;
+}
+
+// 表情被选中了
+- (void)emotionDidSelected:(NSNotification *)notification {
+    
+    DPEmotion *emotion = notification.userInfo[@"selectedEmotion"];
+    NSLog(@"%@表情被选中了", emotion.chs);
+    
+    [self.textView insertEmotion:emotion];
+    
+        
+    
+    
 }
 
 // 发送嘀咕方法
