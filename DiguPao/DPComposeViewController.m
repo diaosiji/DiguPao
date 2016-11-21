@@ -143,6 +143,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrame:) name:UIKeyboardWillChangeFrameNotification object:nil];
     // 监听PageView中表情选中的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emotionDidSelected:) name:@"DPEmotionDidSelectedNotification" object:nil];
+    // 监听来自pageView中删除按钮被点击的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emotionDidDelete) name:@"DPEmotionDidDeleteNotification" object:nil];
+
 }
 
 // 添加相册
@@ -174,9 +177,12 @@
     
     [self.textView insertEmotion:emotion];
     
-        
-    
-    
+}
+
+// 监听表情键盘删除按钮的点击方法
+- (void)emotionDidDelete {
+    //
+    [self.textView deleteBackward];
 }
 
 // 发送嘀咕方法

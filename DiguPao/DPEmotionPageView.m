@@ -38,7 +38,7 @@
         UIButton *deleteButton = [[UIButton alloc] init];
         [deleteButton setImage:[UIImage imageNamed:@"compose_emotion_delete_highlighted"] forState:UIControlStateHighlighted];
         [deleteButton setImage:[UIImage imageNamed:@"compose_emotion_delete"] forState:UIControlStateNormal];
-//        [deleteButton addTarget:self action:@selector(deleteClick) forControlEvents:UIControlEventTouchUpInside];
+        [deleteButton addTarget:self action:@selector(deleteClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:deleteButton];
         self.deleteButton = deleteButton;
         
@@ -46,6 +46,14 @@
         
     }
     return self;
+}
+
+// 删除按钮方法
+// 发出通知 在控制器接受通知
+- (void)deleteClick {
+    
+    NSLog(@"deleteClick");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DPEmotionDidDeleteNotification" object:nil];
 }
 
 - (void)setEmotionsInPage:(NSArray *)emotionsInPage {
