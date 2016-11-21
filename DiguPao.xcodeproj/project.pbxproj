@@ -11,6 +11,7 @@
 		361565C91DDC3D1C003802C9 /* DPStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 361565C81DDC3D1C003802C9 /* DPStatus.m */; };
 		36180EF91DDD308F00514749 /* DPTextViw.m in Sources */ = {isa = PBXBuildFile; fileRef = 36180EF81DDD308F00514749 /* DPTextViw.m */; };
 		36180EFC1DDD8C7000514749 /* DPComposeToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */; };
+		3636ABA01DE2D67A007B07CE /* DPEmotionAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3636AB9F1DE2D67A007B07CE /* DPEmotionAttachment.m */; };
 		363F3BE81DDEB20B001F466C /* DPComposeAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BE71DDEB20B001F466C /* DPComposeAlbumView.m */; };
 		363F3BEB1DDF3038001F466C /* DPEmotionKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BEA1DDF3038001F466C /* DPEmotionKeyboard.m */; };
 		363F3BEE1DDF3248001F466C /* DPEmotionTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BED1DDF3248001F466C /* DPEmotionTabBar.m */; };
@@ -65,6 +66,8 @@
 		36180EF81DDD308F00514749 /* DPTextViw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTextViw.m; sourceTree = "<group>"; };
 		36180EFA1DDD8C7000514749 /* DPComposeToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPComposeToolbar.h; sourceTree = "<group>"; };
 		36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPComposeToolbar.m; sourceTree = "<group>"; };
+		3636AB9E1DE2D67A007B07CE /* DPEmotionAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionAttachment.h; sourceTree = "<group>"; };
+		3636AB9F1DE2D67A007B07CE /* DPEmotionAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionAttachment.m; sourceTree = "<group>"; };
 		363F3BE61DDEB20B001F466C /* DPComposeAlbumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPComposeAlbumView.h; sourceTree = "<group>"; };
 		363F3BE71DDEB20B001F466C /* DPComposeAlbumView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPComposeAlbumView.m; sourceTree = "<group>"; };
 		363F3BE91DDF3038001F466C /* DPEmotionKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionKeyboard.h; sourceTree = "<group>"; };
@@ -187,6 +190,8 @@
 			children = (
 				3651691C1DE05B84008D0A4C /* DPEmotion.h */,
 				3651691D1DE05B84008D0A4C /* DPEmotion.m */,
+				3636AB9E1DE2D67A007B07CE /* DPEmotionAttachment.h */,
+				3636AB9F1DE2D67A007B07CE /* DPEmotionAttachment.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -601,6 +606,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3636ABA01DE2D67A007B07CE /* DPEmotionAttachment.m in Sources */,
 				36B40D3F1DE1F986003BA869 /* DPEmotionTextView.m in Sources */,
 				36574E641DD2AF8400319BC8 /* DPNavigationController.m in Sources */,
 				3651691E1DE05B84008D0A4C /* DPEmotion.m in Sources */,

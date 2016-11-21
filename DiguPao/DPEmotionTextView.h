@@ -13,5 +13,7 @@
 @interface DPEmotionTextView : DPTextViw
 
 - (void)insertEmotion:(DPEmotion *)emotion;
+/** NSString 将含图片表情的属性文字转成全文本 */
+- (NSString *)fullText;
 
 @end

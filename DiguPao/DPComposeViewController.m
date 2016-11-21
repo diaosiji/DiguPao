@@ -199,7 +199,7 @@
     // 获取token凭证
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
     // 构建字符串
-    NSLog(@"Compose with text:%@ latitude:%f,longtitude:%f",self.textView.text, latitudeDouble,longtitudeDouble);
+    NSLog(@"Compose with text:%@ latitude:%f,longtitude:%f",self.textView.fullText, latitudeDouble,longtitudeDouble);
     // 发起网络请求
     // 设置基础url
     NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
@@ -207,7 +207,7 @@
     // 设置参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"access_token"] = credential.accessToken;
-    params[@"text"] = self.textView.text;
+    params[@"text"] = self.textView.fullText;
     params[@"latitude"] = latitude;
     params[@"longitude"]= longtitude;
     // 发起请求
@@ -348,13 +348,13 @@
     
     // 推出键盘
     [self.textView endEditing:YES];
+    // 结束切换键盘
+    self.switchingKeyboard = NO;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 弹出键盘
         [self.textView becomeFirstResponder];
-        // 结束切换键盘
-        self.switchingKeyboard = NO;
-    });
+            });
 }
 
 
