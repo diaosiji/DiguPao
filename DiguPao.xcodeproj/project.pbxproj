@@ -49,6 +49,7 @@
 		36694C581DD9755B001B0030 /* DPPasswordForgetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36694C561DD9755B001B0030 /* DPPasswordForgetViewController.m */; };
 		36694C591DD9755B001B0030 /* DPPasswordForgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36694C571DD9755B001B0030 /* DPPasswordForgetViewController.xib */; };
 		36B40D3F1DE1F986003BA869 /* DPEmotionTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B40D3E1DE1F986003BA869 /* DPEmotionTextView.m */; };
+		36BA47ED1DE5C1D6008703E3 /* DPEmotionTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BA47EC1DE5C1D6008703E3 /* DPEmotionTool.m */; };
 		445E7D851DDAEA2F00D17A2D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D801DDAEA2F00D17A2D /* LocationManager.m */; };
 		445E7D861DDAEA2F00D17A2D /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D821DDAEA2F00D17A2D /* MapView.m */; };
 		445E7D871DDAEA2F00D17A2D /* XRAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D841DDAEA2F00D17A2D /* XRAnnotation.m */; };
@@ -135,6 +136,8 @@
 		36694C571DD9755B001B0030 /* DPPasswordForgetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPPasswordForgetViewController.xib; sourceTree = "<group>"; };
 		36B40D3D1DE1F986003BA869 /* DPEmotionTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionTextView.h; sourceTree = "<group>"; };
 		36B40D3E1DE1F986003BA869 /* DPEmotionTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionTextView.m; sourceTree = "<group>"; };
+		36BA47EB1DE5C1D6008703E3 /* DPEmotionTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionTool.h; sourceTree = "<group>"; };
+		36BA47EC1DE5C1D6008703E3 /* DPEmotionTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionTool.m; sourceTree = "<group>"; };
 		445E7D7F1DDAEA2F00D17A2D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		445E7D801DDAEA2F00D17A2D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		445E7D811DDAEA2F00D17A2D /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
@@ -432,6 +435,7 @@
 		365D0B3E1DDC9B7900210FE4 /* Compose */ = {
 			isa = PBXGroup;
 			children = (
+				36BA47EA1DE5C1B7008703E3 /* Tool */,
 				3651691B1DE05B52008D0A4C /* Model */,
 				36180EF61DDD307300514749 /* View */,
 				365D0B3F1DDC9B9800210FE4 /* Controller */,
@@ -463,6 +467,15 @@
 				36694C501DD8450F001B0030 /* DPNewFeatureViewController.m */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		36BA47EA1DE5C1B7008703E3 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				36BA47EB1DE5C1D6008703E3 /* DPEmotionTool.h */,
+				36BA47EC1DE5C1D6008703E3 /* DPEmotionTool.m */,
+			);
+			name = Tool;
 			sourceTree = "<group>";
 		};
 		3B86C289D043C83A8549EB86 /* Pods */ = {
@@ -626,6 +639,7 @@
 				363F3BE81DDEB20B001F466C /* DPComposeAlbumView.m in Sources */,
 				445E7D871DDAEA2F00D17A2D /* XRAnnotation.m in Sources */,
 				36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */,
+				36BA47ED1DE5C1D6008703E3 /* DPEmotionTool.m in Sources */,
 				365D0B421DDC9BC100210FE4 /* DPComposeViewController.m in Sources */,
 				363F3BEE1DDF3248001F466C /* DPEmotionTabBar.m in Sources */,
 				36180EF91DDD308F00514749 /* DPTextViw.m in Sources */,

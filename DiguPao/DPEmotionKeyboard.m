@@ -35,7 +35,8 @@
 - (DPEmotionListView *)recentListView {
     if (!_recentListView) {
         self.recentListView = [[DPEmotionListView alloc] init];
-//        self.recentListView.backgroundColor = [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255)/255.0 alpha:1.0];
+        // 从沙盒中加载最近表情数据
+        
     }
     return _recentListView;
 }

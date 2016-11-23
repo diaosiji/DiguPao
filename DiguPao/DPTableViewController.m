@@ -66,16 +66,18 @@
     
     UIRefreshControl *control = [[UIRefreshControl alloc] init];
     // 监听的事件就是control进入了刷新状态
-    [control addTarget:self action:@selector(refreshStateChanged) forControlEvents:UIControlEventValueChanged];
+    [control addTarget:self action:@selector(refreshStateChanged:) forControlEvents:UIControlEventValueChanged];
     
     [self.tableView addSubview:control];
 }
 
 // 既然控件进入刷新状态那就重新加载数据
-- (void)refreshStateChanged {
+- (void)refreshStateChanged:(UIRefreshControl *)control {
     
     NSLog(@"refreshStateChanged");
     [self loadNewStatus];
+    // 结束刷新
+    [control endRefreshing];
 }
 
 #pragma mark - 网络通信方法
@@ -86,36 +88,19 @@
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
     // 设置基础url
     // 暂时先用iTunes的API代替
-    NSURL *baseURL = [NSURL URLWithString:@"http://itunes.apple.com"];
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
     // 设置参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
-    
-    [manager POST:@"/search?term=duke" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"iTunes搜索API调用成功: %@", responseObject);
-        // 接下来应该是将json数据转化为类对象
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        dic = responseObject;
-        // 告诉MJExtension DPStatus类中的results数组中装的对象的类是什么，就是DPUser类
-        [DPStatus mj_setupObjectClassInArray:^NSDictionary *{
-            return @{
-                     @"results" : @"DPUser",
-                     };
-        }];
-        // 使用MJ方法直接将字典转为对象
-        DPStatus *status = [DPStatus mj_objectWithKeyValues:dic];
+    [manager GET:@"/api/v1/users/paos" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        self.statuses = status.results;
-        
-        NSLog(@"DPStatus的个数:%@", status.resultCount);
-        
-        [self.tableView reloadData];
+        NSLog(@"用户所有嘀咕API调用成功: %@", responseObject);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
-        NSLog(@"iTunes搜索API调用失败: %@", error);
+        NSLog(@"用户所有嘀咕API调用失败: %@", error);
         
     }];
     
@@ -278,6 +263,8 @@
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:user.artworkUrl100] placeholderImage:[UIImage imageNamed:@"avatar_default_small"] options:SDWebImageRefreshCached];
     cell.textLabel.text = user.artistName;
     cell.detailTextLabel.text = user.artworkUrl100;
+    // 记得是显示多行
+    cell.detailTextLabel.numberOfLines = 0;
     
     return cell;
 }
@@ -291,7 +278,10 @@
     [self.navigationController pushViewController:test animated:YES];
 }
 
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 100;
+}
 
 /*
 // Override to support conditional editing of the table view.
