@@ -94,13 +94,13 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
         
-    [manager GET:@"/api/v1/users/paos" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:@"/api/v1/paopaos/public" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"用户所有嘀咕API调用成功: %@", responseObject);
+        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
-        NSLog(@"用户所有嘀咕API调用失败: %@", error);
+        NSLog(@"嘀咕广场API调用失败: %@", error);
         
     }];
     

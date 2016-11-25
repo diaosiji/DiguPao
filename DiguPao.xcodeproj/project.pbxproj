@@ -270,8 +270,8 @@
 				36574E461DD2AB6400319BC8 /* AppDelegate.m */,
 				36574E7C1DD2B54F00319BC8 /* Model */,
 				36574E7D1DD2B55A00319BC8 /* View */,
-				36574E7B1DD2B53200319BC8 /* Controller */,
 				36574E7A1DD2B50800319BC8 /* Category */,
+				36574E7B1DD2B53200319BC8 /* Controller */,
 			);
 			name = Main;
 			sourceTree = "<group>";

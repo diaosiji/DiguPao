@@ -9,14 +9,27 @@
 #import <Foundation/Foundation.h>
 
 @interface DPUser : NSObject
-/** NSString 艺术家ID */
-@property (nonatomic, copy) NSString *artistId;
-/** NSString 艺术家姓名 */
-@property (nonatomic, copy) NSString *artistName;
-/** NSString 艺术家头像url */
-@property (nonatomic, copy) NSString *artworkUrl100;
-/** NSString 专辑价格 */
-@property (nonatomic, copy) NSString *collectionPrice;
+
+#warning 需要服务器改为idstr
+/** string 字符串类型的uid */
+@property (nonatomic, copy) NSString *idstr;
+
+/** string 用户昵称 */
+@property (nonatomic, copy) NSString *name;
+
+// 尚未提供
+/** string 50pt的用户头像地址 */
+//@property (nonatomic, copy) NSString *profile_image_url;
+
+/** string 用户手机 */
+@property (nonatomic, copy) NSString *phone;
+
+/** string 用户创建时间 */
+@property (nonatomic, copy) NSString *created_at;
+
+/** string 用户的email */
+@property (nonatomic, copy) NSString *email;
+
 
 
 @end
