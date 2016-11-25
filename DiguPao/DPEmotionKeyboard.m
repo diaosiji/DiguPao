@@ -12,6 +12,7 @@
 #import "UIView+Extension.h"
 #import "DPEmotion.h"
 #import "MJExtension.h"
+#import "DPEmotionTool.h"
 
 @interface DPEmotionKeyboard() <DPEmotionTabBarDelegate>
 /** 保存正在表情键盘上显示的listView */
@@ -24,7 +25,6 @@
 @property (nonatomic, strong) DPEmotionListView *emojiListView;
 /** 嘀咕表情内容 */
 @property (nonatomic, strong) DPEmotionListView *diguListView;
-
 /** 选项卡 */
 @property (nonatomic, weak) DPEmotionTabBar *tabBar;
 
@@ -36,6 +36,7 @@
     if (!_recentListView) {
         self.recentListView = [[DPEmotionListView alloc] init];
         // 从沙盒中加载最近表情数据
+        self.recentListView.emotions = [DPEmotionTool recentEmotions];
         
     }
     return _recentListView;

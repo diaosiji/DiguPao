@@ -11,6 +11,7 @@
 #import "DPEmotion.h"
 #import "NSString+Emoji.h"
 #import "DPEmotionButton.h"
+#import "DPEmotionTool.h"
 
 // 一页中最多3行
 #define DPEmotionMaxRows 3
@@ -66,16 +67,6 @@
         DPEmotionButton *button = [[DPEmotionButton alloc] init];
         [self addSubview:button];
         
-        //  设置表情数据
-//        DPEmotion *emotion = emotionsInPage[i];
-//        if (emotion.png) { // 有图片
-//            // NSLog(@"图片名:%@",emotion.png);
-//            [button setImage:[UIImage imageNamed:emotion.png] forState:UIControlStateNormal];
-//        } else if (emotion.code) { // 是emoji表情
-//            // 设置emoji
-//            [button setTitle:emotion.code.emoji forState:UIControlStateNormal];
-//            button.titleLabel.font = [UIFont systemFontOfSize:32];
-//        }
         button.emotion = emotionsInPage[i];
         // 监听按钮点击
         [button addTarget:self action:@selector(buttonClicked:) forControlEvents:UIControlEventTouchUpInside];
@@ -114,8 +105,20 @@
 // 监听表情按钮的点击
 - (void)buttonClicked:(DPEmotionButton *)button {
     // 发出通知 制定通知名的同时可以传数据（表情放到字典里）
+//    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+//    userInfo[@"selectedEmotion"] = button.emotion;
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"DPEmotionDidSelectedNotification" object:nil userInfo:userInfo];
+    [self selectEmotion:button.emotion];
+}
+
+- (void)selectEmotion:(DPEmotion *)emotion {
+    
+    // 将这个表情存进沙盒
+    [DPEmotionTool addRecentEmotion:emotion];
+    
+    // 发出通知 制定通知名的同时可以传数据（表情放到字典里）
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-    userInfo[@"selectedEmotion"] = button.emotion;
+    userInfo[@"selectedEmotion"] = emotion;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DPEmotionDidSelectedNotification" object:nil userInfo:userInfo];
 }
 

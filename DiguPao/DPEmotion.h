@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DPEmotion : NSObject
+@interface DPEmotion : NSObject <NSCoding>
 /** NSString 表情的文字描述 */
 @property (nonatomic, copy) NSString *chs;
 /** NSString 表情的图片名 */

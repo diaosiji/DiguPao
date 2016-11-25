@@ -39,6 +39,8 @@
         // 2.pageControl
         UIPageControl *pageControl = [[UIPageControl alloc] init];
         pageControl.userInteractionEnabled = NO;
+        // 只有一页时隐藏高亮点
+        pageControl.hidesForSinglePage = YES;
         // 设置内部原点图片
         [pageControl setValue:[UIImage imageNamed:@"compose_keyboard_dot_normal"] forKey:@"pageImage"];
         [pageControl setValue:[UIImage imageNamed:@"compose_keyboard_dot_selected"] forKey:@"currentPageImage"];
