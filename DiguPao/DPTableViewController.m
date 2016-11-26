@@ -51,9 +51,9 @@
     [self setNavigationBar];
     
     // 加载最新的嘀咕
-    [self loadNewStatus];
+//    [self loadNewStatus];
     
-    // 继承刷新控件
+    // 集成刷新控件
     [self setupRefresh];
 }
 
@@ -62,10 +62,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+// 集成刷新控件
 - (void)setupRefresh {
     
     UIRefreshControl *control = [[UIRefreshControl alloc] init];
-    // 监听的事件就是control进入了刷新状态
+    // 监听的UIControlEventValueChanged事件就是control进入了刷新状态
     [control addTarget:self action:@selector(refreshStateChanged:) forControlEvents:UIControlEventValueChanged];
     
     [self.tableView addSubview:control];
@@ -75,15 +76,7 @@
 - (void)refreshStateChanged:(UIRefreshControl *)control {
     
     NSLog(@"refreshStateChanged");
-    [self loadNewStatus];
-    // 结束刷新
-    [control endRefreshing];
-}
-
-#pragma mark - 网络通信方法
-
-// 加载最新的嘀咕方法
-- (void)loadNewStatus {
+    
     // 获取含accessToken的凭证对象
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
     // 设置基础url
@@ -93,17 +86,27 @@
     // 设置参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
-        
+    #warning since_id is not implemented yet !!!
+    #warning 经过和温文讨论 since_id 实现难度很大 可能采取单纯的替换思路
+    #warning 返回的嘀咕数组顺序不对 应该是新嘀咕在前面
+    //取出最前面（新）的嘀咕
+    DPStatus *firstStatus = [self.statuses firstObject];
+    if (firstStatus) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"since_id"] = firstStatus.idstr;
+    }
+    
     [manager GET:@"/api/v1/paopaos/public" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-//        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
+        //        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
         NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
         
-        NSLog(@"嘀咕json数组转模型数组成功: %@", newStatus);
-        for (DPStatus *status in newStatus) {
-            NSLog(@"作者ID:%@,嘀咕ID:%@,内容:%@", status.user.idstr, status.idstr, status.text);
-       
-        }
+        //        NSLog(@"嘀咕json数组转模型数组成功: %@", newStatus);
+        //        for (DPStatus *status in newStatus) {
+        //            NSLog(@"作者ID:%@,嘀咕ID:%@,内容:%@", status.user.idstr, status.idstr, status.text);
+        //
+        //        }
+        
         // 将最新微博数据添加到对应数组最前面
         NSRange range = NSMakeRange(0, newStatus.count);
         NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
@@ -112,16 +115,62 @@
         // 刷新表格
         [self.tableView reloadData];
         
+        // 结束刷新
+        [control endRefreshing];
+        
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         NSLog(@"嘀咕广场API调用失败: %@", error);
+        // 结束刷新
+        [control endRefreshing];
         
     }];
-    
-    
+
     
 }
+
+#pragma mark - 网络通信方法
+
+// 加载最新的嘀咕方法
+//- (void)loadNewStatus {
+//    // 获取含accessToken的凭证对象
+//    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+//    // 设置基础url
+//    // 暂时先用iTunes的API代替
+//    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+//    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+//    // 设置参数
+//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+//        
+//    [manager GET:@"/api/v1/paopaos/public" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        
+////        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
+//        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+//        
+////        NSLog(@"嘀咕json数组转模型数组成功: %@", newStatus);
+////        for (DPStatus *status in newStatus) {
+////            NSLog(@"作者ID:%@,嘀咕ID:%@,内容:%@", status.user.idstr, status.idstr, status.text);
+////       
+////        }
+//        
+//        // 将最新微博数据添加到对应数组最后面
+//        [self.statuses addObjectsFromArray:newStatus];
+//        
+//        // 刷新表格
+//        [self.tableView reloadData];
+//        
+//        
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        
+//        NSLog(@"嘀咕广场API调用失败: %@", error);
+//        
+//    }];
+//    
+//    
+//    
+//}
 
 #pragma mark - 控件加载与方法
 
@@ -276,7 +325,7 @@
     DPStatus * status = self.statuses[indexPath.row];
 
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:nil] placeholderImage:[UIImage imageNamed:@"avatar_default_small"] options:SDWebImageRefreshCached];
-    cell.textLabel.text = status.user.phone;
+    cell.textLabel.text = status.user.name;
     cell.detailTextLabel.text = status.text;
     // 记得是显示多行
     cell.detailTextLabel.numberOfLines = 0;

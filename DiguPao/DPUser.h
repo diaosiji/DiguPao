@@ -10,7 +10,6 @@
 
 @interface DPUser : NSObject
 
-#warning 需要服务器改为idstr
 /** string 字符串类型的uid */
 @property (nonatomic, copy) NSString *idstr;
 
