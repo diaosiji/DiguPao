@@ -57,6 +57,9 @@
     
     _emotions = emotions;
     //NSLog(@"表情数量:%lu", (unsigned long)emotions.count);
+    // 删除之前的控件
+    [self.scrollView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
     // 1.设置页数
     NSUInteger count = (emotions.count + DPEmotionPageCount - 1) / DPEmotionPageCount;
     self.pageControl.numberOfPages = count;
@@ -85,6 +88,9 @@
     // 去除水平和垂直方向的滚动条
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
+    
+    // 重新排布子控件
+    [self setNeedsLayout];
     
 }
 

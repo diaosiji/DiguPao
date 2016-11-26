@@ -96,7 +96,22 @@
         
     [manager GET:@"/api/v1/paopaos/public" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
+//        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
+        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        
+        NSLog(@"嘀咕json数组转模型数组成功: %@", newStatus);
+        for (DPStatus *status in newStatus) {
+            NSLog(@"作者ID:%@,嘀咕ID:%@,内容:%@", status.user.idstr, status.idstr, status.text);
+       
+        }
+        // 将最新微博数据添加到对应数组最前面
+        NSRange range = NSMakeRange(0, newStatus.count);
+        NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.statuses insertObjects:newStatus atIndexes:set];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -258,11 +273,11 @@
     }
     
     // 取出模型
-    DPUser * user = self.statuses[indexPath.row];
+    DPStatus * status = self.statuses[indexPath.row];
 
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:user.artworkUrl100] placeholderImage:[UIImage imageNamed:@"avatar_default_small"] options:SDWebImageRefreshCached];
-    cell.textLabel.text = user.artistName;
-    cell.detailTextLabel.text = user.artworkUrl100;
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:nil] placeholderImage:[UIImage imageNamed:@"avatar_default_small"] options:SDWebImageRefreshCached];
+    cell.textLabel.text = status.user.phone;
+    cell.detailTextLabel.text = status.text;
     // 记得是显示多行
     cell.detailTextLabel.numberOfLines = 0;
     

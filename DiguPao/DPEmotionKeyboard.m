@@ -36,7 +36,7 @@
     if (!_recentListView) {
         self.recentListView = [[DPEmotionListView alloc] init];
         // 从沙盒中加载最近表情数据
-        self.recentListView.emotions = [DPEmotionTool recentEmotions];
+//        self.recentListView.emotions = [DPEmotionTool recentEmotions];
         
     }
     return _recentListView;
@@ -125,6 +125,9 @@
         case DPEmotionTabBarButtonTypeRecent: { // 最近
             [self addSubview:self.recentListView];
 //            self.showingListView = self.recentListView;
+            // 从沙盒中加载最近表情数据
+            self.recentListView.emotions = [DPEmotionTool recentEmotions];
+
             break;
         }
             

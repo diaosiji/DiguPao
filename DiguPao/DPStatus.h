@@ -12,7 +12,7 @@
 
 @interface DPStatus : NSObject
 
-#warning 数据中是id 但是这是保留关键字 需要服务器修改key名
+#warning 数据中是id 但是这是保留关键字 需要服务器修改key名 先用MJ的方法替换
 /** NSString 嘀咕的id字符串 */
 @property (nonatomic, copy) NSString *idstr;
 
