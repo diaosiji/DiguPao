@@ -16,33 +16,36 @@
 #import "DPUser.h"
 #import "MJExtension.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "DPLoadMoreFooter.h"
+#import "DPStatusCell.h"
+#import "DPStatusFrame.h"
 
 @interface DPTableViewController () <DPDropdownMenuDelegate>
 
-/** NSMutableArray 嘀咕数组 元素是DPStatus模型 一个DPStatus对象代表一个嘀咕 */
-@property (nonatomic, strong) NSMutableArray *statuses;
+/** NSMutableArray 嘀咕数组 元素是DPStatusFrame模型 一个DPStatusFrame对象代表一个嘀咕 */
+@property (nonatomic, strong) NSMutableArray *statusFrames;
 
 @end
 
 @implementation DPTableViewController
 
 // 懒加载 使得数组永远不为空
-- (NSMutableArray *)statuses {
+- (NSMutableArray *)statusFrames {
     
-    if (!_statuses) {
-        self.statuses = [[NSMutableArray alloc] init];
+    if (!_statusFrames) {
+        self.statusFrames = [[NSMutableArray alloc] init];
     }
-    return _statuses;
+    return _statusFrames;
     
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.view.backgroundColor = [UIColor colorWithRed:244/255.0 green:244/255.0 blue:244/255.0 alpha:1.0];
+    // 让顶部也有间隔
+    self.tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0);
     
     // 学习使用类来注册Cell 有了这句下面的cellForRowAtIndexPath才能正常运行
 //    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"testCell"];
@@ -53,8 +56,12 @@
     // 加载最新的嘀咕
 //    [self loadNewStatus];
     
-    // 集成刷新控件
-    [self setupRefresh];
+    // 集成下拉刷新控件
+    [self setupDownRefresh];
+    
+    // 集成上拉加载控件
+    [self setupUpRefresh];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,15 +69,21 @@
     // Dispose of any resources that can be recreated.
 }
 
-// 集成刷新控件
-- (void)setupRefresh {
+// 集成下拉刷新控件
+- (void)setupDownRefresh {
     
+    // 1.添加刷新控件
     UIRefreshControl *control = [[UIRefreshControl alloc] init];
-    // 监听的UIControlEventValueChanged事件就是control进入了刷新状态
+    // 监听的UIControlEventValueChanged事件就是用户手动下拉 control进入了刷新状态
     [control addTarget:self action:@selector(refreshStateChanged:) forControlEvents:UIControlEventValueChanged];
-    
     [self.tableView addSubview:control];
+    // 2.马上进入刷新状态 但是不会触发refreshStateChanged方法
+    [control beginRefreshing];
+    // 3.马上加载数据
+    [self refreshStateChanged:control];
+    
 }
+
 
 // 既然控件进入刷新状态那就重新加载数据
 - (void)refreshStateChanged:(UIRefreshControl *)control {
@@ -85,32 +98,33 @@
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
     // 设置参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
-    #warning since_id is not implemented yet !!!
-    #warning 经过和温文讨论 since_id 实现难度很大 可能采取单纯的替换思路
-    #warning 返回的嘀咕数组顺序不对 应该是新嘀咕在前面
+//    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    
     //取出最前面（新）的嘀咕
-    DPStatus *firstStatus = [self.statuses firstObject];
-    if (firstStatus) {
+    DPStatusFrame *firstStatusFrame = [self.statusFrames firstObject];
+    if (firstStatusFrame) {
         // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
-        params[@"since_id"] = firstStatus.idstr;
+        params[@"since_id"] = firstStatusFrame.status.idstr;
+        NSLog(@"本地最新嘀咕的id是:%@", firstStatusFrame.status.idstr);
     }
     
-    [manager GET:@"/api/v1/paopaos/public" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         //        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
+        NSLog(@"%@", responseObject);
         NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
-        
-        //        NSLog(@"嘀咕json数组转模型数组成功: %@", newStatus);
-        //        for (DPStatus *status in newStatus) {
-        //            NSLog(@"作者ID:%@,嘀咕ID:%@,内容:%@", status.user.idstr, status.idstr, status.text);
-        //
-        //        }
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPStatus *status in newStatus) {
+            DPStatusFrame *frame = [[DPStatusFrame alloc] init];
+            frame.status = status;
+            [newFrames addObject:frame];
+        }
         
         // 将最新微博数据添加到对应数组最前面
-        NSRange range = NSMakeRange(0, newStatus.count);
+        NSRange range = NSMakeRange(0, newFrames.count);
         NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
-        [self.statuses insertObjects:newStatus atIndexes:set];
+        [self.statusFrames insertObjects:newFrames atIndexes:set];
         
         // 刷新表格
         [self.tableView reloadData];
@@ -130,10 +144,93 @@
     
 }
 
+// 集成上拉加载控件
+- (void)setupUpRefresh {
+    DPLoadMoreFooter *footer = [DPLoadMoreFooter footer];
+    // 不隐藏的话一开始就会出现
+    footer.hidden = YES;
+    self.tableView.tableFooterView = footer;
+    
+}
+
+// 上拉加载方法 实现下滑自动加载的关键点
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    CGFloat offsetY = scrollView.contentOffset.y;
+    // 当最后一个cell完全显示在眼前时，contentOffset的y值
+    CGFloat judgeOffsetY = scrollView.contentSize.height + scrollView.contentInset.bottom - scrollView.height - self.tableView.tableFooterView.height;
+    
+    // scrollView == self.tableView == self.view
+    // 如果tableView还没有数据，就直接返回
+    if (self.statusFrames.count == 0 || self.tableView.tableFooterView.isHidden == NO) return;
+    
+    if (offsetY >= judgeOffsetY) { // 最后一个cell完全进入视野范围内
+        // 显示footer
+        self.tableView.tableFooterView.hidden = NO;
+        // 加载更多的微博数据
+        [self loadMoreStatus];
+    };
+    
+}
+
+// 上拉加载历史嘀咕的网络方法
+- (void)loadMoreStatus {
+    // 获取含accessToken的凭证对象
+//    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    // 暂时先用iTunes的API代替
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    // 问题在于上拉加载几次后又回到顶部下拉刷新 如果此时总表有变化就会导致问题
+//    self.page = self.page + 1;
+//    params[@"page"] = [NSString stringWithFormat:@"%d", self.page];
+    DPStatusFrame *lastStatusFrame = [self.statusFrames lastObject];
+    if (lastStatusFrame) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"max_id"] = lastStatusFrame.status.idstr;
+        NSLog(@"本地最老嘀咕的id是:%@", lastStatusFrame.status.idstr);
+    }
+    
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        //        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
+        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPStatus *status in newStatus) {
+            DPStatusFrame *frame = [[DPStatusFrame alloc] init];
+            frame.status = status;
+            [newFrames addObject:frame];
+        }
+
+        // 将最新微博数据添加到对应数组最后面
+        [self.statusFrames addObjectsFromArray:newFrames];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"嘀咕广场API调用失败: %@", error);
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+    }];
+    
+}
+
 #pragma mark - 网络通信方法
 
 // 加载最新的嘀咕方法
-//- (void)loadNewStatus {
+- (void)loadNewStatus {
 //    // 获取含accessToken的凭证对象
 //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
 //    // 设置基础url
@@ -167,10 +264,10 @@
 //        NSLog(@"嘀咕广场API调用失败: %@", error);
 //        
 //    }];
-//    
-//    
-//    
-//}
+    
+    
+    
+}
 
 #pragma mark - 控件加载与方法
 
@@ -291,7 +388,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return self.statuses.count;
+    return self.statusFrames.count;
 }
 
 
@@ -311,24 +408,29 @@
     
     // 另一种循环利用方法
     // 被static修饰的局部变量：只会初始化一次，在整个程序运行过程中，只有一份内存
-    static NSString *ID = @"cell";
+//    static NSString *ID = @"cell";
     
     // 先根据cell的标识去缓存池中查找可循环利用的cell
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     
     // 如果cell为nil（缓存池找不到对应的cell）
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
-    }
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+//    }
+    
+    // 获得cell
+    DPStatusCell *cell = [DPStatusCell cellWithTableView:tableView];
     
     // 取出模型
-    DPStatus * status = self.statuses[indexPath.row];
+//    DPStatus * status = self.statuses[indexPath.row];
+    // 给cell传递模型
+    cell.statusFrame = self.statusFrames[indexPath.row];
 
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:nil] placeholderImage:[UIImage imageNamed:@"avatar_default_small"] options:SDWebImageRefreshCached];
-    cell.textLabel.text = status.user.name;
-    cell.detailTextLabel.text = status.text;
-    // 记得是显示多行
-    cell.detailTextLabel.numberOfLines = 0;
+//    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:nil] placeholderImage:[UIImage imageNamed:@"avatar_default_small"] options:SDWebImageRefreshCached];
+//    cell.textLabel.text = status.user.name;
+//    cell.detailTextLabel.text = status.text;
+//    // 记得是显示多行
+//    cell.detailTextLabel.numberOfLines = 0;
     
     return cell;
 }
@@ -344,7 +446,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 100;
+    DPStatusFrame *frame = self.statusFrames[indexPath.row];
+    
+    return frame.cellHeight;
 }
 
 /*

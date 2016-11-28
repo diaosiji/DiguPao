@@ -11,6 +11,8 @@
 		361565C91DDC3D1C003802C9 /* DPStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 361565C81DDC3D1C003802C9 /* DPStatus.m */; };
 		36180EF91DDD308F00514749 /* DPTextViw.m in Sources */ = {isa = PBXBuildFile; fileRef = 36180EF81DDD308F00514749 /* DPTextViw.m */; };
 		36180EFC1DDD8C7000514749 /* DPComposeToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */; };
+		361A609F1DEC17E400ED0B13 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 361A609E1DEC17E400ED0B13 /* NSDate+Extension.m */; };
+		361A60A21DEC674F00ED0B13 /* DPStatusToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 361A60A11DEC674F00ED0B13 /* DPStatusToolbar.m */; };
 		3636ABA01DE2D67A007B07CE /* DPEmotionAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 3636AB9F1DE2D67A007B07CE /* DPEmotionAttachment.m */; };
 		363F3BE81DDEB20B001F466C /* DPComposeAlbumView.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BE71DDEB20B001F466C /* DPComposeAlbumView.m */; };
 		363F3BEB1DDF3038001F466C /* DPEmotionKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 363F3BEA1DDF3038001F466C /* DPEmotionKeyboard.m */; };
@@ -50,6 +52,10 @@
 		36694C591DD9755B001B0030 /* DPPasswordForgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36694C571DD9755B001B0030 /* DPPasswordForgetViewController.xib */; };
 		36B40D3F1DE1F986003BA869 /* DPEmotionTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36B40D3E1DE1F986003BA869 /* DPEmotionTextView.m */; };
 		36BA47ED1DE5C1D6008703E3 /* DPEmotionTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BA47EC1DE5C1D6008703E3 /* DPEmotionTool.m */; };
+		36BA47F01DEA840B008703E3 /* DPLoadMoreFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BA47EF1DEA840B008703E3 /* DPLoadMoreFooter.m */; };
+		36BA47F21DEA844C008703E3 /* DPLoadMoreFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36BA47F11DEA844C008703E3 /* DPLoadMoreFooter.xib */; };
+		36BA47F51DEB0A91008703E3 /* DPStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BA47F41DEB0A91008703E3 /* DPStatusCell.m */; };
+		36BA47F81DEB17E1008703E3 /* DPStatusFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 36BA47F71DEB17E1008703E3 /* DPStatusFrame.m */; };
 		445E7D851DDAEA2F00D17A2D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D801DDAEA2F00D17A2D /* LocationManager.m */; };
 		445E7D861DDAEA2F00D17A2D /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D821DDAEA2F00D17A2D /* MapView.m */; };
 		445E7D871DDAEA2F00D17A2D /* XRAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D841DDAEA2F00D17A2D /* XRAnnotation.m */; };
@@ -67,6 +73,10 @@
 		36180EF81DDD308F00514749 /* DPTextViw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPTextViw.m; sourceTree = "<group>"; };
 		36180EFA1DDD8C7000514749 /* DPComposeToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPComposeToolbar.h; sourceTree = "<group>"; };
 		36180EFB1DDD8C7000514749 /* DPComposeToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPComposeToolbar.m; sourceTree = "<group>"; };
+		361A609D1DEC17E400ED0B13 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
+		361A609E1DEC17E400ED0B13 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
+		361A60A01DEC674F00ED0B13 /* DPStatusToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPStatusToolbar.h; sourceTree = "<group>"; };
+		361A60A11DEC674F00ED0B13 /* DPStatusToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPStatusToolbar.m; sourceTree = "<group>"; };
 		3636AB9E1DE2D67A007B07CE /* DPEmotionAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionAttachment.h; sourceTree = "<group>"; };
 		3636AB9F1DE2D67A007B07CE /* DPEmotionAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionAttachment.m; sourceTree = "<group>"; };
 		363F3BE61DDEB20B001F466C /* DPComposeAlbumView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPComposeAlbumView.h; sourceTree = "<group>"; };
@@ -138,6 +148,13 @@
 		36B40D3E1DE1F986003BA869 /* DPEmotionTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionTextView.m; sourceTree = "<group>"; };
 		36BA47EB1DE5C1D6008703E3 /* DPEmotionTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionTool.h; sourceTree = "<group>"; };
 		36BA47EC1DE5C1D6008703E3 /* DPEmotionTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPEmotionTool.m; sourceTree = "<group>"; };
+		36BA47EE1DEA840B008703E3 /* DPLoadMoreFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPLoadMoreFooter.h; sourceTree = "<group>"; };
+		36BA47EF1DEA840B008703E3 /* DPLoadMoreFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPLoadMoreFooter.m; sourceTree = "<group>"; };
+		36BA47F11DEA844C008703E3 /* DPLoadMoreFooter.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DPLoadMoreFooter.xib; sourceTree = "<group>"; };
+		36BA47F31DEB0A91008703E3 /* DPStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPStatusCell.h; sourceTree = "<group>"; };
+		36BA47F41DEB0A91008703E3 /* DPStatusCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPStatusCell.m; sourceTree = "<group>"; };
+		36BA47F61DEB17E1008703E3 /* DPStatusFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPStatusFrame.h; sourceTree = "<group>"; };
+		36BA47F71DEB17E1008703E3 /* DPStatusFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPStatusFrame.m; sourceTree = "<group>"; };
 		445E7D7F1DDAEA2F00D17A2D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		445E7D801DDAEA2F00D17A2D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		445E7D811DDAEA2F00D17A2D /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
@@ -285,6 +302,8 @@
 				36694C531DD84748001B0030 /* UIWindow+Extension.m */,
 				365169251DE182ED008D0A4C /* NSString+Emoji.h */,
 				365169261DE182ED008D0A4C /* NSString+Emoji.m */,
+				361A609D1DEC17E400ED0B13 /* NSDate+Extension.h */,
+				361A609E1DEC17E400ED0B13 /* NSDate+Extension.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -354,6 +373,13 @@
 			children = (
 				36694BFE1DD6F460001B0030 /* DPTitleMenuController.h */,
 				36694BFF1DD6F460001B0030 /* DPTitleMenuController.m */,
+				36BA47EE1DEA840B008703E3 /* DPLoadMoreFooter.h */,
+				36BA47EF1DEA840B008703E3 /* DPLoadMoreFooter.m */,
+				36BA47F11DEA844C008703E3 /* DPLoadMoreFooter.xib */,
+				36BA47F31DEB0A91008703E3 /* DPStatusCell.h */,
+				36BA47F41DEB0A91008703E3 /* DPStatusCell.m */,
+				361A60A01DEC674F00ED0B13 /* DPStatusToolbar.h */,
+				361A60A11DEC674F00ED0B13 /* DPStatusToolbar.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -365,6 +391,8 @@
 				361565C51DDC3CF1003802C9 /* DPUser.m */,
 				361565C71DDC3D1C003802C9 /* DPStatus.h */,
 				361565C81DDC3D1C003802C9 /* DPStatus.m */,
+				36BA47F61DEB17E1008703E3 /* DPStatusFrame.h */,
+				36BA47F71DEB17E1008703E3 /* DPStatusFrame.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -557,6 +585,7 @@
 				36694C591DD9755B001B0030 /* DPPasswordForgetViewController.xib in Resources */,
 				36574E521DD2AB6400319BC8 /* LaunchScreen.storyboard in Resources */,
 				36574E9B1DD2CAD100319BC8 /* DPRegisterViewController.xib in Resources */,
+				36BA47F21DEA844C008703E3 /* DPLoadMoreFooter.xib in Resources */,
 				36574E961DD2C5C300319BC8 /* DPLoginViewController.xib in Resources */,
 				3651691A1DE008C0008D0A4C /* EmotionIcons in Resources */,
 				36574E6F1DD2B1EC00319BC8 /* TestViewController.xib in Resources */,
@@ -629,16 +658,20 @@
 				365169181DDFDFF6008D0A4C /* DPEmotionTabBarButton.m in Sources */,
 				36574E5B1DD2AC4000319BC8 /* DPTabBarController.m in Sources */,
 				36180EFC1DDD8C7000514749 /* DPComposeToolbar.m in Sources */,
+				361A609F1DEC17E400ED0B13 /* NSDate+Extension.m in Sources */,
 				36574E471DD2AB6400319BC8 /* AppDelegate.m in Sources */,
 				36574E671DD2B0A500319BC8 /* DPTabBar.m in Sources */,
 				36574E721DD2B25700319BC8 /* DPMapViewController.m in Sources */,
 				36574E611DD2AF2300319BC8 /* UIView+Extension.m in Sources */,
+				361A60A21DEC674F00ED0B13 /* DPStatusToolbar.m in Sources */,
 				363F3BF11DDF3338001F466C /* DPEmotionListView.m in Sources */,
 				36574E6A1DD2B12B00319BC8 /* DPTableViewController.m in Sources */,
 				445E7D861DDAEA2F00D17A2D /* MapView.m in Sources */,
 				363F3BE81DDEB20B001F466C /* DPComposeAlbumView.m in Sources */,
 				445E7D871DDAEA2F00D17A2D /* XRAnnotation.m in Sources */,
+				36BA47F01DEA840B008703E3 /* DPLoadMoreFooter.m in Sources */,
 				36694C031DD70878001B0030 /* DPDropdownMenu.m in Sources */,
+				36BA47F51DEB0A91008703E3 /* DPStatusCell.m in Sources */,
 				36BA47ED1DE5C1D6008703E3 /* DPEmotionTool.m in Sources */,
 				365D0B421DDC9BC100210FE4 /* DPComposeViewController.m in Sources */,
 				363F3BEE1DDF3248001F466C /* DPEmotionTabBar.m in Sources */,
@@ -646,6 +679,7 @@
 				36574E6E1DD2B1EC00319BC8 /* TestViewController.m in Sources */,
 				365169211DE15FD5008D0A4C /* DPEmotionPageView.m in Sources */,
 				361565C61DDC3CF2003802C9 /* DPUser.m in Sources */,
+				36BA47F81DEB17E1008703E3 /* DPStatusFrame.m in Sources */,
 				36694C511DD8450F001B0030 /* DPNewFeatureViewController.m in Sources */,
 				445E7D851DDAEA2F00D17A2D /* LocationManager.m in Sources */,
 				36694C581DD9755B001B0030 /* DPPasswordForgetViewController.m in Sources */,

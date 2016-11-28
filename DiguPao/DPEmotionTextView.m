@@ -31,7 +31,7 @@
         // 拼接之前的文字（包含图片和普通文字）
         [attributedText appendAttributedString:self.attributedText];
         // 加载图片
-        UIImage *image = [UIImage imageNamed:emotion.png];
+//        UIImage *image = [UIImage imageNamed:emotion.png];
         //NSTextAttachment *attc = [[NSTextAttachment alloc] init];
         DPEmotionAttachment *attc = [[DPEmotionAttachment alloc] init];
         // 传递模型
