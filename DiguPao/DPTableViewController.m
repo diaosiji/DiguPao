@@ -53,16 +53,17 @@
     // 设置导航栏左中右按钮
     [self setNavigationBar];
     
-    // 加载最新的嘀咕
-//    [self loadNewStatus];
-    
     // 集成下拉刷新控件
     [self setupDownRefresh];
     
     // 集成上拉加载控件
     [self setupUpRefresh];
     
+    // 测试附近API
+//    [self around];
+    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -83,6 +84,38 @@
     [self refreshStateChanged:control];
     
 }
+
+- (void)loadAroundStatus {
+    NSLog(@"around");
+    
+    // 获取含accessToken的凭证对象
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 获取地理位置
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    double latitudeDouble = [user doubleForKey:@"latitude"];
+    double longtitudeDouble = [user doubleForKey:@"longtitude"];
+    NSString *latitude = [NSString stringWithFormat:@"%f", latitudeDouble];
+    NSString *longitude = [NSString stringWithFormat:@"%f", longtitudeDouble];
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    params[@"latitude"] = latitude;
+    params[@"longitude"]= longitude;
+    NSLog(@"around params: %@", params);
+    
+    [manager GET:@"/api/v1/paopaos/location" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        //
+        NSLog(@"附近API测试成功: %@", responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        //
+        NSLog(@"附近API测试失败: %@", error);
+    }];
+    
+}
+
 
 
 // 既然控件进入刷新状态那就重新加载数据
@@ -230,7 +263,7 @@
 #pragma mark - 网络通信方法
 
 // 加载最新的嘀咕方法
-- (void)loadNewStatus {
+//- (void)loadNewStatus {
 //    // 获取含accessToken的凭证对象
 //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
 //    // 设置基础url
@@ -267,7 +300,7 @@
     
     
     
-}
+//}
 
 #pragma mark - 控件加载与方法
 

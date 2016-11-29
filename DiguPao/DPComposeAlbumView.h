@@ -12,7 +12,8 @@
 
 // 添加图片到相册
 - (void)addPhoto:(UIImage*)photo;
-// 返回被选中的图像数组
-- (NSArray *)photos;
+// 返回已经添加的图像
+@property (nonatomic, strong, readonly) NSMutableArray *photos;
+
 
 @end

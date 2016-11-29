@@ -187,19 +187,35 @@
 
 // 发送嘀咕方法
 - (void)compose {
+    
+    if (self.albumView.photos.count) {
+        // 如果相册中有图片
+        [self composeWithImage];
+    } else {
+        // 如果相册中没有图片
+        [self composeWithoutImage];
+    
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+// 发送文字嘀咕方法
+- (void)composeWithoutImage {
+    
     // 获取地理位置
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     double latitudeDouble = [user doubleForKey:@"latitude"];
     double longtitudeDouble = [user doubleForKey:@"longtitude"];
-//    NSNumber *latitude = [NSNumber numberWithDouble:latitudeDouble];
-//    NSNumber *longtitude = [NSNumber numberWithDouble:longtitudeDouble];
+    
     NSString *latitude = [NSString stringWithFormat:@"%f", latitudeDouble];
     NSString *longtitude = [NSString stringWithFormat:@"%f", longtitudeDouble];
     
     // 获取token凭证
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
     // 构建字符串
-    NSLog(@"Compose with text:%@ latitude:%f,longtitude:%f",self.textView.fullText, latitudeDouble,longtitudeDouble);
+    NSLog(@"composeWithoutImage with text:%@ latitude:%f,longtitude:%f",self.textView.fullText, latitudeDouble,longtitudeDouble);
     // 发起网络请求
     // 设置基础url
     NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
@@ -217,7 +233,7 @@
         // 显示HUD提示成功
         [self showComposeSuccessHUD];
         
-
+        
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -226,8 +242,60 @@
         [self showComposeFailureHUD];
         
     }];
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
+- (void)composeWithImage {
+    // 获取地理位置
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    double latitudeDouble = [user doubleForKey:@"latitude"];
+    double longtitudeDouble = [user doubleForKey:@"longtitude"];
+    
+    NSString *latitude = [NSString stringWithFormat:@"%f", latitudeDouble];
+    NSString *longtitude = [NSString stringWithFormat:@"%f", longtitudeDouble];
+    
+    // 获取token凭证
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 构建字符串
+    NSLog(@"composeWithImage with text:%@ latitude:%f,longtitude:%f",self.textView.fullText, latitudeDouble,longtitudeDouble);
+    // 发起网络请求
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"access_token"] = credential.accessToken;
+    params[@"text"] = self.textView.fullText;
+    params[@"latitude"] = latitude;
+    params[@"longitude"]= longtitude;
+    // 发起请求
+    #warning composeWithImage API还在开发中 应该还有更复杂的情况
+    // 1.客户端需要先从应用服务器得到policy (应该是发送token去得到)
+    // 2.拿着policy并设置回调参数（text应该在回调参数中）发送向OSS服务器的请求
+    // 3.请求成功后 应用服务器会和OSS服务器通信 得知是哪个用户发送了图片和什么text
+    [manager POST:@"/api/v1/paopaoswithpic" parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        // 首先获取第一张图片
+        UIImage *image = [self.albumView.photos firstObject];
+        // 将图像压缩成数据文件
+        NSData *data = UIImageJPEGRepresentation(image, 1.0);
+        // 将文件加入到formData中 请求的参数名放在第二个
+        // fileName不重要 mineType是指定的
+        [formData appendPartWithFileData:data name:@"pic" fileName:@"test.jpg" mimeType:@"image/jpeg"];
+        
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        [self showComposeSuccessHUD];
+        NSLog(@"sendWithImage成功%@", responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        [self showComposeFailureHUD];
+        NSLog(@"sendWithImage失败%@", error);
+        
+    }];
+    
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 // 导航栏左边取消按钮
@@ -248,7 +316,6 @@
     hud.customView = [[UIImageView alloc] initWithImage:image];
     // 再设置模式
     hud.mode = MBProgressHUDModeCustomView;
-    
     // 隐藏时候从父控件中移除
     hud.removeFromSuperViewOnHide = YES;
     

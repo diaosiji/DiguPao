@@ -10,20 +10,22 @@
 #import "UIView+Extension.h"
 
 @interface DPComposeAlbumView()
-// View中的图片的数组
-@property (nonatomic, strong) NSMutableArray *addedPhotos;
+
 
 @end
 
 @implementation DPComposeAlbumView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (instancetype)initWithFrame:(CGRect)frame {
+    
+    self = [super initWithFrame:frame];
+    if (self) {
+        //
+        _photos = [NSMutableArray array];
+        
+    }
+    return self;
 }
-*/
 
 - (void)addPhoto:(UIImage *)photo {
     
@@ -31,7 +33,7 @@
     photoView.image = photo;
     [self addSubview:photoView];
     // 存储图片
-    [self.addedPhotos addObject:photo];
+    [self.photos addObject:photo];
 
 }
 
@@ -59,11 +61,6 @@
     
 }
 
-// 返回相册中的图片
-- (NSArray *)photos {
-    
-    return self.addedPhotos;
-}
 
 
 @end
