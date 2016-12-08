@@ -54,13 +54,13 @@
     [self setNavigationBar];
     
     // 集成下拉刷新控件
-    [self setupDownRefresh];
+//    [self setupDownRefresh];
     
     // 集成上拉加载控件
-    [self setupUpRefresh];
+//    [self setupUpRefresh];
     
     // 测试附近API
-//    [self around];
+    [self loadAroundStatus];
     
 }
 
@@ -85,6 +85,7 @@
     
 }
 
+// 获取用户地理位置附近的嘀咕
 - (void)loadAroundStatus {
     NSLog(@"around");
     
@@ -122,7 +123,6 @@
 - (void)refreshStateChanged:(UIRefreshControl *)control {
     
     NSLog(@"refreshStateChanged");
-    
     // 获取含accessToken的凭证对象
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
     // 设置基础url
@@ -153,7 +153,6 @@
             frame.status = status;
             [newFrames addObject:frame];
         }
-        
         // 将最新微博数据添加到对应数组最前面
         NSRange range = NSMakeRange(0, newFrames.count);
         NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
@@ -161,7 +160,6 @@
         
         // 刷新表格
         [self.tableView reloadData];
-        
         // 结束刷新
         [control endRefreshing];
         
