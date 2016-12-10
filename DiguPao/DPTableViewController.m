@@ -19,6 +19,7 @@
 #import "DPLoadMoreFooter.h"
 #import "DPStatusCell.h"
 #import "DPStatusFrame.h"
+#import "DPStatusDetailController.h"
 
 @interface DPTableViewController () <DPDropdownMenuDelegate>
 
@@ -39,7 +40,6 @@
     
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -54,13 +54,11 @@
     [self setNavigationBar];
     
     // 集成下拉刷新控件
-//    [self setupDownRefresh];
+    [self setupDownRefresh];
     
     // 集成上拉加载控件
-//    [self setupUpRefresh];
+    [self setupUpRefresh];
     
-    // 测试附近API
-    [self loadAroundStatus];
     
 }
 
@@ -69,236 +67,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-// 集成下拉刷新控件
-- (void)setupDownRefresh {
-    
-    // 1.添加刷新控件
-    UIRefreshControl *control = [[UIRefreshControl alloc] init];
-    // 监听的UIControlEventValueChanged事件就是用户手动下拉 control进入了刷新状态
-    [control addTarget:self action:@selector(refreshStateChanged:) forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:control];
-    // 2.马上进入刷新状态 但是不会触发refreshStateChanged方法
-    [control beginRefreshing];
-    // 3.马上加载数据
-    [self refreshStateChanged:control];
-    
-}
-
-// 获取用户地理位置附近的嘀咕
-- (void)loadAroundStatus {
-    NSLog(@"around");
-    
-    // 获取含accessToken的凭证对象
-    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
-    // 获取地理位置
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    double latitudeDouble = [user doubleForKey:@"latitude"];
-    double longtitudeDouble = [user doubleForKey:@"longtitude"];
-    NSString *latitude = [NSString stringWithFormat:@"%f", latitudeDouble];
-    NSString *longitude = [NSString stringWithFormat:@"%f", longtitudeDouble];
-    // 设置基础url
-    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
-    // 设置参数
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
-    params[@"latitude"] = latitude;
-    params[@"longitude"]= longitude;
-    NSLog(@"around params: %@", params);
-    
-    [manager GET:@"/api/v1/paopaos/location" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        //
-        NSLog(@"附近API测试成功: %@", responseObject);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //
-        NSLog(@"附近API测试失败: %@", error);
-    }];
-    
-}
-
-
-
-// 既然控件进入刷新状态那就重新加载数据
-- (void)refreshStateChanged:(UIRefreshControl *)control {
-    
-    NSLog(@"refreshStateChanged");
-    // 获取含accessToken的凭证对象
-    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
-    // 设置基础url
-    // 暂时先用iTunes的API代替
-    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
-    // 设置参数
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
-    
-    //取出最前面（新）的嘀咕
-    DPStatusFrame *firstStatusFrame = [self.statusFrames firstObject];
-    if (firstStatusFrame) {
-        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
-        params[@"since_id"] = firstStatusFrame.status.idstr;
-        NSLog(@"本地最新嘀咕的id是:%@", firstStatusFrame.status.idstr);
-    }
-    
-    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        //        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
-        NSLog(@"%@", responseObject);
-        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
-        // 将DPStatus的数组转为DPStatusFrame的数组
-        NSMutableArray *newFrames = [NSMutableArray array];
-        for (DPStatus *status in newStatus) {
-            DPStatusFrame *frame = [[DPStatusFrame alloc] init];
-            frame.status = status;
-            [newFrames addObject:frame];
-        }
-        // 将最新微博数据添加到对应数组最前面
-        NSRange range = NSMakeRange(0, newFrames.count);
-        NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
-        [self.statusFrames insertObjects:newFrames atIndexes:set];
-        
-        // 刷新表格
-        [self.tableView reloadData];
-        // 结束刷新
-        [control endRefreshing];
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"嘀咕广场API调用失败: %@", error);
-        // 结束刷新
-        [control endRefreshing];
-        
-    }];
-
-    
-}
-
-// 集成上拉加载控件
-- (void)setupUpRefresh {
-    DPLoadMoreFooter *footer = [DPLoadMoreFooter footer];
-    // 不隐藏的话一开始就会出现
-    footer.hidden = YES;
-    self.tableView.tableFooterView = footer;
-    
-}
-
-// 上拉加载方法 实现下滑自动加载的关键点
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
-    CGFloat offsetY = scrollView.contentOffset.y;
-    // 当最后一个cell完全显示在眼前时，contentOffset的y值
-    CGFloat judgeOffsetY = scrollView.contentSize.height + scrollView.contentInset.bottom - scrollView.height - self.tableView.tableFooterView.height;
-    
-    // scrollView == self.tableView == self.view
-    // 如果tableView还没有数据，就直接返回
-    if (self.statusFrames.count == 0 || self.tableView.tableFooterView.isHidden == NO) return;
-    
-    if (offsetY >= judgeOffsetY) { // 最后一个cell完全进入视野范围内
-        // 显示footer
-        self.tableView.tableFooterView.hidden = NO;
-        // 加载更多的微博数据
-        [self loadMoreStatus];
-    };
-    
-}
-
-// 上拉加载历史嘀咕的网络方法
-- (void)loadMoreStatus {
-    // 获取含accessToken的凭证对象
-//    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
-    // 设置基础url
-    // 暂时先用iTunes的API代替
-    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
-    // 设置参数
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
-    // 问题在于上拉加载几次后又回到顶部下拉刷新 如果此时总表有变化就会导致问题
-//    self.page = self.page + 1;
-//    params[@"page"] = [NSString stringWithFormat:@"%d", self.page];
-    DPStatusFrame *lastStatusFrame = [self.statusFrames lastObject];
-    if (lastStatusFrame) {
-        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
-        params[@"max_id"] = lastStatusFrame.status.idstr;
-        NSLog(@"本地最老嘀咕的id是:%@", lastStatusFrame.status.idstr);
-    }
-    
-    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        //        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
-        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
-        // 将DPStatus的数组转为DPStatusFrame的数组
-        NSMutableArray *newFrames = [NSMutableArray array];
-        for (DPStatus *status in newStatus) {
-            DPStatusFrame *frame = [[DPStatusFrame alloc] init];
-            frame.status = status;
-            [newFrames addObject:frame];
-        }
-
-        // 将最新微博数据添加到对应数组最后面
-        [self.statusFrames addObjectsFromArray:newFrames];
-        
-        // 刷新表格
-        [self.tableView reloadData];
-        
-        // 结束刷新(隐藏footer)
-        self.tableView.tableFooterView.hidden = YES;
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"嘀咕广场API调用失败: %@", error);
-        
-        // 结束刷新(隐藏footer)
-        self.tableView.tableFooterView.hidden = YES;
-        
-    }];
-    
-}
-
-#pragma mark - 网络通信方法
-
-// 加载最新的嘀咕方法
-//- (void)loadNewStatus {
-//    // 获取含accessToken的凭证对象
-//    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
-//    // 设置基础url
-//    // 暂时先用iTunes的API代替
-//    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
-//    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
-//    // 设置参数
-//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
-//        
-//    [manager GET:@"/api/v1/paopaos/public" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        
-////        NSLog(@"嘀咕广场API调用成功: %@", responseObject);
-//        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
-//        
-////        NSLog(@"嘀咕json数组转模型数组成功: %@", newStatus);
-////        for (DPStatus *status in newStatus) {
-////            NSLog(@"作者ID:%@,嘀咕ID:%@,内容:%@", status.user.idstr, status.idstr, status.text);
-////       
-////        }
-//        
-//        // 将最新微博数据添加到对应数组最后面
-//        [self.statuses addObjectsFromArray:newStatus];
-//        
-//        // 刷新表格
-//        [self.tableView reloadData];
-//        
-//        
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        
-//        NSLog(@"嘀咕广场API调用失败: %@", error);
-//        
-//    }];
-    
-    
-    
-//}
 
 #pragma mark - 控件加载与方法
 
@@ -392,6 +160,187 @@
     
 }
 
+// 集成下拉刷新控件
+- (void)setupDownRefresh {
+    
+    // 1.添加刷新控件
+    UIRefreshControl *control = [[UIRefreshControl alloc] init];
+    // 监听的UIControlEventValueChanged事件就是用户手动下拉 control进入了刷新状态
+    [control addTarget:self action:@selector(refreshStateChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:control];
+    // 2.进入刷新状态 但是不会触发refreshStateChanged方法
+    [control beginRefreshing];
+    // 3.加载数据
+    [self refreshStateChanged:control];
+    
+}
+
+// 下拉刷新控件动作对应的方法:加载最新嘀咕数据
+- (void)refreshStateChanged:(UIRefreshControl *)control {
+    
+    NSLog(@"refreshStateChanged");
+    // 获取含accessToken的凭证对象
+//    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    // 暂时先用iTunes的API代替
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    
+    //取出最前面（新）的嘀咕
+    DPStatusFrame *firstStatusFrame = [self.statusFrames firstObject];
+    if (firstStatusFrame) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"since_id"] = firstStatusFrame.status.idstr;
+        NSLog(@"本地最新嘀咕的id是:%@", firstStatusFrame.status.idstr);
+    }
+    
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"嘀咕广场API调用成功");
+        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPStatus *status in newStatus) {
+            DPStatusFrame *frame = [[DPStatusFrame alloc] init];
+            frame.status = status;
+            [newFrames addObject:frame];
+        }
+        // 将最新微博数据添加到对应数组最前面
+        NSRange range = NSMakeRange(0, newFrames.count);
+        NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.statusFrames insertObjects:newFrames atIndexes:set];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        // 结束刷新
+        [control endRefreshing];
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"嘀咕广场API调用失败: %@", error);
+        // 结束刷新
+        [control endRefreshing];
+        
+    }];
+
+    
+}
+
+// 集成上拉加载控件
+- (void)setupUpRefresh {
+    DPLoadMoreFooter *footer = [DPLoadMoreFooter footer];
+    // 不隐藏的话一开始就会出现
+    footer.hidden = YES;
+    self.tableView.tableFooterView = footer;
+    
+}
+
+// 重写系统方法 实现下滑自动加载的关键点
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    CGFloat offsetY = scrollView.contentOffset.y;
+    // 当最后一个cell完全显示在眼前时，contentOffset的y值
+    CGFloat judgeOffsetY = scrollView.contentSize.height + scrollView.contentInset.bottom - scrollView.height - self.tableView.tableFooterView.height;
+    
+    // scrollView == self.tableView == self.view
+    // 如果tableView还没有数据，就直接返回
+    if (self.statusFrames.count == 0 || self.tableView.tableFooterView.isHidden == NO) return;
+    
+    if (offsetY >= judgeOffsetY) { // 最后一个cell完全进入视野范围内
+        // 显示footer
+        self.tableView.tableFooterView.hidden = NO;
+        // 网络加载更早的嘀咕
+        [self loadEarlierStatus];
+    };
+    
+}
+
+#pragma mark - 网络通信方法
+
+// 加载更早嘀咕的网络方法
+- (void)loadEarlierStatus {
+    // 获取含accessToken的凭证对象
+    //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //    params[@"access_token"] = credential.accessToken;
+    DPStatusFrame *lastStatusFrame = [self.statusFrames lastObject];
+    if (lastStatusFrame) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"max_id"] = lastStatusFrame.status.idstr;
+        NSLog(@"获取最旧嘀咕的id:%@", lastStatusFrame.status.idstr);
+    }
+    
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"加载更早嘀咕API调用成功");
+        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPStatus *status in newStatus) {
+            DPStatusFrame *frame = [[DPStatusFrame alloc] init];
+            frame.status = status;
+            [newFrames addObject:frame];
+        }
+        
+        // 将最新微博数据添加到对应数组最后面
+        [self.statusFrames addObjectsFromArray:newFrames];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"加载更早嘀咕API调用失败: %@", error);
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+    }];
+    
+}
+
+// 获取用户地理位置附近的嘀咕
+- (void)loadAroundStatus {
+    
+    // 获取含accessToken的凭证对象
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 获取地理位置
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    double latitudeDouble = [user doubleForKey:@"latitude"];
+    double longtitudeDouble = [user doubleForKey:@"longtitude"];
+    NSString *latitude = [NSString stringWithFormat:@"%f", latitudeDouble];
+    NSString *longitude = [NSString stringWithFormat:@"%f", longtitudeDouble];
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    params[@"latitude"] = latitude;
+    params[@"longitude"]= longitude;
+    
+    [manager GET:@"/api/v1/paopaos/location" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        //
+        NSLog(@"附近API测试成功: %@", responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        //
+        NSLog(@"附近API测试失败: %@", error);
+    }];
+    
+}
+
 
 #pragma mark - DPDropdownMenuDelegate
 - (void)dropdownMenuDidDismiss:(DPDropdownMenu *)menu {
@@ -456,23 +405,19 @@
 //    DPStatus * status = self.statuses[indexPath.row];
     // 给cell传递模型
     cell.statusFrame = self.statusFrames[indexPath.row];
-
-//    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:nil] placeholderImage:[UIImage imageNamed:@"avatar_default_small"] options:SDWebImageRefreshCached];
-//    cell.textLabel.text = status.user.name;
-//    cell.detailTextLabel.text = status.text;
-//    // 记得是显示多行
-//    cell.detailTextLabel.numberOfLines = 0;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    TestViewController *test = [[TestViewController alloc] init];
-    test.title = @"测试";
+    DPStatusDetailController *detail = [[DPStatusDetailController alloc] init];
     // 跳转后隐藏底部的bar
-    test.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:test animated:YES];
+    detail.hidesBottomBarWhenPushed = YES;
+    // 传递嘀咕数据模型
+    DPStatusFrame *frame = self.statusFrames[indexPath.row];
+    detail.status = frame.status;
+    [self.navigationController pushViewController:detail animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -482,48 +427,5 @@
     return frame.cellHeight;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -214,8 +214,7 @@
     
     // 获取token凭证
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
-    // 构建字符串
-    NSLog(@"composeWithoutImage with text:%@ latitude:%f,longtitude:%f",self.textView.fullText, latitudeDouble,longtitudeDouble);
+    
     // 发起网络请求
     // 设置基础url
     NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
@@ -294,7 +293,6 @@
         
     }];
     
-//    [self dismissViewControllerAnimated:YES completion:nil];
     
 }
 
