@@ -32,7 +32,7 @@
         _mapView.showsCompass = YES;
         _mapView.showsBuildings = YES;
         _mapView.showsUserLocation = YES;
-        _mapView.scrollEnabled = NO;
+        _mapView.scrollEnabled = YES;
         _mapView.userTrackingMode = MKUserTrackingModeFollow;
         [self addSubview:_mapView];
     }
@@ -137,6 +137,13 @@
         if (!error) {
             userLocation.title = placeMark.locality;
             userLocation.subtitle = placeMark.name;
+            CLLocationCoordinate2D coord = [userLocation coordinate];
+            NSLog(@"经度:%f,纬度:%f",coord.latitude,coord.longitude);
+            NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+            [user setDouble:coord.latitude forKey:@"latitude"];
+            [user setDouble:coord.longitude forKey:@"longtitude"];
+            
+            [user synchronize];
         }else {
             userLocation.title = @"";
         }
@@ -165,7 +172,7 @@
     // 设置图片
     XRAnnotation * xrAnnotation = (XRAnnotation *)annotation;
     annotationView.image = [UIImage imageNamed:xrAnnotation.icon];
-    annotationView.canShowCallout = NO;
+    //annotationView.canShowCallout = NO;
     return annotationView; // 返回自定义大头针
 }
 
@@ -192,6 +199,8 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     NSLog(@"点击了大头针");
+    view.image = [UIImage imageNamed:@"emoticon_keyboard_magnifier"];
+
 }
 
 

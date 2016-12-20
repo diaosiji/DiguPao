@@ -10,6 +10,10 @@
 #import "LocationManager.h"
 #import "MapView.h"
 #import "XRAnnotation.h"
+#import "AFOAuth2Manager.h"
+#import "DPStatus.h"
+#import "DPUser.h"
+#import "MJExtension.h"
 
 @interface DPMapViewController () 
 {
@@ -34,6 +38,7 @@
     [map callBackUserLocation];
     
     // 添加大头针
+    /*
     XRAnnotation * annotation1 = [[XRAnnotation alloc] init];
     annotation1.title = @"不错呦";
     annotation1.subtitle = @"好啊";
@@ -48,6 +53,7 @@
     annotation2.icon = @"map1";
     
     [map addCustomAnnotation:annotation2];
+     */
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,6 +84,7 @@
     
     NSLog(@"latitude:%f,longtitude:%f",latitude,longtitude);
     
+    [self loadAroundStatus];
 }
 
 
@@ -90,5 +97,59 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)loadAroundStatus {
+    NSLog(@"around");
+    
+    // 获取含accessToken的凭证对象
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 获取地理位置
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    double latitudeDouble = [user doubleForKey:@"latitude"];
+    double longtitudeDouble = [user doubleForKey:@"longtitude"];
+    NSString *latitude = [NSString stringWithFormat:@"%f", latitudeDouble];
+    NSString *longitude = [NSString stringWithFormat:@"%f", longtitudeDouble];
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    params[@"latitude"] = latitude;
+    params[@"longitude"]= longitude;
+    NSLog(@"around params: %@", params);
+    
+    [manager GET:@"/api/v1/paopaos/location" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        //
+        
+        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        NSLog(@"附近API测试成功");
+        for (DPStatus *status in newStatus) {
+            // 添加大头针
+            XRAnnotation * annotation1 = [[XRAnnotation alloc] init];
+            annotation1.title = status.user.name;
+            annotation1.subtitle = status.text;
+            double latitude = [status.latitude doubleValue];
+            double longitude = [status.longitude doubleValue];
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+            //判断是不是属于国内范围
+            CLLocationCoordinate2D coordinate = [location coordinate];
+            /*
+            if (![WGS84TOGCJ02 isLocationOutOfChina:[location coordinate]]) {
+                //转换后的coord
+                coordinate = [WGS84TOGCJ02 transformFromWGSToGCJ:[location coordinate]];
+            }
+             */
+            annotation1.coordinate = coordinate;
+            annotation1.icon = @"map1";
+            [map addCustomAnnotation:annotation1];
+
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        //
+        NSLog(@"附近API测试失败: %@", error);
+    }];
+    
+}
 
 @end

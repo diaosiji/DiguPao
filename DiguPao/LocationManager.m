@@ -191,24 +191,19 @@
     }
     
     __weak __typeof(self) weakSelf = self;
-    NSLog(@"latatude: %lf, longitatude: %lf 方向： %@", location.coordinate.latitude, location.coordinate.longitude, directionString);
-    
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    [user setDouble:location.coordinate.latitude forKey:@"latitude"];
-    [user setDouble:location.coordinate.longitude forKey:@"longtitude"];
-    
-    [user synchronize];
+    //NSLog(@"latatude: %lf, longitatude: %lf 方向： %@", location.coordinate.latitude, location.coordinate.longitude, directionString);
     
     
-    NSLog(@"speed: %lf", location.speed);
+    
+    //NSLog(@"speed: %lf", location.speed);
     [self reverseGeocoderWithLocation:location complation:^(CLPlacemark *placeMark, NSError *error) {
         if (!error) {
             weakSelf.userPlaceMark = placeMark;
             NSString * name = placeMark.name;
             
-            NSLog(@"%@", placeMark.addressDictionary);
-            NSLog(@"地址：%@", name);
-            NSLog(@"国家： %@ - 省： %@ - 市： %@ - 街道：%@ - 号：%@", placeMark.country, placeMark.administrativeArea, placeMark.locality, placeMark.thoroughfare, placeMark.subThoroughfare);
+            //NSLog(@"%@", placeMark.addressDictionary);
+            //NSLog(@"地址：%@", name);
+            //NSLog(@"国家： %@ - 省： %@ - 市： %@ - 街道：%@ - 号：%@", placeMark.country, placeMark.administrativeArea, placeMark.locality, placeMark.thoroughfare, placeMark.subThoroughfare);
         }else {
             NSLog(@"反编码失败： %@", error.description);
         }
