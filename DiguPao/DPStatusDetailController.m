@@ -8,11 +8,23 @@
 
 #import "DPStatusDetailController.h"
 #import "DPDetailHeader.h"
-#import "DPStatusFrame.h"
+#import "DPDetailStatusFrame.h"
+#import "DPDetailStatusCell.h"
+#import "DPStatus.h"
+#import "DPDetailStatusCell.h"
+#import "DPDetailTabBar.h"
+#import "UIView+Extension.h"
 
-@interface DPStatusDetailController ()
+@interface DPStatusDetailController () <DPDetailHeaderDelegate>
 
-@property (nonatomic, strong) DPStatusFrame *detailStatusFrame;
+{
+    DPDetailHeader *_detailHeader;
+}
+
+@property (nonatomic, strong) DPDetailStatusFrame *detailStatusFrame;
+/** DPDetailHeader 第二个section的自定义控件 */
+//@property (nonatomic, weak) DPDetailHeader *detailHeader;
+
 
 @end
 
@@ -26,7 +38,32 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.title = @"嘀咕详情";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"detailCell"];
+//    self.detailHeader.delegate = self;
+    
+
+    
+    if (_detailHeader == nil) {
+        DPDetailHeader *header = [DPDetailHeader header];
+        header.delegate = self;
+        _detailHeader = header;
+    }
+    
+    // 初始header点击回应
+    [self detailHeader:_detailHeader btnClick:DetailHeaderBtnTypeApply];
+    
+    // 添加tabBar
+//    DPDetailTabBar *tabBar = [[DPDetailTabBar alloc] init];
+//    CGFloat tabBarWidth = [UIScreen mainScreen].bounds.size.width;
+//    CGFloat tabBarHeight = 44;
+//    CGFloat tabBarX = 0;
+//    CGFloat tabBarY = self.view.height - tabBarHeight;
+//    tabBar.frame = CGRectMake(tabBarX, tabBarY, tabBarWidth, tabBarHeight);
+//    [self.view addSubview:tabBar];
+    
+
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,11 +71,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+//- (DPDetailHeader *)detailHeader {
+//    if (!_detailHeader) {
+//        DPDetailHeader *header = [DPDetailHeader header];
+//        header.delegate = self;
+//        self.detailHeader = header;
+//        
+//    }
+//    return _detailHeader;
+//}
+
 // 懒加载令微博尺寸模型存在且得到数据模型
-- (DPStatusFrame *)detailStatusFrame {
+- (DPDetailStatusFrame *)detailStatusFrame {
     
     if (!_detailStatusFrame) {
-        self.detailStatusFrame = [[DPStatusFrame alloc] init];
+        self.detailStatusFrame = [[DPDetailStatusFrame alloc] init];
         self.detailStatusFrame.status = self.status;
     }
     return _detailStatusFrame;
@@ -80,7 +127,7 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        NSLog(@"detailStatus高度:%f", self.detailStatusFrame.cellHeight);
+//        NSLog(@"detailStatus高度:%f", self.detailStatusFrame.cellHeight);
         return self.detailStatusFrame.cellHeight;
     }/*else if (_detailHeader.currentType == kDetailHeaderBtnTypeRepost) {
       return [_repostFrames[indexPath.row] cellHeight];
@@ -93,16 +140,29 @@
     }
 }
 
-
+#pragma mark NO.5 indexPath这行的cell长什么样子
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellIdentifier = @"detailCell";
+    if (indexPath.section == 0) { // 嘀咕详情
+        // 获得详情Cell
+        DPDetailStatusCell *cell = [DPDetailStatusCell cellWithTableView:tableView];
+        cell.detailStatusFrame = self.detailStatusFrame;
+        NSLog(@"嘀咕文字:%@", cell.detailStatusFrame.status.text);
+//        NSLog(@"嘀咕高度:%f", cell.detailStatusFrame.cellHeight);
+        return cell;
+        
+    } else {
+        // 第二个section中情况暂时不管
+        static NSString *cellIdentifier = @"detailCell";
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+        
+        // Configure the cell...
+        cell.textLabel.text = [NSString stringWithFormat:@"测试第%ld行", (long)indexPath.row];
+        
+        return cell;
+    }
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
 }
 
 #pragma mark NO.6 第section组头部显示什么控件
@@ -111,12 +171,28 @@
     if (section == 0) {
         return nil;
     }
-    
     //    _detailHeader.status = _status;
     
-    DPDetailHeader *header = [DPDetailHeader header];
+//    return self.detailHeader;
+    return _detailHeader;
+}
+
+#pragma mark - DetailHeader Delegate
+-(void)detailHeader:(DPDetailHeader *)header btnClick:(DetailHeaderBtnType)index
+{
+    //先刷新表格（马上显示对应数据，避免数据迟缓）
+    [self.tableView reloadData];
     
-    return header;
+    if (index == DetailHeaderBtnTypeApply) { //点击了回应按钮
+        //
+        NSLog(@"回应");
+    }else if (index == DetailHeaderBtnTypeCollection) { //点击了收藏按钮
+        //
+        NSLog(@"收藏");
+    } else { // 点击了点赞按钮
+        //
+        NSLog(@"点赞");
+    }
 }
 
 /*

@@ -16,6 +16,7 @@
 #import "DPEmotion.h"
 #import "NSString+Emoji.h"
 #import "DPEmotionTextView.h"
+#import <AliyunOSSiOS/OSSService.h>
 
 
 //UINavigationControllerDelegate, UIImagePickerControllerDelegate两个代理都是为打开相机和打开相册服务的，必须同时声明代理
@@ -245,6 +246,114 @@
 }
 
 - (void)composeWithImage {
+    ////////////////////////////// 图片上传OSS /////////////////////////////////////////
+    // 首先初始化OSSClient
+    // 1.根据OSS区域地址设置endpoint
+    NSString *endpoint = @"http://oss-cn-beijing.aliyuncs.com";
+    
+    // 2.使用STS鉴权得到CredentialProvider
+    id<OSSCredentialProvider> stsCredential = [[OSSFederationCredentialProvider alloc] initWithFederationTokenGetter:^OSSFederationToken * {
+        // 构造请求访问您的业务server
+        NSURL * url = [NSURL URLWithString:@"http://123.56.97.99:3000/api/v1/pictures/sts"];
+        NSURLRequest * request = [NSURLRequest requestWithURL:url];
+        OSSTaskCompletionSource * tcs = [OSSTaskCompletionSource taskCompletionSource];
+        NSURLSession * session = [NSURLSession sharedSession];
+        
+        // 发送请求
+        NSURLSessionTask * sessionTask = [session dataTaskWithRequest:request
+                                                    completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                                        if (error) {
+                                                            [tcs setError:error];
+                                                            NSLog(@"error!");
+                                                            return;
+                                                        }
+                                                        NSLog(@"success");
+                                                        [tcs setResult:data];
+                                                    }];
+        [sessionTask resume];
+        
+        // 需要阻塞等待请求返回
+        [tcs.task waitUntilFinished];
+        
+        // 解析结果
+        if (tcs.task.error) {
+            NSLog(@"get token error: %@", tcs.task.error);
+            return nil;
+        } else {
+            // 返回数据是json格式，需要解析得到token的各个字段
+            NSDictionary * object = [NSJSONSerialization JSONObjectWithData:tcs.task.result
+                                                                    options:kNilOptions
+                                                                      error:nil];
+            OSSFederationToken * token = [OSSFederationToken new];
+            token.tAccessKey = [object objectForKey:@"access_key_id"];
+            token.tSecretKey = [object objectForKey:@"access_key_secret"];
+            token.tToken = [object objectForKey:@"security_token"];
+            token.expirationTimeInGMTFormat = [object objectForKey:@"expiration"];
+            NSLog(@"get token: %@", token);
+            return token;
+        }
+    }];
+
+    // 3.初始化OSSClient对象
+    OSSClient *client = [[OSSClient alloc] initWithEndpoint:endpoint credentialProvider:stsCredential];
+    
+    // 然后实现多图上传
+    // 4.结合NSOperationQueue设置operation间的依赖来实现多图上传
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    // 获得选取的图片
+    NSArray *images = self.albumView.photos;
+    queue.maxConcurrentOperationCount = images.count;
+    // 获取生成的图片名
+    NSMutableArray *imageNames = [NSMutableArray array];
+    
+    // 利用NSOperationQueue实现多图上传
+    int i = 0;
+    for (UIImage *image in images) {
+        if (image) {
+            NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+                //任务执行
+                OSSPutObjectRequest * put = [OSSPutObjectRequest new];
+                
+                // 设置请求头bucketname和objectKey
+                put.bucketName = @"paopaos";
+                // 这句代码的意义？
+                NSString *imageName = [@"paopaoImage" stringByAppendingPathComponent:[[NSUUID UUID].UUIDString stringByAppendingString:@".jpg"]];
+                NSLog(@"imageName:%@", imageName);
+                put.objectKey = imageName;
+                // 将图片名记录到数组中
+                // 生成字典再将字典加入数组
+                NSMutableDictionary *pic = [NSMutableDictionary dictionary];
+                pic[@"url"] = imageName;
+                [imageNames addObject:pic];
+                
+                NSData *data = UIImageJPEGRepresentation(image, 0.3);
+                put.uploadingData = data;
+                
+                OSSTask * putTask = [client putObject:put];
+                [putTask waitUntilFinished]; // 阻塞直到上传完成
+                if (!putTask.error) {
+                    NSLog(@"upload object success!");
+                } else {
+                    NSLog(@"upload object failed, error: %@" , putTask.error);
+                }
+                
+                if (image == images.lastObject) {
+                    NSLog(@"upload object finished!");
+                }
+                
+            }];
+            if (queue.operations.count != 0) {
+                [operation addDependency:queue.operations.lastObject];
+            }
+            [queue addOperation:operation];
+        }
+        i++;
+    }
+    //
+    NSLog(@"发送的图片名有:%@", imageNames);
+
+    
+    ////////////////////////////// 图片名和文本信息发给应用服务器 ///////////////////////////
     // 获取地理位置
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     double latitudeDouble = [user doubleForKey:@"latitude"];
@@ -267,29 +376,25 @@
     params[@"text"] = self.textView.fullText;
     params[@"latitude"] = latitude;
     params[@"longitude"]= longtitude;
+    // 设置关键的pictures_attributes参数
+    // imageNames是数组 数组中是一个个字典
+    // 字典只含有一个KVP
+    // key:url value:图片名
+    params[@"pictures_attributes"] = imageNames;
+    
     // 发起请求
-    #warning composeWithImage API还在开发中 应该还有更复杂的情况
-    // 1.客户端需要先从应用服务器得到policy (应该是发送token去得到)
-    // 2.拿着policy并设置回调参数（text应该在回调参数中）发送向OSS服务器的请求
-    // 3.请求成功后 应用服务器会和OSS服务器通信 得知是哪个用户发送了图片和什么text
-    [manager POST:@"/api/v1/paopaoswithpic" parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        // 首先获取第一张图片
-        UIImage *image = [self.albumView.photos firstObject];
-        // 将图像压缩成数据文件
-        NSData *data = UIImageJPEGRepresentation(image, 1.0);
-        // 将文件加入到formData中 请求的参数名放在第二个
-        // fileName不重要 mineType是指定的
-        [formData appendPartWithFileData:data name:@"pic" fileName:@"test.jpg" mimeType:@"image/jpeg"];
+    [manager POST:@"/api/v1/paopaos" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
+        NSLog(@"发送含图片嘀咕API调用成功: %@", responseObject);
+        // 显示HUD提示成功
         [self showComposeSuccessHUD];
-        NSLog(@"sendWithImage成功%@", responseObject);
+        
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
+        NSLog(@"发送含图片嘀咕API调用失败: %@", error);
+        // 显示HUD提示失败
         [self showComposeFailureHUD];
-        NSLog(@"sendWithImage失败%@", error);
         
     }];
     

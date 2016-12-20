@@ -13,5 +13,6 @@ target 'DiguPao' do
   pod 'MJExtension', '~> 3.0.13'
   pod 'SDWebImage', '~>3.8'
   pod 'MBProgressHUD', '~> 1.0.0'
+  pod 'AliyunOSSiOS', '~> 2.5.2'
 
 end

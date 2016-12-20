@@ -30,10 +30,11 @@
 /** DPUser 嘀咕的作者的详细字段 */
 @property (nonatomic, strong) DPUser *user;
 
-/**         服务器尚未提供       **/
-
 /** 微博配图地址 多图返回多rul 无图返回[] */
-//@property (nonatomic, strong) NSArray *pic_urls;
+@property (nonatomic, strong) NSArray *pic_urls;
+
+
+/**         服务器尚未提供       **/
 
 /** 被转发的原微博信息字段 */
 //@property (nonatomic, strong) DPStatus *retweeted_status;
