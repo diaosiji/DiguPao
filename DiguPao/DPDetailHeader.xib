@@ -30,6 +30,9 @@
                     <state key="normal" title="回应">
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="btnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="jLW-h2-YfL"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jF1-Ks-Gzr">
                     <rect key="frame" x="82" y="23" width="65" height="30"/>
@@ -39,6 +42,9 @@
                     <state key="normal" title="收藏">
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="btnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="FVQ-La-r0f"/>
+                    </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jft-FF-hBd">
                     <rect key="frame" x="239" y="23" width="65" height="30"/>
@@ -48,6 +54,9 @@
                     <state key="normal" title="赞">
                         <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="btnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="Mbc-xT-MS0"/>
+                    </connections>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="statusdetail_comment_top_rule" translatesAutoresizingMaskIntoConstraints="NO" id="qIs-pg-Esb">
                     <rect key="frame" x="81" y="28" width="1" height="20"/>
@@ -73,6 +82,12 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="apply" destination="Jtw-87-YBE" id="1Uy-c5-tT8"/>
+                <outlet property="attitude" destination="Jft-FF-hBd" id="R3B-w9-30G"/>
+                <outlet property="collection" destination="jF1-Ks-Gzr" id="87x-d4-U65"/>
+                <outlet property="hint" destination="ag1-Se-B2h" id="tha-yg-GRo"/>
+            </connections>
         </view>
     </objects>
     <resources>

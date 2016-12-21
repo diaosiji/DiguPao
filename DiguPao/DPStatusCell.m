@@ -12,6 +12,8 @@
 #import "DPUser.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "DPStatusToolbar.h"
+#import "DPStatusPhotosView.h"
+
 
 @interface DPStatusCell()
 /* 原创微博 */
@@ -21,8 +23,7 @@
 @property (nonatomic, weak) UIImageView *iconView;
 /** 会员图标 */
 //@property (nonatomic, weak) UIImageView *vipView;
-/** 配图 */
-@property (nonatomic, weak) UIImageView *photosView;
+
 /** 昵称 */
 @property (nonatomic, weak) UILabel *nameLabel;
 /** 时间 */
@@ -31,6 +32,8 @@
 //@property (nonatomic, weak) UILabel *sourceLabel;
 /** 正文 */
 @property (nonatomic, weak) UILabel *contentLabel;
+/** 配图 */
+@property (nonatomic, weak) DPStatusPhotosView *photosView;
 
 /* 转发微博 */
 /** 转发微博整体 */
@@ -109,7 +112,7 @@
     self.iconView = iconView;
     
     /** 配图 */
-    UIImageView *photosView = [[UIImageView alloc] init];
+    DPStatusPhotosView *photosView = [[DPStatusPhotosView alloc] init];
     [self.originalView addSubview:photosView];
     self.photosView = photosView;
     
@@ -163,8 +166,14 @@
     self.contentLabel.frame = statusFrame.contentLabelFrame;
     self.contentLabel.text = status.text;
     // 配图
-    self.photosView.frame = statusFrame.photosViewFrame;
-    self.photosView.backgroundColor = [UIColor blueColor];
+    if (status.pic_urls.count) {
+        
+        self.photosView.frame = statusFrame.photosViewFrame;
+        self.photosView.photos = status.pic_urls;
+        self.photosView.hidden = NO;
+    } else {
+        self.photosView.hidden = YES;
+    }
     
     // 工具条
     self.toolBar.frame = statusFrame.toolbarFrame;

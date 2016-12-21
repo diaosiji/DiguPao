@@ -33,7 +33,7 @@
     [self addChildViewController:discover title:@"发现" image:@"tabbar_discover" selectedImage:@"tabbar_discover_selected"];
     
     DPTableViewController *digu = [[DPTableViewController alloc] init];
-    [self addChildViewController:digu title:@"朋友" image:@"tabbar_profile" selectedImage:@"tabbar_profile_selected"];
+    [self addChildViewController:digu title:@"首页" image:@"tabbar_home" selectedImage:@"tabbar_home_selected"];
     
     // 更换控制器的TabBar
     // self.tabBar = [[DPTabBar alloc] init]; // 报错 是只读属性

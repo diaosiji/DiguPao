@@ -9,6 +9,7 @@
 #import "DPUser.h"
 #import "DPStatus.h"
 #import "DPStatusToolbar.h"
+#import "DPStatusPhotosView.h"
 
 // Cell的边框宽度
 #define DPStatusCellBorderWidth 10
@@ -74,13 +75,29 @@
     
     
     /** 配图 */
+    // 初始化原创微博整体的高度
+    CGFloat originalHeight = 0;
+    
+    if (status.pic_urls.count) {//有配图
+        
+        CGFloat photosX = DPStatusCellBorderWidth;
+        CGFloat photosY = CGRectGetMaxY(self.contentLabelFrame) + DPStatusCellBorderWidth;
+        
+        CGSize photosSize = [DPStatusPhotosView SizeWithCount:(int)status.pic_urls.count];
+        self.photosViewFrame = (CGRect){{photosX, photosY}, photosSize};
+        //有配图时 原创微博整体的高度在配图下方加间距
+        originalHeight = CGRectGetMaxY(self.photosViewFrame) + DPStatusCellBorderWidth;
+    } else {
+        //无配图时 原创微博整体的高度在正文内容下方加间距
+        originalHeight = CGRectGetMaxY(self.contentLabelFrame) + DPStatusCellBorderWidth;
+        
+    }
     
     /** 原创微博整体 */
     CGFloat originalX = 0;
     CGFloat originalY = 0;
     CGFloat originalWidth = [UIScreen mainScreen].bounds.size.width;
-    // 高度等于正文下沿加间距
-    CGFloat originalHeight = CGRectGetMaxY(self.contentLabelFrame) + DPStatusCellBorderWidth;
+    
     self.originalViewFrame = CGRectMake(originalX, originalY, originalWidth, originalHeight);
     
     /** 工具条 */
