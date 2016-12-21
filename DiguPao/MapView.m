@@ -167,7 +167,7 @@
     MKAnnotationView * annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewIdentifier];
     if (!annotationView) {
         annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewIdentifier];
-        annotationView.canShowCallout = YES;
+        annotationView.canShowCallout = NO;
         annotationView.calloutOffset = CGPointMake(0, 0);
     }
     
@@ -209,6 +209,7 @@
     if(view.image != nil){
         view.image = [UIImage imageNamed:@"avatar_vip"];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"select annotation" object:view.annotation];
     
 
 }
@@ -218,6 +219,7 @@
     if(view.image != nil){
         view.image = [UIImage imageNamed:@"map1"];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"deselect annotation" object:view.annotation];
 }
 
 

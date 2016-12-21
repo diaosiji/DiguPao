@@ -14,12 +14,16 @@
 #import "DPStatus.h"
 #import "DPUser.h"
 #import "MJExtension.h"
+#import "DPStatusCell.h"
+#import "DPStatusFrame.h"
 
 @interface DPMapViewController () 
 {
     MapView * map;
     LocationManager * manager;
     NSMutableDictionary *oldAnnotations;
+    DPStatusCell *statusCell;
+    NSArray *newStatus;
 }
 
 @end
@@ -39,8 +43,13 @@
     [map callBackUserLocation];
     
     oldAnnotations = [NSMutableDictionary dictionary];
+    newStatus = [NSArray array];
+    
+    statusCell = [[DPStatusCell alloc] init];
+    [self.view addSubview:statusCell];
     
     [self loadAroundStatus];
+    
     // 添加大头针
     /*
     XRAnnotation * annotation1 = [[XRAnnotation alloc] init];
@@ -58,6 +67,9 @@
     
     [map addCustomAnnotation:annotation2];
      */
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectAnnotation:) name:@"select annotation" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deselectAnnotation:) name:@"deselect annotation" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -128,7 +140,7 @@
     [manager GET:@"/api/v1/paopaos/location" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         //
         
-        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
         NSLog(@"附近API测试成功");
         NSMutableDictionary *newAnnotations = [NSMutableDictionary dictionary];
         
@@ -170,6 +182,35 @@
         NSLog(@"附近API测试失败: %@", error);
     }];
     
+}
+
+- (void)selectAnnotation:(NSNotification *)notification
+{
+    
+    NSLog(@"select annotation");
+    
+    if(notification.object && [notification.object isKindOfClass:[XRAnnotation class]]){
+        XRAnnotation *annotation = (XRAnnotation *)notification.object;
+        for (DPStatus *status in newStatus) {
+            
+            if ([status.idstr isEqualToString:annotation.idstr]) {
+                DPStatusFrame *statusFrame = [[DPStatusFrame alloc] init];
+                statusFrame.status = status;
+                statusFrame.originalViewFrame = CGRectMake(5, 0,  [UIScreen mainScreen].bounds.size.width - 10, statusFrame.originalViewFrame.size.height);
+                statusFrame.toolbarFrame = CGRectMake(5, statusFrame.toolbarFrame.origin.y, [UIScreen mainScreen].bounds.size.width - 10, statusFrame.toolbarFrame.size.height);
+                statusCell.statusFrame = statusFrame;
+                
+                statusCell.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 90 - statusFrame.originalViewFrame.size.height, statusFrame.originalViewFrame.size.width, statusFrame.originalViewFrame.size.height);
+                statusCell.hidden = NO;
+            }
+        }
+    }
+    
+}
+
+- (void)deselectAnnotation:(NSNotification *)notification
+{
+    statusCell.hidden = YES;
 }
 
 @end
