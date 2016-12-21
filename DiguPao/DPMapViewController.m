@@ -19,6 +19,7 @@
 {
     MapView * map;
     LocationManager * manager;
+    NSMutableDictionary *oldAnnotations;
 }
 
 @end
@@ -37,6 +38,9 @@
     
     [map callBackUserLocation];
     
+    oldAnnotations = [NSMutableDictionary dictionary];
+    
+    [self loadAroundStatus];
     // 添加大头针
     /*
     XRAnnotation * annotation1 = [[XRAnnotation alloc] init];
@@ -76,6 +80,7 @@
     NSLog(@"DidFailLoadingMap%@",error);
 }
 
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -85,6 +90,7 @@
     NSLog(@"latitude:%f,longtitude:%f",latitude,longtitude);
     
     [self loadAroundStatus];
+    
 }
 
 
@@ -124,27 +130,41 @@
         
         NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
         NSLog(@"附近API测试成功");
+        NSMutableDictionary *newAnnotations = [NSMutableDictionary dictionary];
+        
+        
         for (DPStatus *status in newStatus) {
             // 添加大头针
             XRAnnotation * annotation1 = [[XRAnnotation alloc] init];
+            annotation1.idstr = status.idstr;
             annotation1.title = status.user.name;
             annotation1.subtitle = status.text;
             double latitude = [status.latitude doubleValue];
             double longitude = [status.longitude doubleValue];
             CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-            //判断是不是属于国内范围
+                //判断是不是属于国内范围
             CLLocationCoordinate2D coordinate = [location coordinate];
-            /*
-            if (![WGS84TOGCJ02 isLocationOutOfChina:[location coordinate]]) {
-                //转换后的coord
-                coordinate = [WGS84TOGCJ02 transformFromWGSToGCJ:[location coordinate]];
-            }
-             */
             annotation1.coordinate = coordinate;
             annotation1.icon = @"map1";
-            [map addCustomAnnotation:annotation1];
-
+            
+            
+            
+            if ([oldAnnotations objectForKey:status.idstr] != nil) {
+                [newAnnotations setObject:[oldAnnotations objectForKey:status.idstr] forKey:status.idstr];
+            } else {
+                [newAnnotations setObject:annotation1 forKey:status.idstr];
+                [map addCustomAnnotation:annotation1];
+            }
         }
+        for (XRAnnotation *annotation in oldAnnotations.allValues) {
+            if ([newAnnotations objectForKey:annotation.idstr] == nil) {
+                [map removeAnnotation:annotation];
+            }
+        }
+            
+        oldAnnotations = newAnnotations;
+            
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         //
         NSLog(@"附近API测试失败: %@", error);

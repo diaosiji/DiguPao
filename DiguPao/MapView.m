@@ -48,6 +48,13 @@
     }
 }
 
+- (void)removeAnnotation:(id<MKAnnotation>)annotation
+{
+    if (_mapView){
+        [_mapView removeAnnotation:annotation];
+    }
+}
+
 - (void)callBackUserLocation
 {
     CLLocationCoordinate2D center = _mapView.userLocation.location.coordinate;
@@ -199,8 +206,18 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     NSLog(@"点击了大头针");
-    view.image = [UIImage imageNamed:@"emoticon_keyboard_magnifier"];
+    if(view.image != nil){
+        view.image = [UIImage imageNamed:@"avatar_vip"];
+    }
+    
 
+}
+
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    if(view.image != nil){
+        view.image = [UIImage imageNamed:@"map1"];
+    }
 }
 
 

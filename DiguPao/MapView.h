@@ -16,4 +16,5 @@
 - (void)createMapCameraWithCenter: (CLLocationCoordinate2D)center;
 - (void)beginNavigationWithBeginPlaceMark: (CLPlacemark *)beginPlaceMark endPlaceMark: (CLPlacemark *)endPlaceMark;
 - (void)mapSnapShot;
+- (void)removeAnnotation:(id <MKAnnotation>)annotation;
 @end
