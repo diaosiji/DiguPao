@@ -23,9 +23,9 @@
     
     _photo = photo;
     // 设置图片
-    NSLog(@"setPhoto url:%@", photo.url);
-    NSString *small_url = [NSString stringWithFormat:@"http://%@!small", photo.url];
-    NSLog(@"setPhoto small_url:%@", small_url);
+//    NSLog(@"setPhoto url:%@", photo.url);
+    NSString *small_url = [NSString stringWithFormat:@"%@!small", photo.url];
+//    NSLog(@"setPhoto small_url:%@", small_url);
     [self sd_setImageWithURL:[NSURL URLWithString:small_url] placeholderImage:[UIImage imageNamed:@"timeline_image_placeholder"]];
     // 根据后缀扩展名显示或者隐藏gif控件
     //self.gifView.hidden = ![photo.thumbnail_pic.lowercaseString hasSuffix:@"gif"];

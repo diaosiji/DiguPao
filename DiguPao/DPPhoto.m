@@ -26,11 +26,11 @@
 
 
 
-- (NSString *)url {
-    _url = self.url;
-    NSLog(@"url getter");
-    return [NSString stringWithFormat:@"http://%@",_url];
-}
+//- (NSString *)url {
+//    _url = self.url;
+//    NSLog(@"url getter");
+//    return [NSString stringWithFormat:@"http://%@",_url];
+//}
 
 
 
