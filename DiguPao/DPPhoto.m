@@ -24,10 +24,27 @@
 //    _bmiddle_pic = [_bmiddle_pic stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
 //}
 
-- (NSString *)bmiddle_pic {
-    
-    NSString *string = self.thumbnail_pic;
-    return [string stringByReplacingOccurrencesOfString:@"thumbnail" withString:@"bmiddle"];
+
+
+- (NSString *)url {
+    _url = self.url;
+    NSLog(@"url getter");
+    return [NSString stringWithFormat:@"http://%@",_url];
 }
 
+
+
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+

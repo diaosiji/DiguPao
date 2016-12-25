@@ -20,6 +20,7 @@
 #import "DPStatusCell.h"
 #import "DPStatusFrame.h"
 #import "DPStatusDetailController.h"
+#import "LGSettingViewController.h"
 
 @interface DPTableViewController () <DPDropdownMenuDelegate>
 
@@ -78,8 +79,8 @@
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     // 1.设置backButton的图片
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"navigationbar_friendsearch"] forState:UIControlStateNormal]; // 正常状态下的图片
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"navigationbar_friendsearch_highlighted"] forState:UIControlStateHighlighted]; // 高亮状态下的图片
+    [leftButton setBackgroundImage:[UIImage imageNamed:@"tabbar_profile"] forState:UIControlStateNormal]; // 正常状态下的图片
+    [leftButton setBackgroundImage:[UIImage imageNamed:@"tabbar_profile_selected"] forState:UIControlStateHighlighted]; // 高亮状态下的图片
     // 2.设置backButton的尺寸（不设置尺寸不会显示）
     // 这里利用了UIView的分类十分方便
     // 让backButton的尺寸等于自身当前背景图片的尺寸
@@ -129,7 +130,11 @@
 
 // 导航栏左边按钮点击方法
 - (void)leftButtonTouched {
-    NSLog(@"left");
+    
+    LGSettingViewController *profile = [[LGSettingViewController alloc] init];
+    profile.hidesBottomBarWhenPushed = YES;
+    profile.title = @"我";
+    [self.navigationController pushViewController:profile animated:YES];
 }
 
 // 导航栏右边按钮点击方法
@@ -199,7 +204,7 @@
     
     [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"嘀咕广场API调用成功");
+//        NSLog(@"嘀咕广场API调用成功:%@", responseObject);
         NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
         // 将DPStatus的数组转为DPStatusFrame的数组
         NSMutableArray *newFrames = [NSMutableArray array];

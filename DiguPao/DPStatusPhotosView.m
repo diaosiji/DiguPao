@@ -78,7 +78,12 @@
         
         MJPhoto *photo = [[MJPhoto alloc] init];
         
-        photo.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", pic.bmiddle_pic]];
+        //photo.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", pic.bmiddle_pic]];
+        NSString *original_url = [NSString stringWithFormat:@"http://%@", pic.url];
+        photo.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", original_url]];
+        NSLog(@"statusPhotoOnTap url:%@", photo.url);
+        
+        
         //设置来源于哪一个UIImageView
         photo.srcImageView = self.subviews[i];
         

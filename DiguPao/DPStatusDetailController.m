@@ -12,10 +12,10 @@
 #import "DPDetailStatusCell.h"
 #import "DPStatus.h"
 #import "DPDetailStatusCell.h"
-#import "DPDetailTabBar.h"
 #import "UIView+Extension.h"
+#import "DPDetailToolBar.h"
 
-@interface DPStatusDetailController () <DPDetailHeaderDelegate>
+@interface DPStatusDetailController () <DPDetailHeaderDelegate, DPDetailToolBarDelegate>
 
 {
     DPDetailHeader *_detailHeader;
@@ -25,23 +25,43 @@
 /** DPDetailHeader 第二个section的自定义控件 */
 //@property (nonatomic, weak) DPDetailHeader *detailHeader;
 
+/** 顶部工具条 */
+@property (nonatomic, weak) DPDetailToolBar *toolBar;
+
 
 @end
 
 @implementation DPStatusDetailController
 
+// 添加工具条
+- (void)setupToolbar {
+    
+    DPDetailToolBar *toolbar = [[DPDetailToolBar alloc] init];
+    // 顶层窗口
+//    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    toolbar.x = 0;
+    toolbar.width = window.width;
+    toolbar.height = 44;
+    toolbar.y = window.height - toolbar.height;
+//    toolbar.y = 0;
+    // 让工具条的代理是控制器自己 这样就可以实现点击按钮的代理方法
+    toolbar.delegate = self;
+    
+    [window addSubview:toolbar];
+    
+    self.toolBar = toolbar;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.title = @"嘀咕详情";
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"detailCell"];
 //    self.detailHeader.delegate = self;
-    
+    [self setupToolbar];
 
     
     if (_detailHeader == nil) {
@@ -195,6 +215,25 @@
     }
 }
 
+#pragma mark - DPDetailToolBar Delegate
+- (void)detailToolBar:(DPDetailToolBar *)toolBar didClickButton:(DPDetailToolBarButtonType)buttonType {
+    
+    switch (buttonType) {
+        case DPDetailToolBarButtonTypeAltitude:
+            NSLog(@"点赞");
+            break;
+            
+        case DPDetailToolBarButtonTypeApply:
+            NSLog(@"回应");
+            break;
+            
+        case DPDetailToolBarButtonTypeCollection:
+            NSLog(@"收藏");
+            break;
+        
+    }
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -238,5 +277,15 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [self.toolBar removeFromSuperview];
+}
+
+//- (void)dealloc {
+//    
+//    [self.toolBar removeFromSuperview];
+//}
 
 @end

@@ -10,9 +10,12 @@
 
 @interface DPPhoto : NSObject
 
+/** string 后端发送的url */
+@property (nonatomic, copy) NSString *url;
+
 /** string 缩略图url */
-@property (nonatomic, copy) NSString *thumbnail_pic;
-/** string 中等大小图url */
-@property (nonatomic, copy) NSString *bmiddle_pic;
+//@property (nonatomic, copy) NSString *small_url;
+/** string 原图图url */
+//@property (nonatomic, copy) NSString *original_url;
 
 @end

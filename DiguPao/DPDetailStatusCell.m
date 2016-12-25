@@ -11,6 +11,7 @@
 #import "DPDetailStatusFrame.h"
 #import "DPUser.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "DPStatusPhotosView.h"
 
 @interface DPDetailStatusCell ()
 /* 原创微博 */
@@ -21,7 +22,7 @@
 /** 会员图标 */
 //@property (nonatomic, weak) UIImageView *vipView;
 /** 配图 */
-@property (nonatomic, weak) UIImageView *photosView;
+@property (nonatomic, weak) DPStatusPhotosView *photosView;
 /** 昵称 */
 @property (nonatomic, weak) UILabel *nameLabel;
 /** 时间 */
@@ -93,7 +94,7 @@
     self.iconView = iconView;
     
     /** 配图 */
-    UIImageView *photosView = [[UIImageView alloc] init];
+    DPStatusPhotosView *photosView = [[DPStatusPhotosView alloc] init];
     [self.originalView addSubview:photosView];
     self.photosView = photosView;
     
@@ -148,8 +149,15 @@
     self.contentLabel.frame = detailStatusFrame.contentLabelFrame;
     self.contentLabel.text = status.text;
     // 配图
-    self.photosView.frame = detailStatusFrame.photosViewFrame;
-    self.photosView.backgroundColor = [UIColor blueColor];
+    if (status.pictures.count) {
+        
+        self.photosView.frame = detailStatusFrame.photosViewFrame;
+        self.photosView.photos = status.pictures;
+        self.photosView.hidden = NO;
+    } else {
+        self.photosView.hidden = YES;
+    }
+
 }
 
 - (void)awakeFromNib {

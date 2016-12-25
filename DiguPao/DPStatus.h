@@ -31,7 +31,7 @@
 @property (nonatomic, strong) DPUser *user;
 
 /** 微博配图地址 多图返回多rul 无图返回[] */
-@property (nonatomic, strong) NSArray *pic_urls;
+@property (nonatomic, strong) NSArray *pictures;
 
 
 /**         服务器尚未提供       **/

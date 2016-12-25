@@ -16,9 +16,8 @@
 /** string 用户昵称 */
 @property (nonatomic, copy) NSString *name;
 
-// 尚未提供
-/** string 50pt的用户头像地址 */
-//@property (nonatomic, copy) NSString *profile_image_url;
+/** string 用户头像url */
+@property (nonatomic, copy) NSString *avatar;
 
 /** string 用户手机 */
 @property (nonatomic, copy) NSString *phone;

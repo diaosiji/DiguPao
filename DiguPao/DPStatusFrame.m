@@ -42,7 +42,7 @@
     
     // 从左上角开始算frame
     /** 头像 */
-    CGFloat iconWH = 50;
+    CGFloat iconWH = 40;
     CGFloat iconX = DPStatusCellBorderWidth;
     CGFloat iconY = DPStatusCellBorderWidth;
     self.iconViewFrame = CGRectMake(iconX, iconY, iconWH, iconWH);
@@ -78,12 +78,12 @@
     // 初始化原创微博整体的高度
     CGFloat originalHeight = 0;
     
-    if (status.pic_urls.count) {//有配图
+    if (status.pictures.count) {//有配图
         
-        CGFloat photosX = DPStatusCellBorderWidth;
+        CGFloat photosX = contentX;
         CGFloat photosY = CGRectGetMaxY(self.contentLabelFrame) + DPStatusCellBorderWidth;
         
-        CGSize photosSize = [DPStatusPhotosView SizeWithCount:(int)status.pic_urls.count];
+        CGSize photosSize = [DPStatusPhotosView SizeWithCount:(int)status.pictures.count];
         self.photosViewFrame = (CGRect){{photosX, photosY}, photosSize};
         //有配图时 原创微博整体的高度在配图下方加间距
         originalHeight = CGRectGetMaxY(self.photosViewFrame) + DPStatusCellBorderWidth;

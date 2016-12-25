@@ -13,6 +13,7 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "DPStatusToolbar.h"
 #import "DPStatusPhotosView.h"
+#import "DPIconView.h"
 
 
 @interface DPStatusCell()
@@ -20,7 +21,7 @@
 /** 原创微博整体 */
 @property (nonatomic, weak) UIView *originalView;
 /** 头像 */
-@property (nonatomic, weak) UIImageView *iconView;
+@property (nonatomic, weak) DPIconView *iconView;
 /** 会员图标 */
 //@property (nonatomic, weak) UIImageView *vipView;
 
@@ -107,7 +108,7 @@
     self.originalView = originalView;
     
     /** 头像 */
-    UIImageView *iconView = [[UIImageView alloc] init];
+    DPIconView *iconView = [[DPIconView alloc] init];
     [self.originalView addSubview:iconView];
     self.iconView = iconView;
     
@@ -151,10 +152,10 @@
     self.originalView.frame = statusFrame.originalViewFrame;
     // 头像
     self.iconView.frame = statusFrame.iconViewFrame;
-    [self.iconView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"avatar_default_small"]];
-    // 2句实现圆形头像
+    self.iconView.user = user;
+    // 句实现圆形头像
     self.iconView.layer.cornerRadius = self.iconView.frame.size.width / 2;
-    self.iconView.clipsToBounds = YES; // 是否按照尺寸裁剪多出边缘的图片
+    
     // 昵称
     self.nameLabel.frame = statusFrame.nameLabelFrame;
     self.nameLabel.text = user.name;
@@ -166,10 +167,10 @@
     self.contentLabel.frame = statusFrame.contentLabelFrame;
     self.contentLabel.text = status.text;
     // 配图
-    if (status.pic_urls.count) {
+    if (status.pictures.count) {
         
         self.photosView.frame = statusFrame.photosViewFrame;
-        self.photosView.photos = status.pic_urls;
+        self.photosView.photos = status.pictures;
         self.photosView.hidden = NO;
     } else {
         self.photosView.hidden = YES;

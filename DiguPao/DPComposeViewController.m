@@ -303,6 +303,7 @@
     // 获得选取的图片
     NSArray *images = self.albumView.photos;
     queue.maxConcurrentOperationCount = images.count;
+    NSLog(@"选中图片%lu个", (unsigned long)images.count);
     // 获取生成的图片名
     NSMutableArray *imageNames = [NSMutableArray array];
     
@@ -339,6 +340,54 @@
                 
                 if (image == images.lastObject) {
                     NSLog(@"upload object finished!");
+                    
+              //////////////////// 图片名和文本信息发给应用服务器 ///////////////////////////
+                    // 获取地理位置
+                    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+                    double latitudeDouble = [user doubleForKey:@"latitude"];
+                    double longtitudeDouble = [user doubleForKey:@"longtitude"];
+                    
+                    NSString *latitude = [NSString stringWithFormat:@"%f", latitudeDouble];
+                    NSString *longtitude = [NSString stringWithFormat:@"%f", longtitudeDouble];
+                    
+                    // 获取token凭证
+                    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+                    // 构建字符串
+                    NSLog(@"composeWithImage with text:%@ latitude:%f,longtitude:%f",self.textView.fullText, latitudeDouble,longtitudeDouble);
+                    // 发起网络请求
+                    // 设置基础url
+                    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+                    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+                    // 设置参数
+                    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                    params[@"access_token"] = credential.accessToken;
+                    params[@"text"] = self.textView.fullText;
+                    params[@"latitude"] = latitude;
+                    params[@"longitude"]= longtitude;
+                    // 设置关键的pictures_attributes参数
+                    // imageNames是数组 数组中是一个个字典
+                    // 字典只含有一个KVP
+                    // key:url value:图片名
+                    params[@"pictures"] = imageNames;
+                    
+                    NSLog(@"composeWithImage params:%@", params);
+                    
+                    // 发起请求
+                    [manager POST:@"/api/v1/paopaos" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                        
+                        NSLog(@"发送含图片嘀咕API调用成功: %@", responseObject);
+                        // 显示HUD提示成功
+                        [self showComposeSuccessHUD];
+                        
+                        
+                    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                        
+                        NSLog(@"发送含图片嘀咕API调用失败: %@", error);
+                        // 显示HUD提示失败
+                        [self showComposeFailureHUD];
+                        
+                    }];
+
                 }
                 
             }];
@@ -349,55 +398,6 @@
         }
         i++;
     }
-    //
-    NSLog(@"发送的图片名有:%@", imageNames);
-
-    
-    ////////////////////////////// 图片名和文本信息发给应用服务器 ///////////////////////////
-    // 获取地理位置
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    double latitudeDouble = [user doubleForKey:@"latitude"];
-    double longtitudeDouble = [user doubleForKey:@"longtitude"];
-    
-    NSString *latitude = [NSString stringWithFormat:@"%f", latitudeDouble];
-    NSString *longtitude = [NSString stringWithFormat:@"%f", longtitudeDouble];
-    
-    // 获取token凭证
-    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
-    // 构建字符串
-    NSLog(@"composeWithImage with text:%@ latitude:%f,longtitude:%f",self.textView.fullText, latitudeDouble,longtitudeDouble);
-    // 发起网络请求
-    // 设置基础url
-    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
-    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
-    // 设置参数
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"access_token"] = credential.accessToken;
-    params[@"text"] = self.textView.fullText;
-    params[@"latitude"] = latitude;
-    params[@"longitude"]= longtitude;
-    // 设置关键的pictures_attributes参数
-    // imageNames是数组 数组中是一个个字典
-    // 字典只含有一个KVP
-    // key:url value:图片名
-    params[@"pictures_attributes"] = imageNames;
-    
-    // 发起请求
-    [manager POST:@"/api/v1/paopaos" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSLog(@"发送含图片嘀咕API调用成功: %@", responseObject);
-        // 显示HUD提示成功
-        [self showComposeSuccessHUD];
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"发送含图片嘀咕API调用失败: %@", error);
-        // 显示HUD提示失败
-        [self showComposeFailureHUD];
-        
-    }];
-    
     
 }
 
@@ -478,7 +478,12 @@
             
         case DPComposeToolBarButtonTypePicture:
             NSLog(@"相册");
-            [self openAlbum];
+            if (self.albumView.photos.count < 9) {
+                [self openAlbum];
+            } else {
+                [self showHUD:@"最多9张图片" icon:nil view:nil];
+            }
+            
             break;
             
         case DPComposeToolBarButtonTypeMention:
