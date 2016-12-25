@@ -16,6 +16,7 @@
 #import "MJExtension.h"
 #import "DPStatusCell.h"
 #import "DPStatusFrame.h"
+#import "DPStatusDetailController.h"
 
 @interface DPMapViewController () 
 {
@@ -70,6 +71,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectAnnotation:) name:@"select annotation" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deselectAnnotation:) name:@"deselect annotation" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(touchStatusCell:) name:@"touch status cell" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -211,6 +213,17 @@
 - (void)deselectAnnotation:(NSNotification *)notification
 {
     statusCell.hidden = YES;
+}
+
+- (void)touchStatusCell:(NSNotification *)notification
+{
+    DPStatusDetailController *detail = [[DPStatusDetailController alloc] init];
+    // 跳转后隐藏底部的bar
+    detail.hidesBottomBarWhenPushed = YES;
+    // 传递嘀咕数据模型
+    DPStatusFrame *frame = (DPStatusFrame *)notification.object;
+    detail.status = frame.status;
+    [self.navigationController pushViewController:detail animated:YES];
 }
 
 @end
