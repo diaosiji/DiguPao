@@ -14,11 +14,17 @@
 #import "DPStatus.h"
 #import "DPUser.h"
 #import "MJExtension.h"
+#import "DPStatusCell.h"
+#import "DPStatusFrame.h"
+#import "DPStatusDetailController.h"
 
 @interface DPMapViewController () 
 {
     MapView * map;
     LocationManager * manager;
+    NSMutableDictionary *oldAnnotations;
+    DPStatusCell *statusCell;
+    NSArray *newStatus;
 }
 
 @end
@@ -37,6 +43,14 @@
     
     [map callBackUserLocation];
     
+    oldAnnotations = [NSMutableDictionary dictionary];
+    newStatus = [NSArray array];
+    
+    statusCell = [[DPStatusCell alloc] init];
+    [self.view addSubview:statusCell];
+    
+    [self loadAroundStatus];
+    
     // 添加大头针
     /*
     XRAnnotation * annotation1 = [[XRAnnotation alloc] init];
@@ -54,6 +68,10 @@
     
     [map addCustomAnnotation:annotation2];
      */
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectAnnotation:) name:@"select annotation" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deselectAnnotation:) name:@"deselect annotation" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(touchStatusCell:) name:@"touch status cell" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,6 +94,7 @@
     NSLog(@"DidFailLoadingMap%@",error);
 }
 
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
@@ -85,6 +104,7 @@
     NSLog(@"latitude:%f,longtitude:%f",latitude,longtitude);
     
     [self loadAroundStatus];
+    
 }
 
 
@@ -122,34 +142,88 @@
     [manager GET:@"/api/v1/paopaos/location" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         //
         
-        NSArray *newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        newStatus = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
         NSLog(@"附近API测试成功");
+        NSMutableDictionary *newAnnotations = [NSMutableDictionary dictionary];
+        
+        
         for (DPStatus *status in newStatus) {
             // 添加大头针
             XRAnnotation * annotation1 = [[XRAnnotation alloc] init];
+            annotation1.idstr = status.idstr;
             annotation1.title = status.user.name;
             annotation1.subtitle = status.text;
             double latitude = [status.latitude doubleValue];
             double longitude = [status.longitude doubleValue];
             CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
-            //判断是不是属于国内范围
+                //判断是不是属于国内范围
             CLLocationCoordinate2D coordinate = [location coordinate];
-            /*
-            if (![WGS84TOGCJ02 isLocationOutOfChina:[location coordinate]]) {
-                //转换后的coord
-                coordinate = [WGS84TOGCJ02 transformFromWGSToGCJ:[location coordinate]];
-            }
-             */
             annotation1.coordinate = coordinate;
             annotation1.icon = @"map1";
-            [map addCustomAnnotation:annotation1];
-
+            
+            
+            
+            if ([oldAnnotations objectForKey:status.idstr] != nil) {
+                [newAnnotations setObject:[oldAnnotations objectForKey:status.idstr] forKey:status.idstr];
+            } else {
+                [newAnnotations setObject:annotation1 forKey:status.idstr];
+                [map addCustomAnnotation:annotation1];
+            }
         }
+        for (XRAnnotation *annotation in oldAnnotations.allValues) {
+            if ([newAnnotations objectForKey:annotation.idstr] == nil) {
+                [map removeAnnotation:annotation];
+            }
+        }
+            
+        oldAnnotations = newAnnotations;
+            
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         //
         NSLog(@"附近API测试失败: %@", error);
     }];
     
+}
+
+- (void)selectAnnotation:(NSNotification *)notification
+{
+    
+    NSLog(@"select annotation");
+    
+    if(notification.object && [notification.object isKindOfClass:[XRAnnotation class]]){
+        XRAnnotation *annotation = (XRAnnotation *)notification.object;
+        for (DPStatus *status in newStatus) {
+            
+            if ([status.idstr isEqualToString:annotation.idstr]) {
+                DPStatusFrame *statusFrame = [[DPStatusFrame alloc] init];
+                statusFrame.status = status;
+                statusFrame.originalViewFrame = CGRectMake(5, 0,  [UIScreen mainScreen].bounds.size.width - 10, statusFrame.originalViewFrame.size.height);
+                statusFrame.toolbarFrame = CGRectMake(5, statusFrame.toolbarFrame.origin.y, [UIScreen mainScreen].bounds.size.width - 10, statusFrame.toolbarFrame.size.height);
+                statusCell.statusFrame = statusFrame;
+                
+                statusCell.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 90 - statusFrame.originalViewFrame.size.height, statusFrame.originalViewFrame.size.width, statusFrame.originalViewFrame.size.height);
+                statusCell.hidden = NO;
+            }
+        }
+    }
+    
+}
+
+- (void)deselectAnnotation:(NSNotification *)notification
+{
+    statusCell.hidden = YES;
+}
+
+- (void)touchStatusCell:(NSNotification *)notification
+{
+    DPStatusDetailController *detail = [[DPStatusDetailController alloc] init];
+    // 跳转后隐藏底部的bar
+    detail.hidesBottomBarWhenPushed = YES;
+    // 传递嘀咕数据模型
+    DPStatusFrame *frame = (DPStatusFrame *)notification.object;
+    detail.status = frame.status;
+    [self.navigationController pushViewController:detail animated:YES];
 }
 
 @end

@@ -48,6 +48,13 @@
     }
 }
 
+- (void)removeAnnotation:(id<MKAnnotation>)annotation
+{
+    if (_mapView){
+        [_mapView removeAnnotation:annotation];
+    }
+}
+
 - (void)callBackUserLocation
 {
     CLLocationCoordinate2D center = _mapView.userLocation.location.coordinate;
@@ -160,7 +167,7 @@
     MKAnnotationView * annotationView = (MKAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:AnnotationViewIdentifier];
     if (!annotationView) {
         annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:AnnotationViewIdentifier];
-        annotationView.canShowCallout = YES;
+        annotationView.canShowCallout = NO;
         annotationView.calloutOffset = CGPointMake(0, 0);
     }
     
@@ -199,8 +206,20 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {
     NSLog(@"点击了大头针");
-    view.image = [UIImage imageNamed:@"emoticon_keyboard_magnifier"];
+    if(view.image != nil){
+        view.image = [UIImage imageNamed:@"avatar_vip"];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"select annotation" object:view.annotation];
+    
 
+}
+
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    if(view.image != nil){
+        view.image = [UIImage imageNamed:@"map1"];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"deselect annotation" object:view.annotation];
 }
 
 
