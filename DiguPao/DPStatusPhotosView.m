@@ -79,8 +79,9 @@
         MJPhoto *photo = [[MJPhoto alloc] init];
         
         //photo.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", pic.bmiddle_pic]];
-        NSString *original_url = [NSString stringWithFormat:@"http://%@", pic.url];
-        photo.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", original_url]];
+//        NSString *original_url = [NSString stringWithFormat:@"http://%@", pic.url];
+//        photo.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", original_url]];
+        photo.url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", pic.url]];
         NSLog(@"statusPhotoOnTap url:%@", photo.url);
         
         
