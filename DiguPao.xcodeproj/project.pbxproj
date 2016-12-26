@@ -732,7 +732,7 @@
 				TargetAttributes = {
 					36574E3E1DD2AB6400319BC8 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = A56MTA89R5;
+						DevelopmentTeam = RZGSSCAQVM;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
@@ -1009,7 +1009,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
-				DEVELOPMENT_TEAM = A56MTA89R5;
+				DEVELOPMENT_TEAM = RZGSSCAQVM;
 				INFOPLIST_FILE = DiguPao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.idiguer.cn.DiguPao;
@@ -1023,7 +1023,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = DiguPao/DiguPao.entitlements;
-				DEVELOPMENT_TEAM = A56MTA89R5;
+				DEVELOPMENT_TEAM = RZGSSCAQVM;
 				INFOPLIST_FILE = DiguPao/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = www.idiguer.cn.DiguPao;

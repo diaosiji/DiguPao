@@ -198,8 +198,8 @@
             if ([status.idstr isEqualToString:annotation.idstr]) {
                 DPStatusFrame *statusFrame = [[DPStatusFrame alloc] init];
                 statusFrame.status = status;
-                statusFrame.originalViewFrame = CGRectMake(5, 0,  [UIScreen mainScreen].bounds.size.width - 10, statusFrame.originalViewFrame.size.height);
-                statusFrame.toolbarFrame = CGRectMake(5, statusFrame.toolbarFrame.origin.y, [UIScreen mainScreen].bounds.size.width - 10, statusFrame.toolbarFrame.size.height);
+                statusFrame.originalViewFrame = CGRectMake(7, 0,  [UIScreen mainScreen].bounds.size.width - 14, statusFrame.originalViewFrame.size.height);
+                statusFrame.toolbarFrame = CGRectMake(7, statusFrame.toolbarFrame.origin.y, [UIScreen mainScreen].bounds.size.width - 14, statusFrame.toolbarFrame.size.height);
                 statusCell.statusFrame = statusFrame;
                 
                 statusCell.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 90 - statusFrame.originalViewFrame.size.height, statusFrame.originalViewFrame.size.width, statusFrame.originalViewFrame.size.height);
