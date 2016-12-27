@@ -6,7 +6,7 @@
 //  Copyright © 2016年 intelligentunit. All rights reserved.
 //
 
-#import "DPStatusCell.h"
+#import "DPStatusView.h"
 #import "DPStatus.h"
 #import "DPStatusFrame.h"
 #import "DPUser.h"
@@ -16,7 +16,7 @@
 #import "DPIconView.h"
 
 
-@interface DPStatusCell()
+@interface DPStatusView()
 /* 原创微博 */
 /** 原创微博整体 */
 @property (nonatomic, weak) UIView *originalView;
@@ -50,14 +50,14 @@
 
 @end
 
-@implementation DPStatusCell
+@implementation DPStatusView
 
 + (instancetype)cellWithTableView:(UITableView *)tableView {
     
     static NSString *ID = @"status";
-    DPStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    DPStatusView *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
-        cell = [[DPStatusCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+        cell = [[DPStatusView alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
     }
     return cell;
     
@@ -84,7 +84,7 @@
         
         // 初始化工具条
         [self setupToolbar];
-
+        
     }
     return self;
 }
@@ -190,8 +190,13 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"select status view" object:self.statusFrame];
 }
 
 
