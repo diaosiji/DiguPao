@@ -341,7 +341,7 @@
                 if (image == images.lastObject) {
                     NSLog(@"upload object finished!");
                     
-              //////////////////// 图片名和文本信息发给应用服务器 ///////////////////////////
+              ///////////////////// 图片名和文本信息发给应用服务器 ///////////////////////////
                     // 获取地理位置
                     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
                     double latitudeDouble = [user doubleForKey:@"latitude"];

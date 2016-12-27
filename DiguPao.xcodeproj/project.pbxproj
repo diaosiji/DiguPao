@@ -27,6 +27,7 @@
 		36431A931E08F05C0010AB4D /* MJPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 36431A8A1E08F05C0010AB4D /* MJPhotoView.m */; };
 		36431A941E08F05C0010AB4D /* SDWebImageManager+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 36431A8C1E08F05C0010AB4D /* SDWebImageManager+MJ.m */; };
 		3649836D1E0F62DE00538384 /* DPIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3649836C1E0F62DE00538384 /* DPIconView.m */; };
+		364983721E10A4C000538384 /* DPChangeIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 364983711E10A4C000538384 /* DPChangeIconViewController.m */; };
 		364B11721E0BB5E000FDC535 /* DPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 364B11711E0BB5E000FDC535 /* DPUserInfoViewController.m */; };
 		365169181DDFDFF6008D0A4C /* DPEmotionTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 365169171DDFDFF6008D0A4C /* DPEmotionTabBarButton.m */; };
 		3651691A1DE008C0008D0A4C /* EmotionIcons in Resources */ = {isa = PBXBuildFile; fileRef = 365169191DE008C0008D0A4C /* EmotionIcons */; };
@@ -127,6 +128,8 @@
 		36431A8C1E08F05C0010AB4D /* SDWebImageManager+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SDWebImageManager+MJ.m"; sourceTree = "<group>"; };
 		3649836B1E0F62DE00538384 /* DPIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPIconView.h; sourceTree = "<group>"; };
 		3649836C1E0F62DE00538384 /* DPIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPIconView.m; sourceTree = "<group>"; };
+		364983701E10A4C000538384 /* DPChangeIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPChangeIconViewController.h; sourceTree = "<group>"; };
+		364983711E10A4C000538384 /* DPChangeIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPChangeIconViewController.m; sourceTree = "<group>"; };
 		364B11701E0BB5E000FDC535 /* DPUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPUserInfoViewController.h; sourceTree = "<group>"; };
 		364B11711E0BB5E000FDC535 /* DPUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPUserInfoViewController.m; sourceTree = "<group>"; };
 		365169161DDFDFF6008D0A4C /* DPEmotionTabBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionTabBarButton.h; sourceTree = "<group>"; };
@@ -674,6 +677,8 @@
 				364B11711E0BB5E000FDC535 /* DPUserInfoViewController.m */,
 				3658EAD81E0CC6920060981C /* DPChangeNameViewController.h */,
 				3658EAD91E0CC6920060981C /* DPChangeNameViewController.m */,
+				364983701E10A4C000538384 /* DPChangeIconViewController.h */,
+				364983711E10A4C000538384 /* DPChangeIconViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -858,6 +863,7 @@
 				36531C571E08C8A80082EEFD /* DPPhoto.m in Sources */,
 				36431A8D1E08F05C0010AB4D /* MJPhoto.m in Sources */,
 				3649836D1E0F62DE00538384 /* DPIconView.m in Sources */,
+				364983721E10A4C000538384 /* DPChangeIconViewController.m in Sources */,
 				36531C5A1E08D6590082EEFD /* DPStatusPhotoView.m in Sources */,
 				367D14A01DFBE8410064411A /* DPStatusDetailController.m in Sources */,
 				363F3BF11DDF3338001F466C /* DPEmotionListView.m in Sources */,

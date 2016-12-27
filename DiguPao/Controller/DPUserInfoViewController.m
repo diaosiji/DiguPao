@@ -10,6 +10,7 @@
 #import "LGSettingItem.h"
 #import "LGSettingSection.h"
 #import "DPChangeNameViewController.h"
+#import "DPChangeIconViewController.h"
 #import "DPIconView.h"
 
 @interface DPUserInfoViewController () <UINavigationControllerDelegate,UIImagePickerControllerDelegate>
@@ -151,41 +152,44 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.section == 0 && indexPath.row == 0) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        [alert addAction:[UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            // 从手机相册选择图片的操作，见下文步骤5
-            //初始化UIImagePickerController
-            UIImagePickerController *PickerImage = [[UIImagePickerController alloc]init];
-            //获取方式1：通过相册（呈现全部相册），UIImagePickerControllerSourceTypePhotoLibrary
-            //获取方式2，通过相机，UIImagePickerControllerSourceTypeCamera
-            //获取方法3，通过相册（呈现全部图片），UIImagePickerControllerSourceTypeSavedPhotosAlbum
-            PickerImage.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-            //允许编辑，即放大裁剪
-            PickerImage.allowsEditing = YES;
-            //自代理
-            PickerImage.delegate = self;
-            //页面跳转
-            [self presentViewController:PickerImage animated:YES completion:nil];
-        }]];
-        [alert addAction:[UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            // 拍照操作，见下文下文步骤5
-            //初始化UIImagePickerController
-            UIImagePickerController *PickerImage = [[UIImagePickerController alloc]init];
-            //获取方式1：通过相册（呈现全部相册），UIImagePickerControllerSourceTypePhotoLibrary
-            //获取方式2，通过相机，UIImagePickerControllerSourceTypeCamera
-            //获取方法3，通过相册（呈现全部图片），UIImagePickerControllerSourceTypeSavedPhotosAlbum
-            PickerImage.sourceType = UIImagePickerControllerSourceTypeCamera;
-            //允许编辑，即放大裁剪
-            PickerImage.allowsEditing = YES;
-            //自代理
-            PickerImage.delegate = self;
-            //页面跳转
-            [self presentViewController:PickerImage animated:YES completion:nil];
-
-            
-        }]];
-        [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
-        [self presentViewController:alert animated:YES completion:nil];
+//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+//        [alert addAction:[UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            // 从手机相册选择图片的操作，见下文步骤5
+//            //初始化UIImagePickerController
+//            UIImagePickerController *PickerImage = [[UIImagePickerController alloc]init];
+//            //获取方式1：通过相册（呈现全部相册），UIImagePickerControllerSourceTypePhotoLibrary
+//            //获取方式2，通过相机，UIImagePickerControllerSourceTypeCamera
+//            //获取方法3，通过相册（呈现全部图片），UIImagePickerControllerSourceTypeSavedPhotosAlbum
+//            PickerImage.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//            //允许编辑，即放大裁剪
+//            PickerImage.allowsEditing = YES;
+//            //自代理
+//            PickerImage.delegate = self;
+//            //页面跳转
+//            [self presentViewController:PickerImage animated:YES completion:nil];
+//        }]];
+//        [alert addAction:[UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            // 拍照操作，见下文下文步骤5
+//            //初始化UIImagePickerController
+//            UIImagePickerController *PickerImage = [[UIImagePickerController alloc]init];
+//            //获取方式1：通过相册（呈现全部相册），UIImagePickerControllerSourceTypePhotoLibrary
+//            //获取方式2，通过相机，UIImagePickerControllerSourceTypeCamera
+//            //获取方法3，通过相册（呈现全部图片），UIImagePickerControllerSourceTypeSavedPhotosAlbum
+//            PickerImage.sourceType = UIImagePickerControllerSourceTypeCamera;
+//            //允许编辑，即放大裁剪
+//            PickerImage.allowsEditing = YES;
+//            //自代理
+//            PickerImage.delegate = self;
+//            //页面跳转
+//            [self presentViewController:PickerImage animated:YES completion:nil];
+//
+//            
+//        }]];
+//        [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil]];
+//        [self presentViewController:alert animated:YES completion:nil];
+        DPChangeIconViewController *change = [[DPChangeIconViewController alloc] init];
+        change.title = @"修改头像";
+        [self.navigationController pushViewController:change animated:YES];
     }
     
     if (indexPath.section == 0 && indexPath.row == 1) {
@@ -199,16 +203,16 @@
 }
 
 //PickerImage完成后的代理方法
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    //定义一个newPhoto，用来存放我们选择的图片。
-    UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
-    //把newPhono设置成头像
-    self.iconItem.image = newPhoto;
-    [self.tableView reloadData];
-    //关闭当前界面，即回到主界面去
-    [self dismissViewControllerAnimated:YES completion:nil];
-    NSLog(@"picker didFinishPickingMediaWithInfo");
-}
+//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+//    //定义一个newPhoto，用来存放我们选择的图片。
+//    UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+//    //把newPhono设置成头像
+//    self.iconItem.image = newPhoto;
+//    [self.tableView reloadData];
+//    //关闭当前界面，即回到主界面去
+//    [self dismissViewControllerAnimated:YES completion:nil];
+//    NSLog(@"picker didFinishPickingMediaWithInfo");
+//}
 
 - (void)loadIcon {
 
