@@ -14,7 +14,7 @@
 #import "DPStatus.h"
 #import "DPUser.h"
 #import "MJExtension.h"
-#import "DPStatusCell.h"
+#import "DPStatusView.h"
 #import "DPStatusFrame.h"
 #import "DPStatusDetailController.h"
 
@@ -23,7 +23,7 @@
     MapView * map;
     LocationManager * manager;
     NSMutableDictionary *oldAnnotations;
-    DPStatusCell *statusCell;
+    DPStatusView *statusView;
     NSArray *newStatus;
 }
 
@@ -46,8 +46,8 @@
     oldAnnotations = [NSMutableDictionary dictionary];
     newStatus = [NSArray array];
     
-    statusCell = [[DPStatusCell alloc] init];
-    [self.view addSubview:statusCell];
+    statusView = [[DPStatusView alloc] init];
+    [self.view addSubview:statusView];
     
     [self loadAroundStatus];
     
@@ -200,10 +200,10 @@
                 statusFrame.status = status;
                 statusFrame.originalViewFrame = CGRectMake(7, 0,  [UIScreen mainScreen].bounds.size.width - 14, statusFrame.originalViewFrame.size.height);
                 statusFrame.toolbarFrame = CGRectMake(7, statusFrame.toolbarFrame.origin.y, [UIScreen mainScreen].bounds.size.width - 14, statusFrame.toolbarFrame.size.height);
-                statusCell.statusFrame = statusFrame;
+                statusView.statusFrame = statusFrame;
                 
-                statusCell.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 90 - statusFrame.originalViewFrame.size.height, statusFrame.originalViewFrame.size.width, statusFrame.originalViewFrame.size.height);
-                statusCell.hidden = NO;
+                statusView.frame = CGRectMake(0, [UIScreen mainScreen].bounds.size.height - 90 - statusFrame.originalViewFrame.size.height, statusFrame.originalViewFrame.size.width, statusFrame.originalViewFrame.size.height);
+                statusView.hidden = NO;
             }
         }
     }
@@ -212,7 +212,7 @@
 
 - (void)deselectAnnotation:(NSNotification *)notification
 {
-    statusCell.hidden = YES;
+    statusView.hidden = YES;
 }
 
 - (void)touchStatusCell:(NSNotification *)notification

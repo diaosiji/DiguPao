@@ -79,6 +79,7 @@
 		36CC32671E0B564700297388 /* LGSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CC32611E0B564700297388 /* LGSettingViewController.m */; };
 		36CC32681E0B564700297388 /* LGSettingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CC32641E0B564700297388 /* LGSettingItem.m */; };
 		36CC32691E0B564700297388 /* LGSettingSection.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CC32661E0B564700297388 /* LGSettingSection.m */; };
+		4422F2DE1E121394009DA1B6 /* DPStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4422F2DD1E121394009DA1B6 /* DPStatusView.m */; };
 		445E7D851DDAEA2F00D17A2D /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D801DDAEA2F00D17A2D /* LocationManager.m */; };
 		445E7D861DDAEA2F00D17A2D /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D821DDAEA2F00D17A2D /* MapView.m */; };
 		445E7D871DDAEA2F00D17A2D /* XRAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 445E7D841DDAEA2F00D17A2D /* XRAnnotation.m */; };
@@ -222,6 +223,8 @@
 		36CC32641E0B564700297388 /* LGSettingItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGSettingItem.m; sourceTree = "<group>"; };
 		36CC32651E0B564700297388 /* LGSettingSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGSettingSection.h; sourceTree = "<group>"; };
 		36CC32661E0B564700297388 /* LGSettingSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGSettingSection.m; sourceTree = "<group>"; };
+		4422F2DC1E121394009DA1B6 /* DPStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPStatusView.h; sourceTree = "<group>"; };
+		4422F2DD1E121394009DA1B6 /* DPStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPStatusView.m; sourceTree = "<group>"; };
 		445E7D7F1DDAEA2F00D17A2D /* LocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationManager.h; sourceTree = "<group>"; };
 		445E7D801DDAEA2F00D17A2D /* LocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationManager.m; sourceTree = "<group>"; };
 		445E7D811DDAEA2F00D17A2D /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapView.h; sourceTree = "<group>"; };
@@ -480,6 +483,8 @@
 				36BA47F11DEA844C008703E3 /* DPLoadMoreFooter.xib */,
 				36BA47F31DEB0A91008703E3 /* DPStatusCell.h */,
 				36BA47F41DEB0A91008703E3 /* DPStatusCell.m */,
+				4422F2DC1E121394009DA1B6 /* DPStatusView.h */,
+				4422F2DD1E121394009DA1B6 /* DPStatusView.m */,
 				361A60A01DEC674F00ED0B13 /* DPStatusToolbar.h */,
 				361A60A11DEC674F00ED0B13 /* DPStatusToolbar.m */,
 				36531C581E08D6590082EEFD /* DPStatusPhotoView.h */,
@@ -861,6 +866,7 @@
 				36531C5A1E08D6590082EEFD /* DPStatusPhotoView.m in Sources */,
 				367D14A01DFBE8410064411A /* DPStatusDetailController.m in Sources */,
 				363F3BF11DDF3338001F466C /* DPEmotionListView.m in Sources */,
+				4422F2DE1E121394009DA1B6 /* DPStatusView.m in Sources */,
 				36574E6A1DD2B12B00319BC8 /* DPTableViewController.m in Sources */,
 				445E7D861DDAEA2F00D17A2D /* MapView.m in Sources */,
 				364B11721E0BB5E000FDC535 /* DPUserInfoViewController.m in Sources */,
