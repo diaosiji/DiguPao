@@ -1,0 +1,52 @@
+//
+//  DPApply.h
+//  DiguPao
+//
+//  Created by 屌斯基 on 2016/12/31.
+//  Copyright © 2016年 intelligentunit. All rights reserved.
+//  对嘀咕的回应的数据模型 比DPStatus精简
+
+#import <Foundation/Foundation.h>
+
+@class DPUser;
+
+@interface DPApply : NSObject
+
+/** NSString 嘀咕的id字符串 */
+@property (nonatomic, copy) NSString *idstr;
+
+/** NSString 嘀咕的文本内容 */
+@property (nonatomic, copy) NSString *text;
+
+/** NSString 嘀咕的创建时间 */
+@property (nonatomic, copy) NSString *created_at;
+
+/** DPUser 嘀咕的作者的详细字段 */
+@property (nonatomic, strong) DPUser *user;
+
+/** NSString 嘀咕的纬度 */
+//@property (nonatomic, copy) NSString *latitude;
+
+/** NSString 嘀咕的经度 */
+//@property (nonatomic, copy) NSString *longitude;
+
+
+/** 微博配图地址 多图返回多rul 无图返回[] */
+//@property (nonatomic, strong) NSArray *pictures;
+
+
+/**         服务器尚未提供       **/
+
+/** 被转发的原微博信息字段 */
+//@property (nonatomic, strong) DPStatus *retweeted_status;
+
+/** int 转发数 */
+//@property (nonatomic, assign) int reposts_count;
+
+/** int 评论数 */
+//@property (nonatomic, assign) int comments_count;
+
+/** int 点赞数 */
+//@property (nonatomic, assign) int attitudes_count;
+
+@end

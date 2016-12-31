@@ -14,6 +14,7 @@
 #import "DPDetailStatusCell.h"
 #import "UIView+Extension.h"
 #import "DPDetailToolBar.h"
+#import "DPApplyViewController.h"
 
 @interface DPStatusDetailController () <DPDetailHeaderDelegate, DPDetailToolBarDelegate>
 
@@ -73,14 +74,7 @@
     // 初始header点击回应
     [self detailHeader:_detailHeader btnClick:DetailHeaderBtnTypeApply];
     
-    // 添加tabBar
-//    DPDetailTabBar *tabBar = [[DPDetailTabBar alloc] init];
-//    CGFloat tabBarWidth = [UIScreen mainScreen].bounds.size.width;
-//    CGFloat tabBarHeight = 44;
-//    CGFloat tabBarX = 0;
-//    CGFloat tabBarY = self.view.height - tabBarHeight;
-//    tabBar.frame = CGRectMake(tabBarX, tabBarY, tabBarWidth, tabBarHeight);
-//    [self.view addSubview:tabBar];
+
     
 
     
@@ -222,13 +216,17 @@
         case DPDetailToolBarButtonTypeAltitude:
             NSLog(@"点赞");
             break;
+        
+        case DPDetailToolBarButtonTypeCollection:
+            NSLog(@"收藏");
+            break;
             
         case DPDetailToolBarButtonTypeApply:
             NSLog(@"回应");
-            break;
-            
-        case DPDetailToolBarButtonTypeCollection:
-            NSLog(@"收藏");
+            // 跳转到回应发送控制器
+            DPApplyViewController *apply = [[DPApplyViewController alloc] init];
+            apply.status = self.status;
+            [self.navigationController pushViewController:apply animated:YES];
             break;
         
     }

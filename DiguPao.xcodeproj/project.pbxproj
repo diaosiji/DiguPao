@@ -28,6 +28,10 @@
 		36431A941E08F05C0010AB4D /* SDWebImageManager+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 36431A8C1E08F05C0010AB4D /* SDWebImageManager+MJ.m */; };
 		3649836D1E0F62DE00538384 /* DPIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3649836C1E0F62DE00538384 /* DPIconView.m */; };
 		364983721E10A4C000538384 /* DPChangeIconViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 364983711E10A4C000538384 /* DPChangeIconViewController.m */; };
+		364983791E13416C00538384 /* DPApplyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 364983781E13416C00538384 /* DPApplyViewController.m */; };
+		3649837C1E17C04700538384 /* DPApply.m in Sources */ = {isa = PBXBuildFile; fileRef = 3649837B1E17C04700538384 /* DPApply.m */; };
+		3649837F1E17C26600538384 /* DPApplyFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 3649837E1E17C26600538384 /* DPApplyFrame.m */; };
+		364983821E17C8C900538384 /* DPApplyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 364983811E17C8C900538384 /* DPApplyCell.m */; };
 		364B11721E0BB5E000FDC535 /* DPUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 364B11711E0BB5E000FDC535 /* DPUserInfoViewController.m */; };
 		365169181DDFDFF6008D0A4C /* DPEmotionTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 365169171DDFDFF6008D0A4C /* DPEmotionTabBarButton.m */; };
 		3651691A1DE008C0008D0A4C /* EmotionIcons in Resources */ = {isa = PBXBuildFile; fileRef = 365169191DE008C0008D0A4C /* EmotionIcons */; };
@@ -131,6 +135,14 @@
 		3649836C1E0F62DE00538384 /* DPIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPIconView.m; sourceTree = "<group>"; };
 		364983701E10A4C000538384 /* DPChangeIconViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPChangeIconViewController.h; sourceTree = "<group>"; };
 		364983711E10A4C000538384 /* DPChangeIconViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPChangeIconViewController.m; sourceTree = "<group>"; };
+		364983771E13416C00538384 /* DPApplyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPApplyViewController.h; sourceTree = "<group>"; };
+		364983781E13416C00538384 /* DPApplyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPApplyViewController.m; sourceTree = "<group>"; };
+		3649837A1E17C04700538384 /* DPApply.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPApply.h; sourceTree = "<group>"; };
+		3649837B1E17C04700538384 /* DPApply.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPApply.m; sourceTree = "<group>"; };
+		3649837D1E17C26600538384 /* DPApplyFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPApplyFrame.h; sourceTree = "<group>"; };
+		3649837E1E17C26600538384 /* DPApplyFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPApplyFrame.m; sourceTree = "<group>"; };
+		364983801E17C8C900538384 /* DPApplyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPApplyCell.h; sourceTree = "<group>"; };
+		364983811E17C8C900538384 /* DPApplyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPApplyCell.m; sourceTree = "<group>"; };
 		364B11701E0BB5E000FDC535 /* DPUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPUserInfoViewController.h; sourceTree = "<group>"; };
 		364B11711E0BB5E000FDC535 /* DPUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DPUserInfoViewController.m; sourceTree = "<group>"; };
 		365169161DDFDFF6008D0A4C /* DPEmotionTabBarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DPEmotionTabBarButton.h; sourceTree = "<group>"; };
@@ -628,6 +640,8 @@
 			children = (
 				367D149E1DFBE8410064411A /* DPStatusDetailController.h */,
 				367D149F1DFBE8410064411A /* DPStatusDetailController.m */,
+				364983771E13416C00538384 /* DPApplyViewController.h */,
+				364983781E13416C00538384 /* DPApplyViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -642,6 +656,8 @@
 				367BD8EE1DFCE53400EA6E55 /* DPDetailStatusCell.m */,
 				36AB62BD1E0A27220003A3D5 /* DPDetailToolBar.h */,
 				36AB62BE1E0A27220003A3D5 /* DPDetailToolBar.m */,
+				364983801E17C8C900538384 /* DPApplyCell.h */,
+				364983811E17C8C900538384 /* DPApplyCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -651,6 +667,10 @@
 			children = (
 				367D14A61DFCE1B00064411A /* DPDetailStatusFrame.h */,
 				367D14A71DFCE1B00064411A /* DPDetailStatusFrame.m */,
+				3649837A1E17C04700538384 /* DPApply.h */,
+				3649837B1E17C04700538384 /* DPApply.m */,
+				3649837D1E17C26600538384 /* DPApplyFrame.h */,
+				3649837E1E17C26600538384 /* DPApplyFrame.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -850,6 +870,7 @@
 				36431A931E08F05C0010AB4D /* MJPhotoView.m in Sources */,
 				3658EADA1E0CC6920060981C /* DPChangeNameViewController.m in Sources */,
 				36574E641DD2AF8400319BC8 /* DPNavigationController.m in Sources */,
+				364983791E13416C00538384 /* DPApplyViewController.m in Sources */,
 				367D14A31DFBECB70064411A /* DPDetailHeader.m in Sources */,
 				3651691E1DE05B84008D0A4C /* DPEmotion.m in Sources */,
 				36694C001DD6F460001B0030 /* DPTitleMenuController.m in Sources */,
@@ -864,6 +885,7 @@
 				36574E671DD2B0A500319BC8 /* DPTabBar.m in Sources */,
 				36574E721DD2B25700319BC8 /* DPMapViewController.m in Sources */,
 				36574E611DD2AF2300319BC8 /* UIView+Extension.m in Sources */,
+				3649837C1E17C04700538384 /* DPApply.m in Sources */,
 				361A60A21DEC674F00ED0B13 /* DPStatusToolbar.m in Sources */,
 				36531C571E08C8A80082EEFD /* DPPhoto.m in Sources */,
 				36431A8D1E08F05C0010AB4D /* MJPhoto.m in Sources */,
@@ -871,6 +893,7 @@
 				364983721E10A4C000538384 /* DPChangeIconViewController.m in Sources */,
 				36531C5A1E08D6590082EEFD /* DPStatusPhotoView.m in Sources */,
 				367D14A01DFBE8410064411A /* DPStatusDetailController.m in Sources */,
+				364983821E17C8C900538384 /* DPApplyCell.m in Sources */,
 				363F3BF11DDF3338001F466C /* DPEmotionListView.m in Sources */,
 				4422F2DE1E121394009DA1B6 /* DPStatusView.m in Sources */,
 				36574E6A1DD2B12B00319BC8 /* DPTableViewController.m in Sources */,
@@ -899,6 +922,7 @@
 				36574E441DD2AB6400319BC8 /* main.m in Sources */,
 				36CC32681E0B564700297388 /* LGSettingItem.m in Sources */,
 				36431A901E08F05C0010AB4D /* MJPhotoLoadingView.m in Sources */,
+				3649837F1E17C26600538384 /* DPApplyFrame.m in Sources */,
 				36AB62BF1E0A27220003A3D5 /* DPDetailToolBar.m in Sources */,
 				3651692A1DE1E253008D0A4C /* DPEmotionButton.m in Sources */,
 				36694C541DD84748001B0030 /* UIWindow+Extension.m in Sources */,
