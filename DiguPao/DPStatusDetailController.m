@@ -15,6 +15,18 @@
 #import "UIView+Extension.h"
 #import "DPDetailToolBar.h"
 #import "DPApplyViewController.h"
+#import "AFOAuth2Manager.h"
+#import "MJExtension.h"
+#import "DPLoadMoreFooter.h"
+#import "DPApply.h"
+#import "DPApplyFrame.h"
+#import "DPApplyCell.h"
+#import "DPCollection.h"
+#import "DPCollectionFrame.h"
+#import "DPCollectionCell.h"
+#import "DPAttitude.h"
+#import "DPAttitudeFrame.h"
+#import "DPAttitudeCell.h"
 
 @interface DPStatusDetailController () <DPDetailHeaderDelegate, DPDetailToolBarDelegate>
 
@@ -29,30 +41,17 @@
 /** 顶部工具条 */
 @property (nonatomic, weak) DPDetailToolBar *toolBar;
 
+/** NSMutableArray 嘀咕数组 元素是DPApplyFrame模型 一个DPApplyFrame对象代表一个嘀咕回应 */
+@property (nonatomic, strong) NSMutableArray *applyFrames;
+/** NSMutableArray 嘀咕数组 元素是DPApplyFrame模型 一个DPCollectionFrame对象代表一个收藏 */
+@property (nonatomic, strong) NSMutableArray *collectionFrames;
+/** NSMutableArray 嘀咕数组 元素是DPApplyFrame模型 一个DPAttitudeFrame对象代表一个收藏 */
+@property (nonatomic, strong) NSMutableArray *attitudeFrames;
 
 @end
 
 @implementation DPStatusDetailController
 
-// 添加工具条
-- (void)setupToolbar {
-    
-    DPDetailToolBar *toolbar = [[DPDetailToolBar alloc] init];
-    // 顶层窗口
-//    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    toolbar.x = 0;
-    toolbar.width = window.width;
-    toolbar.height = 44;
-    toolbar.y = window.height - toolbar.height;
-//    toolbar.y = 0;
-    // 让工具条的代理是控制器自己 这样就可以实现点击按钮的代理方法
-    toolbar.delegate = self;
-    
-    [window addSubview:toolbar];
-    
-    self.toolBar = toolbar;
-}
 
 
 - (void)viewDidLoad {
@@ -71,11 +70,14 @@
         _detailHeader = header;
     }
     
+    // 集成下拉刷新控件
+    [self setupDownRefresh];
+    
+    //
+    [self setupUpRefresh];
+    
     // 初始header点击回应
     [self detailHeader:_detailHeader btnClick:DetailHeaderBtnTypeApply];
-    
-
-    
 
     
 }
@@ -105,6 +107,440 @@
     return _detailStatusFrame;
 }
 
+// 懒加载
+- (NSMutableArray *)applyFrames {
+    if (!_applyFrames) {
+        self.applyFrames = [[NSMutableArray alloc] init];
+    }
+    return _applyFrames;
+}
+
+// 懒加载
+- (NSMutableArray *)collectionFrames {
+    if (!_collectionFrames) {
+        self.collectionFrames = [[NSMutableArray alloc] init];
+    }
+    return _collectionFrames;
+}
+
+// 懒加载
+- (NSMutableArray *)attitudeFrames {
+    if (!_attitudeFrames) {
+        self.attitudeFrames = [[NSMutableArray alloc] init];
+    }
+    return _attitudeFrames;
+}
+
+// 添加工具条
+- (void)setupToolbar {
+    
+    DPDetailToolBar *toolbar = [[DPDetailToolBar alloc] init];
+    // 顶层窗口
+    //    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    toolbar.x = 0;
+    toolbar.width = window.width;
+    toolbar.height = 44;
+    toolbar.y = window.height - toolbar.height;
+    //    toolbar.y = 0;
+    // 让工具条的代理是控制器自己 这样就可以实现点击按钮的代理方法
+    toolbar.delegate = self;
+    
+    [window addSubview:toolbar];
+    
+    self.toolBar = toolbar;
+}
+
+
+// 集成下拉刷新控件
+- (void)setupDownRefresh {
+    
+    // 1.添加刷新控件
+    UIRefreshControl *control = [[UIRefreshControl alloc] init];
+    // 监听的UIControlEventValueChanged事件就是用户手动下拉 control进入了刷新状态
+    [control addTarget:self action:@selector(refreshStateChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:control];
+    // 2.进入刷新状态 但是不会触发refreshStateChanged方法
+//    [control beginRefreshing];
+    // 3.加载数据
+//    [self refreshStateChanged:control];
+    
+}
+
+// 下拉刷新控件动作对应的方法:加载最新嘀咕数据
+- (void)refreshStateChanged:(UIRefreshControl *)control {
+    
+    NSLog(@"refreshStateChanged");
+    if (_detailHeader.currentType == DetailHeaderBtnTypeApply) {
+        /** 回应API未成功前使用广场API测试显示效果 */
+        NSLog(@"loadNewApply");
+        // 获取含accessToken的凭证对象
+        //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+        // 设置基础url
+        // 暂时先用iTunes的API代替
+        NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+        // 设置参数
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        //    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+        
+        //取出最前面（新）的嘀咕
+        DPApplyFrame *firstFrame = [self.applyFrames firstObject];
+        if (firstFrame) {
+            // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+            params[@"since_id"] = firstFrame.apply.idstr;
+            NSLog(@"本地最新嘀咕的id是:%@", firstFrame.apply.idstr);
+        }
+        
+        [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            //        NSLog(@"嘀咕广场API调用成功:%@", responseObject);
+            NSArray *newApplys = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+            // 将DPStatus的数组转为DPStatusFrame的数组
+            NSMutableArray *newFrames = [NSMutableArray array];
+            for (DPApply *apply in newApplys) {
+                DPApplyFrame *frame = [[DPApplyFrame alloc] init];
+                frame.apply = apply;
+                [newFrames addObject:frame];
+            }
+            // 将最新微博数据添加到对应数组最前面
+            NSRange range = NSMakeRange(0, newFrames.count);
+            NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+            [self.applyFrames insertObjects:newFrames atIndexes:set];
+            
+            // 刷新表格
+            [self.tableView reloadData];
+            // 结束刷新
+            [control endRefreshing];
+            
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSLog(@"嘀咕广场API调用失败: %@", error);
+            // 结束刷新
+            [control endRefreshing];
+            
+        }];
+    } else if (_detailHeader.currentType == DetailHeaderBtnTypeCollection){
+        // 按钮点击收藏的时候
+        /** 回应API未成功前使用广场API测试显示效果 */
+        NSLog(@"loadNewCollection");
+        // 获取含accessToken的凭证对象
+        //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+        // 设置基础url
+        // 暂时先用iTunes的API代替
+        NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+        // 设置参数
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        //    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+        
+        //取出最前面（新）的嘀咕
+        DPCollectionFrame *firstFrame = [self.collectionFrames firstObject];
+        if (firstFrame) {
+            // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+            params[@"since_id"] = firstFrame.collection.idstr;
+            NSLog(@"本地最新嘀咕的id是:%@", firstFrame.collection.idstr);
+        }
+        
+        [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            //        NSLog(@"嘀咕广场API调用成功:%@", responseObject);
+            NSArray *newCollections = [DPCollection mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+            // 将DPStatus的数组转为DPStatusFrame的数组
+            NSMutableArray *newFrames = [NSMutableArray array];
+            for (DPCollection *collection in newCollections) {
+                DPCollectionFrame *frame = [[DPCollectionFrame alloc] init];
+                frame.collection = collection;
+                [newFrames addObject:frame];
+            }
+            // 将最新微博数据添加到对应数组最前面
+            NSRange range = NSMakeRange(0, newFrames.count);
+            NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+            [self.collectionFrames insertObjects:newFrames atIndexes:set];
+            
+            // 刷新表格
+            [self.tableView reloadData];
+            // 结束刷新
+            [control endRefreshing];
+            
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSLog(@"嘀咕广场API调用失败: %@", error);
+            // 结束刷新
+            [control endRefreshing];
+            
+        }];
+
+    } else if (_detailHeader.currentType == DetailHeaderBtnTypeAttitude) {
+        // 点击显示点赞用户按钮
+        /** 回应API未成功前使用广场API测试显示效果 */
+        NSLog(@"loadNewCollection");
+        // 获取含accessToken的凭证对象
+        //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+        // 设置基础url
+        // 暂时先用iTunes的API代替
+        NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+        AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+        // 设置参数
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        //    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+        
+        //取出最前面（新）的嘀咕
+        DPAttitudeFrame *firstFrame = [self.attitudeFrames firstObject];
+        if (firstFrame) {
+            // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+            params[@"since_id"] = firstFrame.attitude.idstr;
+            NSLog(@"本地最新嘀咕的id是:%@", firstFrame.attitude.idstr);
+        }
+        
+        [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            
+            //        NSLog(@"嘀咕广场API调用成功:%@", responseObject);
+            NSArray *newAttitudes = [DPAttitude mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+            // 将DPStatus的数组转为DPStatusFrame的数组
+            NSMutableArray *newFrames = [NSMutableArray array];
+            for (DPAttitude *attitude in newAttitudes) {
+                DPAttitudeFrame *frame = [[DPAttitudeFrame alloc] init];
+                frame.attitude = attitude;
+                [newFrames addObject:frame];
+            }
+            // 将最新微博数据添加到对应数组最前面
+            NSRange range = NSMakeRange(0, newFrames.count);
+            NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+            [self.collectionFrames insertObjects:newFrames atIndexes:set];
+            
+            // 刷新表格
+            [self.tableView reloadData];
+            // 结束刷新
+            [control endRefreshing];
+            
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            NSLog(@"嘀咕广场API调用失败: %@", error);
+            // 结束刷新
+            [control endRefreshing];
+            
+        }];
+        
+    }
+    
+    
+}
+
+// 集成上拉加载控件
+- (void)setupUpRefresh {
+    DPLoadMoreFooter *footer = [DPLoadMoreFooter footer];
+    // 不隐藏的话一开始就会出现
+    footer.hidden = YES;
+    self.tableView.tableFooterView = footer;
+    
+}
+
+// 重写系统方法 实现下滑自动加载的关键点
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    CGFloat offsetY = scrollView.contentOffset.y;
+    // 当最后一个cell完全显示在眼前时，contentOffset的y值
+    CGFloat judgeOffsetY = scrollView.contentSize.height + scrollView.contentInset.bottom - scrollView.height - self.tableView.tableFooterView.height;
+    
+    // scrollView == self.tableView == self.view
+    // 如果tableView还没有数据，就直接返回
+//    if (self.applyFrames.count == 0 || self.tableView.tableFooterView.isHidden == NO) return;
+    
+//    if (offsetY >= judgeOffsetY) { // 最后一个cell完全进入视野范围内
+//        // 显示footer
+//        self.tableView.tableFooterView.hidden = NO;
+//        if (_detailHeader.currentType == DetailHeaderBtnTypeApply) {
+//            // 网络加载更早的回应
+//            [self loadEarlierApply];
+//        } else if (_detailHeader.currentType == DetailHeaderBtnTypeCollection) {
+//            // 加载更早的收藏
+//            [self loadEarlierColletction];
+//        }
+//        
+//    };
+    
+    if (_detailHeader.currentType == DetailHeaderBtnTypeApply) {
+        //
+        if (self.applyFrames.count == 0 || self.tableView.tableFooterView.isHidden == NO) return;
+        if (offsetY >= judgeOffsetY) { // 最后一个cell完全进入视野范围内
+            // 显示footer
+            self.tableView.tableFooterView.hidden = NO;
+            // 网络加载更早回应
+            [self loadEarlierApply];
+        };
+    } else if (_detailHeader.currentType == DetailHeaderBtnTypeCollection) {
+        //
+        if (self.collectionFrames.count == 0 || self.tableView.tableFooterView.isHidden == NO) return;
+        if (offsetY >= judgeOffsetY) { // 最后一个cell完全进入视野范围内
+            // 显示footer
+            self.tableView.tableFooterView.hidden = NO;
+            // 网络加载更早回应
+            [self loadEarlierColletction];
+        };
+    } else {
+        if (self.attitudeFrames.count == 0 || self.tableView.tableFooterView.isHidden == NO) return;
+        if (offsetY >= judgeOffsetY) { // 最后一个cell完全进入视野范围内
+            // 显示footer
+            self.tableView.tableFooterView.hidden = NO;
+            // 网络加载更早回应
+            [self loadEarlierAttitude];
+        };
+    }
+    
+}
+
+- (void)loadEarlierApply {
+    // 获取含accessToken的凭证对象
+    //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //    params[@"access_token"] = credential.accessToken;
+    DPApplyFrame *lastFrame = [self.applyFrames lastObject];
+    if (lastFrame) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"max_id"] = lastFrame.apply.idstr;
+        NSLog(@"获取最旧嘀咕的id:%@", lastFrame.apply.idstr);
+    }
+    
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"加载更早嘀咕API调用成功");
+        NSArray *newStatus = [DPApply mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPApply *apply in newStatus) {
+            DPApplyFrame *frame = [[DPApplyFrame alloc] init];
+            frame.apply = apply;
+            [newFrames addObject:frame];
+        }
+        
+        // 将最新微博数据添加到对应数组最后面
+        [self.applyFrames addObjectsFromArray:newFrames];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"加载更早嘀咕API调用失败: %@", error);
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+    }];
+
+}
+
+- (void)loadEarlierColletction {
+    
+    // 获取含accessToken的凭证对象
+    //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //    params[@"access_token"] = credential.accessToken;
+    DPCollectionFrame *lastFrame = [self.collectionFrames lastObject];
+    if (lastFrame) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"max_id"] = lastFrame.collection.idstr;
+        NSLog(@"获取最旧嘀咕的id:%@", lastFrame.collection.idstr);
+    }
+    
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"加载更早嘀咕API调用成功");
+        NSArray *newCollections = [DPCollection mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPCollection *collection in newCollections) {
+            DPCollectionFrame *frame = [[DPCollectionFrame alloc] init];
+            frame.collection = collection;
+            [newFrames addObject:frame];
+        }
+        
+        // 将最新微博数据添加到对应数组最后面
+        [self.collectionFrames addObjectsFromArray:newFrames];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"加载更早收藏API调用失败: %@", error);
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+    }];
+
+    
+}
+
+- (void)loadEarlierAttitude {
+    // 获取含accessToken的凭证对象
+    //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //    params[@"access_token"] = credential.accessToken;
+    DPAttitudeFrame *lastFrame = [self.attitudeFrames lastObject];
+    if (lastFrame) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"max_id"] = lastFrame.attitude.idstr;
+        NSLog(@"获取最旧嘀咕的id:%@", lastFrame.attitude.idstr);
+    }
+    
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"加载更早嘀咕API调用成功");
+        NSArray *newAttitudes = [DPAttitude mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPAttitude *attitude in newAttitudes) {
+            DPAttitudeFrame *frame = [[DPAttitudeFrame alloc] init];
+            frame.attitude = attitude;
+            [newFrames addObject:frame];
+        }
+        
+        // 将最新微博数据添加到对应数组最后面
+        [self.attitudeFrames addObjectsFromArray:newFrames];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"加载更早收藏API调用失败: %@", error);
+        
+        // 结束刷新(隐藏footer)
+        self.tableView.tableFooterView.hidden = YES;
+        
+    }];
+}
+
 #pragma mark - Table view data source
 
 #pragma mark NO.1 有多少组
@@ -127,13 +563,17 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0) {
         return 1;
-    }/*else if (_detailHeader.currentType == kDetailHeaderBtnTypeRepost) {
-      return _repostFrames.count;
-      }else{
-      return _commentFrames.count;
-      }*/
-    else{
-        return 20;
+    } else if (_detailHeader.currentType == DetailHeaderBtnTypeApply){
+        // 当前按钮状态为回应
+        return self.applyFrames.count;
+        
+    } else if (_detailHeader.currentType == DetailHeaderBtnTypeCollection) {
+        // 当前按钮状为收藏
+        return self.collectionFrames.count;
+        
+    } else {
+        // 这里是按钮状态为点赞
+        return self.attitudeFrames.count;
     }
 }
 
@@ -141,16 +581,20 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-//        NSLog(@"detailStatus高度:%f", self.detailStatusFrame.cellHeight);
         return self.detailStatusFrame.cellHeight;
-    }/*else if (_detailHeader.currentType == kDetailHeaderBtnTypeRepost) {
-      return [_repostFrames[indexPath.row] cellHeight];
-      }else{
-      return [_commentFrames[indexPath.row] cellHeight];
-      }*/
-    else{
-//        return [[self currentFrames][indexPath.row] cellHeight];
-        return 44;
+    } else if (_detailHeader.currentType == DetailHeaderBtnTypeApply){
+        // 当前按钮状态为回应
+        DPApplyFrame *frame = self.applyFrames[indexPath.row];
+        return frame.cellHeight;
+    } else if (_detailHeader.currentType == DetailHeaderBtnTypeCollection) {
+        // 当前按钮状为收藏
+        DPCollectionFrame *frame = self.collectionFrames[indexPath.row];
+        return frame.cellHeight;
+    } else {// if (_detailHeader.currentType == DetailHeaderBtnTypeAttitude)
+        // 这里是按钮状态为点赞
+        DPAttitudeFrame *frame = self.attitudeFrames[indexPath.row];
+        return frame.cellHeight;
+        
     }
 }
 
@@ -165,15 +609,20 @@
 //        NSLog(@"嘀咕高度:%f", cell.detailStatusFrame.cellHeight);
         return cell;
         
+    } else if (_detailHeader.currentType == DetailHeaderBtnTypeApply) {
+        // 当前按钮状态为回应
+        DPApplyCell *cell = [DPApplyCell cellWithTableView:tableView];
+        cell.applyFrame = self.applyFrames[indexPath.row];
+        return cell;
+    } else if (_detailHeader.currentType == DetailHeaderBtnTypeCollection) {
+        // 当前按钮状为收藏
+        DPCollectionCell *cell = [DPCollectionCell cellWithTableView:tableView];
+        cell.collectionFrame = self.collectionFrames[indexPath.row];
+        return cell;
     } else {
-        // 第二个section中情况暂时不管
-        static NSString *cellIdentifier = @"detailCell";
-        
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
-        
-        // Configure the cell...
-        cell.textLabel.text = [NSString stringWithFormat:@"测试第%ld行", (long)indexPath.row];
-        
+        // 这里是按钮状态为点赞
+        DPAttitudeCell *cell = [DPAttitudeCell cellWithTableView:tableView];
+        cell.attitudeFrame = self.attitudeFrames[indexPath.row];
         return cell;
     }
     
@@ -191,6 +640,165 @@
     return _detailHeader;
 }
 
+- (void)loadNewApply {
+    /** 回应API未成功前使用广场API测试显示效果 */
+    NSLog(@"loadNewApply");
+    // 获取含accessToken的凭证对象
+    //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    // 暂时先用iTunes的API代替
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    
+    //取出最前面（新）的嘀咕
+    DPApplyFrame *firstFrame = [self.applyFrames firstObject];
+    if (firstFrame) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"since_id"] = firstFrame.apply.idstr;
+        NSLog(@"本地最新嘀咕的id是:%@", firstFrame.apply.idstr);
+    }
+    
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        //        NSLog(@"嘀咕广场API调用成功:%@", responseObject);
+        NSArray *newApplys = [DPApply mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPApply *apply in newApplys) {
+            DPApplyFrame *frame = [[DPApplyFrame alloc] init];
+            frame.apply = apply;
+            [newFrames addObject:frame];
+        }
+        // 将最新微博数据添加到对应数组最前面
+        NSRange range = NSMakeRange(0, newFrames.count);
+        NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.applyFrames insertObjects:newFrames atIndexes:set];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        // 结束刷新
+//        [control endRefreshing];
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"嘀咕广场API调用失败: %@", error);
+        // 结束刷新
+//        [control endRefreshing];
+        
+    }];
+
+}
+
+- (void)loadNewCollection {
+    /** 回应API未成功前使用广场API测试显示效果 */
+    NSLog(@"loadNewCollection");
+    // 获取含accessToken的凭证对象
+    //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    // 暂时先用iTunes的API代替
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    
+    //取出最前面（新）的嘀咕
+    DPCollectionFrame *firstFrame = [self.collectionFrames firstObject];
+    if (firstFrame) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"since_id"] = firstFrame.collection.idstr;
+        NSLog(@"本地最新嘀咕的id是:%@", firstFrame.collection.idstr);
+    }
+    
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        //        NSLog(@"嘀咕广场API调用成功:%@", responseObject);
+        NSArray *newCollections = [DPCollection mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPCollection *collection in newCollections) {
+            DPCollectionFrame *frame = [[DPCollectionFrame alloc] init];
+            frame.collection = collection;
+            [newFrames addObject:frame];
+        }
+        // 将最新微博数据添加到对应数组最前面
+        NSRange range = NSMakeRange(0, newFrames.count);
+        NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.collectionFrames insertObjects:newFrames atIndexes:set];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        // 结束刷新
+        //        [control endRefreshing];
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"嘀咕广场API调用失败: %@", error);
+        // 结束刷新
+        //        [control endRefreshing];
+        
+    }];
+
+    
+}
+
+- (void)loadNewAttitude {
+    /** 回应API未成功前使用广场API测试显示效果 */
+    NSLog(@"loadNewCollection");
+    // 获取含accessToken的凭证对象
+    //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    // 设置基础url
+    // 暂时先用iTunes的API代替
+    NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
+    AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
+    // 设置参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    
+    //取出最前面（新）的嘀咕
+    DPAttitudeFrame *firstFrame = [self.attitudeFrames firstObject];
+    if (firstFrame) {
+        // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
+        params[@"since_id"] = firstFrame.attitude.idstr;
+        NSLog(@"本地最新嘀咕的id是:%@", firstFrame.attitude.idstr);
+    }
+    
+    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        //        NSLog(@"嘀咕广场API调用成功:%@", responseObject);
+        NSArray *newAttitudes = [DPAttitude mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
+        // 将DPStatus的数组转为DPStatusFrame的数组
+        NSMutableArray *newFrames = [NSMutableArray array];
+        for (DPAttitude *attitude in newAttitudes) {
+            DPAttitudeFrame *frame = [[DPAttitudeFrame alloc] init];
+            frame.attitude = attitude;
+            [newFrames addObject:frame];
+        }
+        // 将最新微博数据添加到对应数组最前面
+        NSRange range = NSMakeRange(0, newFrames.count);
+        NSIndexSet *set = [NSIndexSet indexSetWithIndexesInRange:range];
+        [self.attitudeFrames insertObjects:newFrames atIndexes:set];
+        
+        // 刷新表格
+        [self.tableView reloadData];
+        // 结束刷新
+        //        [control endRefreshing];
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        NSLog(@"嘀咕广场API调用失败: %@", error);
+        // 结束刷新
+        //        [control endRefreshing];
+        
+    }];
+}
+
 #pragma mark - DetailHeader Delegate
 -(void)detailHeader:(DPDetailHeader *)header btnClick:(DetailHeaderBtnType)index
 {
@@ -199,13 +807,18 @@
     
     if (index == DetailHeaderBtnTypeApply) { //点击了回应按钮
         //
-        NSLog(@"回应");
+        NSLog(@"加载回应");
+        [self loadNewApply];
+        
+        
     }else if (index == DetailHeaderBtnTypeCollection) { //点击了收藏按钮
         //
         NSLog(@"收藏");
+        [self loadNewCollection];
     } else { // 点击了点赞按钮
         //
         NSLog(@"点赞");
+        [self loadNewAttitude];
     }
 }
 

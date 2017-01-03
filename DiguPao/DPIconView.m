@@ -9,6 +9,8 @@
 #import "DPIconView.h"
 #import "DPUser.h"
 #import "UIImageView+WebCache.h"
+#import "DPNavigationController.h"
+#import "DPUserController.h"
 
 @implementation DPIconView
 
@@ -23,6 +25,9 @@
         
         // 是否按照尺寸裁剪多出边缘的图片
         self.clipsToBounds = YES;
+        
+        // 可以点击
+        self.userInteractionEnabled = YES;
     }
     
     return self;
@@ -33,6 +38,19 @@
     _user = user;
     // 1.下载图片
     [self sd_setImageWithURL:[NSURL URLWithString:user.avatar] placeholderImage:[UIImage imageNamed:@"avatar_default_small"]];
+    
+    //添加手势到每个photoView
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iconOnTap)];
+    [self addGestureRecognizer:gestureRecognizer];
+
+}
+
+- (void)iconOnTap {
+    NSLog(@"iconOnTap");
+    DPUserController *user = [[DPUserController alloc] init];
+    DPNavigationController *nav = [[DPNavigationController alloc] initWithRootViewController:user];
+    
+    
 }
 
 @end

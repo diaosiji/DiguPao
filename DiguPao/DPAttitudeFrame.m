@@ -1,20 +1,20 @@
 //
-//  DPApplyFrame.m
+//  DPAttitudeFrame.m
 //  DiguPao
 //
-//  Created by 屌斯基 on 2016/12/31.
-//  Copyright © 2016年 intelligentunit. All rights reserved.
+//  Created by 屌斯基 on 2017/1/2.
+//  Copyright © 2017年 intelligentunit. All rights reserved.
 //
 
-#import "DPApplyFrame.h"
+#import "DPAttitudeFrame.h"
 #import "DPUser.h"
-#import "DPApply.h"
+#import "DPAttitude.h"
 
 // Cell的边框宽度
 #define DPStatusCellBorderWidth 10
 #define DPStatusCellInnerBorderWidth 5
 
-@implementation DPApplyFrame
+@implementation DPAttitudeFrame
 
 // 字符串根据字体得到size的方法 宽度限制
 - (CGSize)sizeWithText:(NSString *)text font:(UIFont *)font maxWidth:(CGFloat)maxWidth {
@@ -34,10 +34,9 @@
     return [self sizeWithText:text font:font maxWidth:MAXFLOAT];
 }
 
-- (void)setApply:(DPApply *)apply {
-    
-    _apply = apply;
-    DPUser *user = apply.user;
+- (void)setAttitude:(DPAttitude *)attitude {
+    _attitude =  attitude;
+    DPUser *user = attitude.user;
     
     // 从左上角开始算frame
     /** 头像 */
@@ -58,28 +57,21 @@
     CGFloat timeY = CGRectGetMaxY(self.nameLabelFrame) + DPStatusCellInnerBorderWidth;
     // 时间的x是昵称的x
     CGFloat timeX = nameX;
-    CGSize timeSize = [self sizeWithText:apply.created_at font:[UIFont systemFontOfSize:12]];
+    CGSize timeSize = [self sizeWithText:attitude.created_at font:[UIFont systemFontOfSize:12]];
     self.timeLabelFrame = CGRectMake(timeX, timeY, timeSize.width, timeSize.height);
-    
-    /** 正文 */
-    CGFloat contentX = nameX;
-    // y值取头像和时间标签中比较靠下那个加编剧
-    //    CGFloat contentY = MAX(CGRectGetMaxY(self.timeLabelFrame), CGRectGetMaxY(self.iconViewFrame)) + DPStatusCellBorderWidth; // 微博设计
-    CGFloat contentY = CGRectGetMaxY(self.timeLabelFrame) + DPStatusCellInnerBorderWidth; // 王小崽设计
-    // 对照图片仔细算
-//    CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width - 2 * DPStatusCellBorderWidth; // 微博正文是和屏幕几乎等宽
-    CGFloat maxWidth = [UIScreen mainScreen].bounds.size.width - 3 * DPStatusCellBorderWidth - iconWH; // 王小崽的设计是文字左边和昵称对齐
-    
-    CGSize contentSize = [self sizeWithText:apply.text font:[UIFont systemFontOfSize:14] maxWidth:maxWidth];
-    self.contentLabelFrame = CGRectMake(contentX, contentY, contentSize.width, contentSize.height);
     
     /** Cell高度是最后算的 */
     // 加一个间距是为了让Cell之间有间隔的效果
-    self.cellHeight = CGRectGetMaxY(self.contentLabelFrame) + DPStatusCellBorderWidth; // 暂时
-
+    // 昵称加时间都不及头像高
+    self.cellHeight = CGRectGetMaxY(self.iconViewFrame) + DPStatusCellBorderWidth; 
 }
 
 @end
+
+
+
+
+
 
 
 

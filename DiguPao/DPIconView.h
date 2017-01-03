@@ -9,6 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @class DPUser;
+@class DPIconView;
+
+@protocol DPIconViewDelegate <NSObject>
+
+@optional
+// 点击了IconView
+//- (void)iconView:(DPIconView)
+
+@end
 
 @interface DPIconView : UIImageView
 

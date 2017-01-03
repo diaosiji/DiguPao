@@ -1,58 +1,38 @@
 //
-//  DPDetailStatusCell.m
+//  DPAttitudeCell.m
 //  DiguPao
 //
-//  Created by 屌斯基 on 2016/12/11.
-//  Copyright © 2016年 intelligentunit. All rights reserved.
+//  Created by 屌斯基 on 2017/1/2.
+//  Copyright © 2017年 intelligentunit. All rights reserved.
 //
 
-#import "DPDetailStatusCell.h"
-#import "DPStatus.h"
-#import "DPDetailStatusFrame.h"
+#import "DPAttitudeCell.h"
 #import "DPUser.h"
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "DPStatusPhotosView.h"
 #import "DPIconView.h"
+#import "DPAttitude.h"
+#import "DPAttitudeFrame.h"
 
-@interface DPDetailStatusCell ()
-/* 原创微博 */
-/** 原创微博整体 */
+@interface DPAttitudeCell ()
+/** 点赞整体 */
 @property (nonatomic, weak) UIView *originalView;
 /** 头像 */
 @property (nonatomic, weak) DPIconView *iconView;
-/** 会员图标 */
-//@property (nonatomic, weak) UIImageView *vipView;
-/** 配图 */
-@property (nonatomic, weak) DPStatusPhotosView *photosView;
 /** 昵称 */
 @property (nonatomic, weak) UILabel *nameLabel;
 /** 时间 */
 @property (nonatomic, weak) UILabel *timeLabel;
-/** 来源 */
-//@property (nonatomic, weak) UILabel *sourceLabel;
-/** 正文 */
-@property (nonatomic, weak) UILabel *contentLabel;
-
-/* 转发微博 */
-/** 转发微博整体 */
-//@property (nonatomic, weak) UIView *retweetlView;
-///** 转发配图 */
-//@property (nonatomic, weak) DGStatusPhotosView *retweetPhotosView;
-///** 转发正文 */
-//@property (nonatomic, weak) UILabel *retweetContentLabel;
-//
 
 @end
 
-
-@implementation DPDetailStatusCell
+@implementation DPAttitudeCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView {
     
-    static NSString *ID = @"detailStatus";
-    DPDetailStatusCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    static NSString *ID = @"attitude";
+    DPAttitudeCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
-        cell = [[DPDetailStatusCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+        cell = [[DPAttitudeCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
     }
     return cell;
     
@@ -76,14 +56,15 @@
         // 初始化原创微博
         [self setupOriginal];
         
+        
     }
     return self;
 }
 
-// 初始化原创微博
+// 初始化
 - (void)setupOriginal {
     
-    /** 原创微博整体 */
+    /** 点赞整体 */
     UIView *originalView = [[UIView alloc] init];
     originalView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:originalView];
@@ -93,11 +74,6 @@
     DPIconView *iconView = [[DPIconView alloc] init];
     [self.originalView addSubview:iconView];
     self.iconView = iconView;
-    
-    /** 配图 */
-    DPStatusPhotosView *photosView = [[DPStatusPhotosView alloc] init];
-    [self.originalView addSubview:photosView];
-    self.photosView = photosView;
     
     /** 昵称 */
     UILabel *nameLabel = [[UILabel alloc] init];
@@ -114,52 +90,27 @@
     [self.originalView addSubview:timeLabel];
     self.timeLabel = timeLabel;
     
-    /** 正文 */
-    UILabel *contentLabel = [[UILabel alloc] init];
-    contentLabel.font = [UIFont systemFontOfSize:14];
-    // 设置为可换行
-    contentLabel.numberOfLines = 0;
-    [self.originalView addSubview:contentLabel];
-    self.contentLabel = contentLabel;
-    
 }
 
-
-- (void)setDetailStatusFrame:(DPDetailStatusFrame *)detailStatusFrame {
-    _detailStatusFrame = detailStatusFrame;
+- (void)setAttitudeFrame:(DPAttitudeFrame *)attitudeFrame {
+    _attitudeFrame = attitudeFrame;
     // 取出数据
-    DPStatus *status = detailStatusFrame.status;
-    DPUser *user = status.user;
-    
+    DPAttitude *attitude = attitudeFrame.attitude;
+    DPUser *user = attitude.user;
     // 整体
-    self.originalView.frame = detailStatusFrame.originalViewFrame;
+    self.originalView.frame = attitudeFrame.originalViewFrame;
     // 头像
-    self.iconView.frame = detailStatusFrame.iconViewFrame;
+    self.iconView.frame = attitudeFrame.iconViewFrame;
     self.iconView.user = user;
-//    [self.iconView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"avatar_default_small"]];
-    // 2句实现圆形头像
+    // 句实现圆形头像
     self.iconView.layer.cornerRadius = self.iconView.frame.size.width / 2;
-    self.iconView.clipsToBounds = YES; // 是否按照尺寸裁剪多出边缘的图片
+    
     // 昵称
-    self.nameLabel.frame = detailStatusFrame.nameLabelFrame;
+    self.nameLabel.frame = attitudeFrame.nameLabelFrame;
     self.nameLabel.text = user.name;
     // 创建时间
-    self.timeLabel.frame = detailStatusFrame.timeLabelFrame;
-    self.timeLabel.text = status.created_at;
-//    NSLog(@"status.created_at %@", status.created_at);
-    // 正文
-    self.contentLabel.frame = detailStatusFrame.contentLabelFrame;
-    self.contentLabel.text = status.text;
-    // 配图
-    if (status.pictures.count) {
-        
-        self.photosView.frame = detailStatusFrame.photosViewFrame;
-        self.photosView.photos = status.pictures;
-        self.photosView.hidden = NO;
-    } else {
-        self.photosView.hidden = YES;
-    }
-
+    self.timeLabel.frame = attitudeFrame.timeLabelFrame;
+    self.timeLabel.text = attitude.created_at;
 }
 
 - (void)awakeFromNib {
@@ -174,3 +125,11 @@
 }
 
 @end
+
+
+
+
+
+
+
+
