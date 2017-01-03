@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class DPUser;
+
 @interface DPUserController : UITableViewController
+
+@property (nonatomic, strong) DPUser *user;
 
 @end

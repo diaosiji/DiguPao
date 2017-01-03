@@ -9,11 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @class DPStatusFrame;
+@class DPIconView;
 
 @interface DPStatusCell : UITableViewCell
 
 // 布局模型（包含了数据模型）
 @property (nonatomic,strong) DPStatusFrame *statusFrame;
+
+/** 头像 */
+@property (nonatomic, weak) DPIconView *iconView;
 
 // 返回Cell
 + (instancetype)cellWithTableView:(UITableView *)tableView;

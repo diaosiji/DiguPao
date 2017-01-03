@@ -21,6 +21,7 @@
 #import "DPStatusFrame.h"
 #import "DPStatusDetailController.h"
 #import "LGSettingViewController.h"
+#import "DPUserController.h"
 
 @interface DPTableViewController () <DPDropdownMenuDelegate>
 
@@ -59,6 +60,9 @@
     
     // 集成上拉加载控件
     [self setupUpRefresh];
+    
+    // 监听iconView中选中的通知
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(iconViewDidSelected:) name:@"DPIconViewDidSelectedNotification" object:nil];
     
     
 }
@@ -432,5 +436,17 @@
     return frame.cellHeight;
 }
 
+// iconView点击后跳转到用户界面
+//- (void)iconViewDidSelected:(NSNotification *)notification {
+//    
+//    NSLog(@"收到通知:iconViewDidSelected");
+//    DPUser *user = notification.userInfo[@"iconUser"];
+//    DPUserController *controller = [[DPUserController alloc] init];
+//    controller.user = user;
+//    #warning 报错 说tableview没有接收到cell
+////    [self presentViewController:controller animated:YES completion:nil];
+//    
+//    
+//}
 
 @end

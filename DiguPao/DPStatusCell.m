@@ -21,7 +21,7 @@
 /** 原创微博整体 */
 @property (nonatomic, weak) UIView *originalView;
 /** 头像 */
-@property (nonatomic, weak) DPIconView *iconView;
+//@property (nonatomic, weak) DPIconView *iconView;
 /** 昵称 */
 @property (nonatomic, weak) UILabel *nameLabel;
 /** 时间 */
