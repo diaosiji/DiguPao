@@ -42,6 +42,7 @@
     //添加手势到自身
 //    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(iconOnTap)];
 //    [self addGestureRecognizer:gestureRecognizer];
+    
 
 }
 
@@ -50,9 +51,9 @@
 //    NSLog(@"iconOnTap发出通知");
 //    // 发出通知
 //    // 发出通知 制定通知名的同时可以传数据 控制器需要对通知进行监听
-////    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-////    userInfo[@"iconUser"] = self.user;
-////    [[NSNotificationCenter defaultCenter] postNotificationName:@"DPIconViewDidSelectedNotification" object:nil userInfo:userInfo];
+//    NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+//    userInfo[@"iconUser"] = self.user;
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"DPIconViewDidSelectedNotification" object:nil userInfo:userInfo];
 //    
 //    
 //}

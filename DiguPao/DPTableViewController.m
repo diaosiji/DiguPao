@@ -406,14 +406,14 @@
 //    if (cell == nil) {
 //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
 //    }
-    
+   
     // 获得cell
     DPStatusCell *cell = [DPStatusCell cellWithTableView:tableView];
     
-    // 取出模型
-//    DPStatus * status = self.statuses[indexPath.row];
     // 给cell传递模型
     cell.statusFrame = self.statusFrames[indexPath.row];
+    cell.iconView.tag = indexPath.row;
+    [cell.iconView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushUserDetailsView:)]];
     
     return cell;
 }
@@ -440,13 +440,34 @@
 //- (void)iconViewDidSelected:(NSNotification *)notification {
 //    
 //    NSLog(@"收到通知:iconViewDidSelected");
-//    DPUser *user = notification.userInfo[@"iconUser"];
+////    DPUser *user = notification.userInfo[@"iconUser"];
 //    DPUserController *controller = [[DPUserController alloc] init];
-//    controller.user = user;
+////    controller.user = user;
 //    #warning 报错 说tableview没有接收到cell
-////    [self presentViewController:controller animated:YES completion:nil];
-//    
-//    
+//    [self presentViewController:controller animated:YES completion:nil];
+
+#pragma mark - 跳转到用户详情页
+
+- (void)pushUserDetailsView:(UITapGestureRecognizer *)recognizer
+{
+//    OSCTweet *tweet = self.objects[recognizer.view.tag];
+//    UserDetailsViewController *userDetailsVC = [[UserDetailsViewController alloc] initWithUserID:tweet.authorID];
+//    [self.navigationController pushViewController:userDetailsVC animated:YES];
+    NSLog(@"pushUserDetailsView");
+    DPStatusFrame *frame = self.statusFrames[recognizer.view.tag];
+    DPUserController *controller = [[DPUserController alloc] init];
+    controller.user = frame.status.user;
+    
+    [self.navigationController pushViewController:controller animated:YES];
+    
+    
+}
+
+
+
+
+    
+    
 //}
 
 @end

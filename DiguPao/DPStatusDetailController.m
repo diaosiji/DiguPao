@@ -39,7 +39,7 @@
 //@property (nonatomic, weak) DPDetailHeader *detailHeader;
 
 /** 顶部工具条 */
-@property (nonatomic, weak) DPDetailToolBar *toolBar;
+@property (nonatomic, strong) DPDetailToolBar *toolBar;
 
 /** NSMutableArray 嘀咕数组 元素是DPApplyFrame模型 一个DPApplyFrame对象代表一个嘀咕回应 */
 @property (nonatomic, strong) NSMutableArray *applyFrames;
@@ -80,6 +80,13 @@
     [self detailHeader:_detailHeader btnClick:DetailHeaderBtnTypeApply];
 
     
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:YES];
+    
+//    [self setupToolbar];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -175,14 +182,15 @@
         /** 回应API未成功前使用广场API测试显示效果 */
         NSLog(@"loadNewApply");
         // 获取含accessToken的凭证对象
-        //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+            AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
         // 设置基础url
         // 暂时先用iTunes的API代替
         NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
         AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
         // 设置参数
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        //    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+        params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+        params[@"paopao_id"] = self.status.idstr; // 指明是看哪个嘀咕
         
         //取出最前面（新）的嘀咕
         DPApplyFrame *firstFrame = [self.applyFrames firstObject];
@@ -192,7 +200,7 @@
             NSLog(@"本地最新嘀咕的id是:%@", firstFrame.apply.idstr);
         }
         
-        [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [manager GET:@"/api/v1/comments/list" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             //        NSLog(@"嘀咕广场API调用成功:%@", responseObject);
             NSArray *newApplys = [DPStatus mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
@@ -409,7 +417,7 @@
         NSLog(@"获取最旧嘀咕的id:%@", lastFrame.apply.idstr);
     }
     
-    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:@"/api/v1/comments/list" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSLog(@"加载更早嘀咕API调用成功");
         NSArray *newStatus = [DPApply mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
@@ -644,14 +652,15 @@
     /** 回应API未成功前使用广场API测试显示效果 */
     NSLog(@"loadNewApply");
     // 获取含accessToken的凭证对象
-    //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
     // 设置基础url
     // 暂时先用iTunes的API代替
     NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
     // 设置参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    //    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    params[@"paopao_id"] = self.status.idstr; // 指明是看哪个嘀咕
     
     //取出最前面（新）的嘀咕
     DPApplyFrame *firstFrame = [self.applyFrames firstObject];
@@ -661,9 +670,9 @@
         NSLog(@"本地最新嘀咕的id是:%@", firstFrame.apply.idstr);
     }
     
-    [manager GET:@"/api/v1/paopaos/public" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager GET:@"/api/v1/comments/list" parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        //        NSLog(@"嘀咕广场API调用成功:%@", responseObject);
+        NSLog(@"list API调用成功:%@", responseObject);
         NSArray *newApplys = [DPApply mj_objectArrayWithKeyValuesArray:responseObject[@"content"]];
         // 将DPStatus的数组转为DPStatusFrame的数组
         NSMutableArray *newFrames = [NSMutableArray array];
@@ -685,7 +694,7 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
-        NSLog(@"嘀咕广场API调用失败: %@", error);
+        NSLog(@"list API调用失败: %@", error);
         // 结束刷新
 //        [control endRefreshing];
         
@@ -891,8 +900,15 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     
+    [super viewWillDisappear:YES];
+    
     [self.toolBar removeFromSuperview];
 }
+
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:YES];
+//    [self setupToolbar];
+//}
 
 //- (void)dealloc {
 //    

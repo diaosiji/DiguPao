@@ -7,9 +7,10 @@
 //  自定义的Cell类 需要数据模型DPStatus和尺寸模型DPStatusFrame支持
 
 #import <UIKit/UIKit.h>
+#import "DPIconView.h"
 
 @class DPStatusFrame;
-@class DPIconView;
+//@class DPIconView;
 
 @interface DPStatusCell : UITableViewCell
 

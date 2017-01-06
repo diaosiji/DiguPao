@@ -69,13 +69,12 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         // 点击想要变成什么颜色用下面这个方法 但是要将style设为默认不能none
-        //        UIView *selectedBackground = [[UIView alloc] init];
-        //        selectedBackground.backgroundColor = [UIColor orangeColor];
-        //        self.selectedBackgroundView = selectedBackground;
+        // UIView *selectedBackground = [[UIView alloc] init];
+        // selectedBackground.backgroundColor = [UIColor orangeColor];
+        // self.selectedBackgroundView = selectedBackground;
         
         // 初始化原创微博
         [self setupOriginal];
-        
         
         // 初始化工具条
         [self setupToolbar];
