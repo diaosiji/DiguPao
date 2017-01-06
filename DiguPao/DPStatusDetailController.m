@@ -902,13 +902,14 @@
     
     [super viewWillDisappear:YES];
     
-    [self.toolBar removeFromSuperview];
+//    [self.toolBar removeFromSuperview];
+    self.toolBar.hidden = YES;
 }
 
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:YES];
-//    [self setupToolbar];
-//}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    self.toolBar.hidden = NO;
+}
 
 //- (void)dealloc {
 //    
