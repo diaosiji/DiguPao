@@ -403,13 +403,15 @@
 
 - (void)loadEarlierApply {
     // 获取含accessToken的凭证对象
-    //    AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
+        AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:@"OAuthCredential"];
     // 设置基础url
     NSURL *baseURL = [NSURL URLWithString:@"http://123.56.97.99:3000"];
     AFHTTPSessionManager *manager = [[AFHTTPSessionManager alloc] initWithBaseURL:baseURL];
     // 设置参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    //    params[@"access_token"] = credential.accessToken;
+    params[@"access_token"] = credential.accessToken; // 参数肯定需要accessToken
+    params[@"paopao_id"] = self.status.idstr; // 指明是看哪个嘀咕
+    
     DPApplyFrame *lastFrame = [self.applyFrames lastObject];
     if (lastFrame) {
         // 指定此参数则返回嘀咕ID比since_id大（即更晚的）的嘀咕 默认为0
