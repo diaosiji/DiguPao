@@ -7,6 +7,7 @@
 //
 
 #import "DPUserController.h"
+#import "DPUser.h"
 
 @interface DPUserController ()
 
@@ -16,6 +17,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSLog(@"DPUserController用户昵称:%@", self.user.name);
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
