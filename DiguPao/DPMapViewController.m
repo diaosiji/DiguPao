@@ -71,7 +71,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectAnnotation:) name:@"select annotation" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deselectAnnotation:) name:@"deselect annotation" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(touchStatusCell:) name:@"touch status cell" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(touchStatusCell:) name:@"select status view" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
